@@ -1,4 +1,4 @@
-
+from proteinfolding import random_folding
 
 def create_grid(protein_length):
     '''
@@ -31,16 +31,16 @@ def fill_grid_random(protein):
     for acid in protein.aminoacids[1:]:
 
         while True:
-        folding = random_folding()
-        # Rotate amino acid over the X-axis
-        if folding == 1 or folding == -1:
-            positionX += folding
+            folding = random_folding()
+            # Rotate amino acid over the X-axis
+            if folding == 1 or folding == -1:
+                positionX += folding
 
-        # Rotate amino acid over the Y-axis
-        else:
-            positionY += int(folding/2)
-        
-        if grid[positionY][positionX] == 0:
-            grid[positionY][positionX] = acid
-            acid.folding = folding
-            break
+            # Rotate amino acid over the Y-axis
+            else:
+                positionY += int(folding/2)
+            
+            if grid[positionY][positionX] == 0:
+                grid[positionY][positionX] = acid
+                acid.folding = folding
+                break

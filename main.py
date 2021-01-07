@@ -13,7 +13,7 @@
 # from code.classes.protein import Protein
 # from code.algorithms import randomchoice
 
-__name__ == '__main__':
+if __name__ == "__main__":
     pass
                 
 

@@ -4,6 +4,8 @@ from code.algorithms.proteinfolding import random_folding
 import csv
 from code.algorithms.load_proteins import load_proteins
 from code.algorithms.grid import create_grid
+from matplotlib import pyplot
+import numpy as np
 
 # grids = [[0] * 6 for _ in range(6)]
 
@@ -33,6 +35,12 @@ protein = proteins[0]
 #     position += 1
 
 grid = create_grid(len(protein.aminoacids))
+
+print(grid)
+pyplot.matshow(grid)
+pyplot.show()
+print("piemel")
+
 startpos = len(protein.aminoacids)
 positionY = positionX = startpos
 grid[positionY][positionX] = protein.aminoacids[0]
@@ -50,6 +58,8 @@ for acid in protein.aminoacids[1:]:
         else:
             positionY += int(folding/2)
         
+
+        # HIER MOET EVEN GEFIXT WORDEN DAT BIJ ELKE OVERSCHRIJVING DE COORDINATEN GERESET WORDEN !!!!!!!!!!!!
         if grid[positionY][positionX] == 0:
             grid[positionY][positionX] = acid
             acid.folding = folding
@@ -57,5 +67,10 @@ for acid in protein.aminoacids[1:]:
         else:
             print("overschrijft")
 
+print(grid)
 for row in grid:
     print(row)
+
+
+# pyplot.imshow(grid)
+# pyplot.show()

@@ -1,4 +1,4 @@
-from .aminoacid import AminoAcid
+from aminoacid import AminoAcid
 
 class Protein():
     def __init__(self, id, aminos):
