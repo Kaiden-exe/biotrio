@@ -17,7 +17,8 @@ def fill_grid(protein):
     position = 0
     
     for acid in protein.aminoacids:
-        grid[0][position] = protein.aminoacids[position]
+        grid[0][position] = acid
+        acid.index = position
         position += 1
         
 def fill_grid_random(protein):
@@ -28,6 +29,7 @@ def fill_grid_random(protein):
     protein.aminoacids[0].folding = 1
 
     # Het eiwit afmaken aan de hand van folding
+    index = 1
     for acid in protein.aminoacids[1:]:
 
         while True:
@@ -43,4 +45,6 @@ def fill_grid_random(protein):
             if grid[positionY][positionX] == 0:
                 grid[positionY][positionX] = acid
                 acid.folding = folding
+                acid.index = index
+                index += 1
                 break
