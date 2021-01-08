@@ -1,0 +1,10 @@
+Vraag 1: Plot werkend krijgen in VSCode (werkt wel in pycharm)
+Vraag 2: from krijgt kringeltjes 
+Vraag 3: Opslaan van vorige en volgende aminozuur positie, of 
+
+Bonds requirements: 
+1. begin bij start -> use folding om over eiwit te gaan 
+2. look at neighbours 
+3. see if index is -1 or +1 -> no bond 
+4. if not -> stability -1 
+5. bereken stability -> /2 

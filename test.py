@@ -1,11 +1,26 @@
 from code.classes.protein import Protein
 from code.classes.aminoacid import AminoAcid
-from code.algorithms.proteinfolding import random_folding
+from code.algorithms.proteinfolding import random_folding, fold_random, bonds
 import csv
 from code.algorithms.load_proteins import load_proteins
 from code.algorithms.grid import create_grid
+from code.visualisation.output import writecsv
 from matplotlib import pyplot
 import numpy as np
+
+
+# import matplotlib.pyplot as plt
+# import numpy as np
+# import matplotlib as mpl
+
+# m = [[ 0,0,0 ],
+#     [0,1,0],
+#     [0,0,0]]
+    
+# plt.figure()
+# plt.matshow(m)
+# plt.savefig("figure.png", format="png")
+
 
 # grids = [[0] * 6 for _ in range(6)]
 
@@ -26,51 +41,47 @@ import numpy as np
 
 source = "data/testprotein.csv"
 proteins = load_proteins(source)
-print(proteins)
 protein = proteins[0]
+fold_random(protein)
+protein.score = bonds(protein)
+writecsv(protein, "test")
 # grid = create_grid(len(protein.aminoacids))
 # position = 0
 # for acid in protein.aminoacids:
 #     grid[0][position] = protein.aminoacids[position]
 #     position += 1
 
-grid = create_grid(len(protein.aminoacids))
+# Initieren van de grid met correcte startpositie
+# grid = create_grid(len(protein.aminoacids))
+# startpos = len(protein.aminoacids)
+# positionY = positionX = startpos
+# grid[positionY][positionX] = protein.aminoacids[0]
+# protein.aminoacids[0].folding = 1
 
-print(grid)
-pyplot.matshow(grid)
-pyplot.show()
-print("piemel")
+# # Het eiwit afmaken aan de hand van folding
+# for acid in protein.aminoacids[1:]:
+#     while True:
+#         folding = random_folding()
+#         # Rotate amino acid over the X-axis
+#         if folding == 1 or folding == -1:
+#             positionXb = positionX + folding
 
-startpos = len(protein.aminoacids)
-positionY = positionX = startpos
-grid[positionY][positionX] = protein.aminoacids[0]
-protein.aminoacids[0].folding = 1
-
-# Het eiwit afmaken aan de hand van folding
-for acid in protein.aminoacids[1:]:
-    while True:
-        folding = random_folding()
-        # Rotate amino acid over the X-axis
-        if folding == 1 or folding == -1:
-            positionX += folding
-
-        # Rotate amino acid over the Y-axis
-        else:
-            positionY += int(folding/2)
+#         # Rotate amino acid over the Y-axis
+#         else:
+#             positionYb = positionY + int(folding/2)
         
+#         if grid[positionYb][positionXb] == 0:
+#             positionX = positionXb
+#             positionY = positionYb
+#             grid[positionY][positionX] = acid
+#             acid.folding = folding
+#             break
+#         else:
+#             print("overschrijft")
 
-        # HIER MOET EVEN GEFIXT WORDEN DAT BIJ ELKE OVERSCHRIJVING DE COORDINATEN GERESET WORDEN !!!!!!!!!!!!
-        if grid[positionY][positionX] == 0:
-            grid[positionY][positionX] = acid
-            acid.folding = folding
-            break
-        else:
-            print("overschrijft")
+# # Berekenen wat de stabiliteit is van de huidige vouwing.
+# ## bonds(grid)
 
-print(grid)
-for row in grid:
-    print(row)
-
-
-# pyplot.imshow(grid)
-# pyplot.show()
+# print(grid)
+# for row in grid:
+#     print(row)
