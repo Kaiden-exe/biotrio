@@ -14,9 +14,3 @@ plt.savefig("figure.png", format="png")
 # x = np.linspace(0, 20, 100)
 # plt.plot(x, np.sin(x))
 # plt.show()
-
-
-
-# HIERMEE KOM IK IN BASH SETTINGS:
-# sudo nano ~/.bashr
-# export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}'):0

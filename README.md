@@ -16,23 +16,27 @@ Thursday 7 Jan:
 * Attempt made to make a visualization: mplot.py - problems with WSL connection to Ubuntu.
 
 Friday 8 Jan:
-* The protein no longer overlaps its own amino acids.
-* Once the protein has folded the coordinates of the placed amino acid are saved.
-* Adding stability function: bonds.
+* In the fold_random function: the protein no longer overlaps its own amino acids.
+* fold_random: once the protein has folded the coordinates of the placed amino acid are saved.
+* Adding stability function: set_stability.
 * Complementing protein class to track folding sequence.
 * Debugging issues with plotting our data.
 * Starting a rewrite to turn out data into a dictionary, instead of a list of lists.
-* So in the protein class, under the load_acids function, the positions attribute is no longer a list of lists but a dictionary:
+* In protein class: load_acids function - the positions attribute is no longer a list of lists but a dictionary:
 * Coodinates are the keys, amino acids that are found on those coordinates are the value.
-* Make sure the bonds function gets all the coordinates of the amino acids.
-* Check that the amino acid is an 'H', so that it can form bonds.
-* Make a list of all the amino acids that are found on the coordinates that surround the amino acid in question.
-* Check whether the coordinates are already in the dictionary, means thatthere is an amino acid present.
-* Then add it to the list of amino acids that surround the amino acid in question.
-* Check whether the index of the amino acid that is surrounding our amino acid in question is not the next amino acid in the sequence of the protein - where no bonds can form.
-* Check that it is an H, if it is then take one off of the stability score, divide it by 2, then return the stability.
 * Test this all in test.py: loop over all the proteins, fold the proteins, analyze the bonds between the amino acids.
-* Write a csv function to get the output: creates the header, makes a new row for each amino which contains the amino acid's id (H or P) and the folding and as last the stability score.
+* Representatie.py as an additional file to test the code.
+* CSV function written in code/visualisation/output to create output files when running the code in representatie.py: creates a csv file, writes the header, makes a new row for each amino which contains the amino acid's id (H or P) and the folding, and as the footer places the stability score.
+* Debugging to try and get the visualization to work - problems with negative folds and indexing.
 
 Monday 11 Jan:
-* 
+* Found out that our datastrucure was a mess - have too many loose functions out of place.
+
+Tuesday 12 Jan:
+* Started adjusting the datastructure in design.uxf. 
+* Rearrange most functions to add them to the different classes.
+* Got rid of protein_folding.py and put the function in the protein class.
+* Random class and grid class added to the data struture.
+* Added the run_random function to let our random algorithm run x number of times.
+* Added a solutions attribute to the protein class.
+* Cleaned the repository.
