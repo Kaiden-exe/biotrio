@@ -12,9 +12,9 @@ def random_folding():
 
 
 def fold_random(protein):
+    positionX = positionY = positionXb = positionYb = 0
     protein.add_position(protein.aminoacids[0], positionX, positionY)
     protein.aminoacids[0].folding = 1
-    positionXb = positionYb = 0
 
     # Finish the protein with random folding 
     for acid in protein.aminoacids[1:]:
@@ -31,7 +31,7 @@ def fold_random(protein):
                 positionYb = positionY + int(folding/2)
             
             # Assume position if X and Y coordinates are not already occupied by a previous acid
-            if not [positionXb, positionYb] in protein.positions.values():
+            if not (positionXb, positionYb) in protein.positions.keys():
                 positionX = positionXb
                 positionY = positionYb
                 protein.add_position(acid, positionX, positionY)
