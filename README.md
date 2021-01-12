@@ -33,3 +33,6 @@ Friday 8 Jan:
 * Check that it is an H, if it is then take one off of the stability score, divide it by 2, then return the stability.
 * Test this all in test.py: loop over all the proteins, fold the proteins, analyze the bonds between the amino acids.
 * Write a csv function to get the output: creates the header, makes a new row for each amino which contains the amino acid's id (H or P) and the folding and as last the stability score.
+
+Monday 11 Jan:
+* 

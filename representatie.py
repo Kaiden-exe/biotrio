@@ -23,7 +23,7 @@ for protein in proteins:
     fold_random(protein)
     protein.score = bonds(protein)
 
-# Folding en score worden in csv geschreven 
+# Folding en score worden in csv geschreven
 for protein in proteins:
     writecsv(protein, f"{protein.id}")
 

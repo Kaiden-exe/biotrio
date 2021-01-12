@@ -34,18 +34,30 @@ def visualize():
 
     # Turn different amino acids in corresponding colors
     # Empty(0): Purple, H(1): Green, P(2): Yellow
+    # lstcount = 0
+    # for lst in grid:
+    #     numbercount = 0
+    #     for number in lst:
+    #         if grid[lstcount][numbercount] == 'H':
+    #             grid[lstcount][numbercount] = 1
+    #         elif grid[lstcount][numbercount] == 'P':
+    #             grid[lstcount][numbercount] = 2
+    #         numbercount += 1
+    #     lstcount += 1
+
     lstcount = 0
     for lst in grid:
         numbercount = 0
         for number in lst:
-            if grid[lstcount][numbercount] == 'H':
+            if number == 'H':
                 grid[lstcount][numbercount] = 1
-            elif grid[lstcount][numbercount] == 'P':
+            elif number == 'P':
                 grid[lstcount][numbercount] = 2
             numbercount += 1
         lstcount += 1
 
     # Plot figure of the grid
+    print(grid)
     plt.figure()
     plt.matshow(grid)
     plt.savefig("grid.png", format="png")

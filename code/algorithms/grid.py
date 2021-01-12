@@ -7,11 +7,6 @@ def create_grid(protein_length):
     grids = [[0] * (protein_length*2+1) for _ in range(protein_length*2+1)]
     return grids
 
-    # i = 0
-    # for grid in grids:
-    #     print(grids[i])
-    #     i =+ 1
-
 def fill_grid(protein):
     grid = create_grid(len(protein.aminoacids))
     position = 0

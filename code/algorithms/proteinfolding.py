@@ -10,17 +10,18 @@ def random_folding():
     keuze = random.choice(foldList)
     return keuze
 
+
 def fold_random(protein):
-    positionX = positionY = 0
     protein.add_position(protein.aminoacids[0], positionX, positionY)
     protein.aminoacids[0].folding = 1
     positionXb = positionYb = 0
 
-    # Het eiwit afmaken aan de hand van folding
+    # Finish the protein with random folding 
     for acid in protein.aminoacids[1:]:
 
         while True:
             folding = random_folding()
+            
             # Rotate amino acid over the X-axis
             if folding == 1 or folding == -1:
                 positionXb = positionX + folding
@@ -29,6 +30,7 @@ def fold_random(protein):
             else:
                 positionYb = positionY + int(folding/2)
             
+            # Assume position if X and Y coordinates are not already occupied by a previous acid
             if not [positionXb, positionYb] in protein.positions.values():
                 positionX = positionXb
                 positionY = positionYb
@@ -36,14 +38,17 @@ def fold_random(protein):
                 acid.folding = folding
                 break
 
+
 def fold_choice():
     pass
+
 
 def validate_fold():
     '''
     Checks if the current trie for folding is valid.
     '''
     pass
+
 
 def bonds(protein):
     '''
