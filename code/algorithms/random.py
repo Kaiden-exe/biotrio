@@ -1,40 +1,59 @@
 from code.classes.aminoacid import AminoAcid
 from code.classes.protein import Protein
 import random
+import copy
 
 class Random():
+    def __init__(self):
+        self.solutions = []
+
+    
+    def fold(self):
+        '''
+        Folds a protein randomly.
+        '''
+        fold_list = [-1, 1, -2, 2]
+        x = random.choice(fold_list)
+        return x
+
+
     def fold_random(self, protein):
         '''
         Folds a protein randomly.
         '''
+        
         positionX = positionY = positionXb = positionYb = 0
-        protein.add_position(protein.aminoacids[0], positionX, positionY)
-        protein.aminoacids[0].folding = 1
 
+        # print(protein.aminoacids)
+        
         # Finish the protein with random folding 
-        for acid in protein.aminoacids[1:]:
+        for acid in protein.aminoacids:
+            protein.add_position(acid, positionX, positionY)
 
             while True:
+                if acid == protein.aminoacids[-1]:
+                    acid.folding = 0
+                    break
+                
                 # chooses a random fold over the x-axis (-1, 1) or the y-axis (-2, 2).
-                fold_list = [-1, 1, -2, 2]
-                folding = random.choice(fold_list) # this is what we will want to put in a separate function 
+                folding = self.fold()
                 
                 # Rotate amino acid over the X-axis
                 if folding == 1 or folding == -1:
+                    positionYb = positionY
                     positionXb = positionX + folding
 
                 # Rotate amino acid over the Y-axis
                 else:
+                    positionXb = positionX
                     positionYb = positionY + int(folding/2)
                 
                 # Assume position if X and Y coordinates are not already occupied by a previous acid
                 if not (positionXb, positionYb) in protein.positions.keys():
                     positionX = positionXb
                     positionY = positionYb
-                    protein.add_position(acid, positionX, positionY)
                     acid.folding = folding
                     break
-
 
     
     def run_random(self, protein, x):
@@ -44,8 +63,24 @@ class Random():
         for _ in range(x):
             self.fold_random(protein)
             protein.set_stability()
-            protein.add_solution()
-            
+            self.add_solution(protein)
+
+        
+    
+    def add_solution(self, protein):
+        copy_score = copy.deepcopy(protein.score)
+        copy_dict = copy.deepcopy(protein.positions)
+        self.solutions.append([copy_score, copy_dict])
+        protein.score = 0
+        protein.positions.clear()
+
+
+    def get_best(self):
+        best = [1]
+        for lst in self.solutions:
+            if lst[0] < best[0]:
+                best = lst
+        return best
 
 
         # # if the solutions list is empty, add scores

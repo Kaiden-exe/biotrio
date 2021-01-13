@@ -40,3 +40,11 @@ Tuesday 12 Jan:
 * Added the run_random function to let our random algorithm run x number of times.
 * Added a solutions attribute to the protein class.
 * Cleaned the repository.
+* Made sure the output files are saved in data/output folders instead of in the main repository.
+
+Wednesday 13 Jan:
+* Changed the visualization from a buggy figure to a scatter plot.
+* Making sure we can give command-line arguments so that we can specifiy the source file.
+* Debug the random_folding function to fix the problems in the folding.
+* Visualization works! The random folding and the bonds between the neighboring amino acids can be seen.
+* Make a graph to visualize the distribution of our scores.

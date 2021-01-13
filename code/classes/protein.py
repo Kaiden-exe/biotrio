@@ -8,8 +8,6 @@ class Protein():
         self.score = 0
         # key = (x, y), value = AminoAcid()
         self.positions = {}
-        # save solutions in list of lists + dicts
-        self.solutions = []
 
 
     def load_proteins(self, source, protein_id):
@@ -69,19 +67,14 @@ class Protein():
                         pass
                             
                 for surround in surrounding_aminos:
-                    if not surround.index == acid.index + 1 or not surround.index == acid.index - 1:
+                    if not surround.index == acid.index + 1 and not surround.index == acid.index - 1:
                         if surround.id == 'H':
                             stability -= 1
                         # if surround.id == 'C':
-                        # TODO 
+                        # TODO
         stability /= 2
         self.score = stability
-        
-    def add_solutions(self):
-        '''
-        Add all folding outcomes to the solutions list.
-        '''
-        self.solutions.append([self.score, self.positions])
+
 
     def __repr__(self):
         return f"{self.id}: f{self.aminoacids}"

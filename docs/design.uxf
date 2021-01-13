@@ -12,11 +12,16 @@ load_proteins
 load_acids
 add_position
 set_stability
-add_solution</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>374</x><y>140</y><w>210</w><h>250</h></coordinates><panel_attributes>Amino acid
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>374</x><y>140</y><w>210</w><h>250</h></coordinates><panel_attributes>Amino acid
 --
 id: char
-index: int</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>324</x><y>330</y><w>70</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;50;10</additional_attributes></element><element><id>Relation</id><coordinates><x>40</x><y>380</y><w>90</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>60;70;10;10;64;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>510</x><y>430</y><w>210</w><h>70</h></coordinates><panel_attributes>_Random Algorithm_
+index: int
+folding: int</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>324</x><y>330</y><w>70</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;50;10</additional_attributes></element><element><id>Relation</id><coordinates><x>40</x><y>380</y><w>90</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>60;70;10;10;64;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>510</x><y>430</y><w>210</w><h>110</h></coordinates><panel_attributes>_Random Algorithm_
+--
+solutions: list
 --
 Methods: 
 fold_random
-run_random</panel_attributes><additional_attributes></additional_attributes></element></diagram>
+run_random
+add_solution
+get_best</panel_attributes><additional_attributes></additional_attributes></element></diagram>

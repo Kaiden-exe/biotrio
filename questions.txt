@@ -5,13 +5,24 @@ Bonds requirements:
 4. if not -> stability -1 
 5. bereken stability -> /2 
 
-Questions for 13/1:
+Questions 12/1:
 - Waar kunnen we de grid class het beste positioneren in onze repository (Gewoon in classes? Of in visualize folder)
 - Hoe kunnen we deze het beste koppelen aan Visualize (enige functie die Grid class gebruikt tot nu toe)
 - Hoe kunnen we het beste bonds visualiseren in de grid, of op welke manier kunnen we dit oplossen
+
+Questions 13/1:
+- We gebruiken nu de volgorde van de dictionary om 
+
+SORT ---- VALUES.INDEX
 
 # TODO 13/1:
 - Grid class afmaken
 - Bonds visualiseren
 - Indexatie fixen bij visualisatie
 - Design bestand afmaken + ervoor zorgen dat het sense maakt
+
+
+def custom_sort(x):
+return x.index
+dict(sorted(x.items(), key=lambda item: item[1]))
+dict(sorted(x.items(), key=custom_sort))
