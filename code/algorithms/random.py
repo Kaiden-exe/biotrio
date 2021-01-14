@@ -65,10 +65,11 @@ class Random():
 
                 if len(loop) == len(self.get_fold_list()):
                     i -= 1
-                    protein.remove_last()
+                    new_coordinates = protein.remove_last()
+                    positionX = new_coordinates[0]
+                    positionY = new_coordinates[1]
                     break
                 
-
     
     def run_random(self, protein, x):
         '''

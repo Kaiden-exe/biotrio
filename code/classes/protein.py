@@ -1,5 +1,6 @@
 from code.classes.aminoacid import AminoAcid
 import csv
+from operator import itemgetter
 
 class Protein():
     def __init__(self, source, protein_id):
@@ -83,18 +84,21 @@ class Protein():
 
         # Create a list, sorted by index and take the highest
         lst = self.positions.items()
-        sorted_by_index = lst.sort(key=lambda lst: lst[1].index)
+        sorted_by_index = sorted(lst, key=lambda x: x[1].index)
         last = sorted_by_index.pop()
 
         # Delete last added acid from positions
         position = last[0]
+        acid = last[1]
+        acid.forbidden_folds.clear()
         del self.positions[position]
 
         # Add the folding of the second to last to a list of forbidden folds
         second = sorted_by_index.pop()
         acid = second[1]
         acid.forbidden_folds.append(acid.folding)
-        acid.folding = None
+        
+        return second[0]
 
 
     def __repr__(self):
