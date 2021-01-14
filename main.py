@@ -28,17 +28,17 @@ if __name__ == "__main__":
     protein = Protein(source, protein_id)
 
     while True:
-        algor = input("Which algorithm do you want to run?\n r = random")
+        algor = input("Which algorithm do you want to run?\n r = random\n")
         if algor in ['r']:
             break
         else:
             print("Please select a valid algorithm.")
     
     while True:
-        runs = input("How often do you want to run this algorithm?")
+        runs = input("How often do you want to run this algorithm?\n")
         try:
-            if runs > 0:
-                break
+            runs = int(runs)
+            break
         except ValueError:
             print("Please give a positive integer.")
     
@@ -50,9 +50,3 @@ if __name__ == "__main__":
     hist(art)
     writecsv(protein, best)
     visualize(best)
-    
-
-
-
-                
-

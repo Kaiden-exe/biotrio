@@ -12,7 +12,7 @@ class Random():
         '''
         Folds a protein randomly.
         '''
-        fold_list = [-1, 1, -2, 2]
+        fold_list = self.get_fold_list()
         x = random.choice(fold_list)
         return x
 
@@ -28,13 +28,15 @@ class Random():
         
         # Finish the protein with random folding 
         i = 0
+        loop = []
         while i < len(protein.aminoacids):
             acid = protein.aminoacids[i]
             protein.add_position(acid, positionX, positionY)
-            loop = 0
+            loop.clear()
             while True:
                 if acid == protein.aminoacids[-1]:
                     acid.folding = 0
+                    i += 1
                     break
                 
                 # chooses a random fold over the x-axis (-1, 1) or the y-axis (-2, 2).
@@ -51,17 +53,18 @@ class Random():
                     positionYb = positionY + int(folding/2)
                 
                 # Assume position if X and Y coordinates are not already occupied by a previous acid
-                if not (positionXb, positionYb) in protein.positions.keys():
+                if not (positionXb, positionYb) in protein.positions.keys() and not folding in acid.forbidden_folds:
                     positionX = positionXb
                     positionY = positionYb
                     acid.folding = folding
+                    i += 1
                     break
                 else:
-                    loop += 1
+                    if not folding in loop:
+                        loop.append(folding)
 
-                if loop == 3:
+                if len(loop) == len(self.get_fold_list()):
                     i -= 1
-                    # TODO: write method to remove the acid with the highest index from protein.positions
                     protein.remove_last()
                     break
                 
@@ -93,6 +96,8 @@ class Random():
                 best = lst
         return best
 
+    def get_fold_list(self):
+        return [-1, 1, -2, 2]
 
         # # if the solutions list is empty, add scores
         # if len(protein.solutions) == 0:

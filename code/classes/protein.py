@@ -75,6 +75,27 @@ class Protein():
         stability /= 2
         self.score = stability
 
+    def remove_last(self):
+        '''
+        Removes the acid with the highest index number from positions
+        and adds the folding of the second to last acid to a list of forbidden folds.
+        '''
+
+        # Create a list, sorted by index and take the highest
+        lst = self.positions.items()
+        sorted_by_index = lst.sort(key=lambda lst: lst[1].index)
+        last = sorted_by_index.pop()
+
+        # Delete last added acid from positions
+        position = last[0]
+        del self.positions[position]
+
+        # Add the folding of the second to last to a list of forbidden folds
+        second = sorted_by_index.pop()
+        acid = second[1]
+        acid.forbidden_folds.append(acid.folding)
+        acid.folding = None
+
 
     def __repr__(self):
         return f"{self.id}: f{self.aminoacids}"
