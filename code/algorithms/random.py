@@ -10,7 +10,7 @@ class Random():
     
     def fold(self):
         '''
-        Folds a protein randomly.
+        Folds a protein randomly. # chooses a random direction for the folding
         '''
         fold_list = [-1, 1, -2, 2]
         x = random.choice(fold_list)
@@ -19,7 +19,7 @@ class Random():
 
     def fold_random(self, protein):
         '''
-        Folds a protein randomly.
+        Folds a protein randomly. 
         '''
         
         positionX = positionY = positionXb = positionYb = 0
