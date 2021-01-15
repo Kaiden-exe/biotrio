@@ -20,7 +20,7 @@ from code.visualisation.output import writecsv
 from visualize import visualize, hist
 
 if __name__ == "__main__":
-    # Order: file, protein id
+    # Order: data/file, protein id
     if len(sys.argv) == 3:
         source = sys.argv[1]
         protein_id = sys.argv[2]
