@@ -42,6 +42,7 @@ class Random():
                 new_coordinates = self.get_new_coordinates(positionX, positionY)
                 positionXb = new_coordinates[0]
                 positionYb = new_coordinates[1]
+                folding = new_coordinates[2]
                 
                 # Assume position if X and Y coordinates are not already occupied by a previous acid
                 if not (positionXb, positionYb) in protein.positions.keys() and not folding in acid.forbidden_folds:
@@ -106,7 +107,7 @@ class Random():
             xb = x
             yb = y + int(folding/2)
         
-        return (xb, yb)
+        return [xb, yb, folding]
 
         # # if the solutions list is empty, add scores
         # if len(protein.solutions) == 0:
