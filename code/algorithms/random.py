@@ -108,15 +108,3 @@ class Random():
             yb = y + int(folding/2)
         
         return [xb, yb, folding]
-
-        # # if the solutions list is empty, add scores
-        # if len(protein.solutions) == 0:
-        #     protein.solutions.append([protein.score, protein.positions])
-
-        # item = protein.solutions[0]:
-        # if item[0] < protein.score:
-        #     protein.solutions.clear()
-        #     protein.solutions.append([protein.score, protein.positions])
-
-
-        # len(list)/x = % of best solutions
