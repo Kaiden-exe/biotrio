@@ -27,9 +27,11 @@ class Random():
         # print(protein.aminoacids)
         
         # Finish the protein with random folding 
-        for acid in protein.aminoacids:
+        i = 0
+        while i < len(protein.aminoacids):
+            acid = protein.aminoacids[i]
             protein.add_position(acid, positionX, positionY)
-
+            loop = 0
             while True:
                 if acid == protein.aminoacids[-1]:
                     acid.folding = 0
@@ -54,6 +56,15 @@ class Random():
                     positionY = positionYb
                     acid.folding = folding
                     break
+                else:
+                    loop += 1
+
+                if loop == 3:
+                    i -= 1
+                    # TODO: write method to remove the acid with the highest index from protein.positions
+                    protein.remove_last()
+                    break
+                
 
     
     def run_random(self, protein, x):
