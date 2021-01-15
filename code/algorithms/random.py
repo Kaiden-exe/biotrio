@@ -83,6 +83,11 @@ class Random():
         copy_score = copy.deepcopy(protein.score)
         copy_dict = copy.deepcopy(protein.positions)
         self.solutions.append([copy_score, copy_dict])
+        self.clear_protein(protein)
+        
+    
+    # TODO: Move this to protein class
+    def clear_protein(self, protein):
         protein.score = 0
         protein.positions.clear()
 
