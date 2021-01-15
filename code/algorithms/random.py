@@ -39,18 +39,9 @@ class Random():
                     i += 1
                     break
                 
-                # chooses a random fold over the x-axis (-1, 1) or the y-axis (-2, 2).
-                folding = self.fold()
-                
-                # Rotate amino acid over the X-axis
-                if folding == 1 or folding == -1:
-                    positionYb = positionY
-                    positionXb = positionX + folding
-
-                # Rotate amino acid over the Y-axis
-                else:
-                    positionXb = positionX
-                    positionYb = positionY + int(folding/2)
+                new_coordinates = self.get_new_coordinates(positionX, positionY)
+                positionXb = new_coordinates[0]
+                positionYb = new_coordinates[1]
                 
                 # Assume position if X and Y coordinates are not already occupied by a previous acid
                 if not (positionXb, positionYb) in protein.positions.keys() and not folding in acid.forbidden_folds:
@@ -99,6 +90,23 @@ class Random():
 
     def get_fold_list(self):
         return [-1, 1, -2, 2]
+
+    def get_new_coordinates(self, x, y):
+        
+        # Chooses a random fold over the x-axis (-1, 1) or the y-axis (-2, 2).
+        folding = self.fold()
+        
+        # Rotate amino acid over the X-axis
+        if folding == 1 or folding == -1:
+            yb = y
+            xb = x + folding
+
+        # Rotate amino acid over the Y-axis
+        else:
+            xb = x
+            yb = y + int(folding/2)
+        
+        return (xb, yb)
 
         # # if the solutions list is empty, add scores
         # if len(protein.solutions) == 0:
