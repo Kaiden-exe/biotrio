@@ -1,5 +1,6 @@
 from .random import Random
 from random import choice
+import copy
 
 class HillClimber(Random):
     def __init__(self):
@@ -13,13 +14,17 @@ class HillClimber(Random):
         return self.solutions[0]
     
     def hike(self, iterations):
+        '''
+        Runs the hill climber algorithm.
+        '''
         for i in range(iterations):
-            new_best = self.mutate()
-            if new_best[0] < self.best[0]:
-                self.best = new_best
+            new = self.mutate()
+            if new[0] < self.best[0]:
+                self.best = new
     
-    def mutate(self):
-        aminoacid = choice(self.protein_index)
+    def mutate(self, protein):
+        aminoacid_index = choice(self.protein_index)
+        aminoacid = self.protein.aminoacids[aminoacid_index]
         folding = get_new_folding(aminoacid)
 
     def get_new_folding(self, aminoacid):
@@ -27,6 +32,8 @@ class HillClimber(Random):
 
         while folding == aminoacid.folding:
             folding = choice(self.get_fold_list())
+        
+        return folding
         
 
 

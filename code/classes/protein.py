@@ -44,7 +44,7 @@ class Protein():
 
     def add_position(self, acid, x, y):
         '''
-        Add the coordinates of a specific amino acid to positions dictionary.
+        Add the coordinates of a specific aminoacid to positions dictionary.
         '''
         self.positions[(x, y)] = acid
 
@@ -80,6 +80,7 @@ class Protein():
         '''
         Removes the acid with the highest index number from positions
         and adds the folding of the second to last acid to a list of forbidden folds.
+        Returns the coordinates of the second to last aminoacid.
         '''
 
         # Create a list, sorted by index and take the highest
