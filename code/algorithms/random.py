@@ -13,8 +13,8 @@ class Random():
         Folds a protein randomly.
         '''
         fold_list = self.get_fold_list()
-        x = random.choice(fold_list)
-        return x
+        folding = random.choice(fold_list)
+        return folding
 
 
     def fold_random(self, protein, positionX, positionY, i):
