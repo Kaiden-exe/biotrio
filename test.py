@@ -3,7 +3,7 @@ from code.classes.protein import Protein
 from code.algorithms.random import Random
 from code.visualisation.output import writecsv
 from visualize import visualize, hist
-
+from code.algorithms.hill_climber import HillClimber
 # source = "data/testprotein.csv"
 # protein = Protein(source, '3')
 # randomfolder = Random()
@@ -21,6 +21,16 @@ from visualize import visualize, hist
 #     data.append(i[0])
 # plt.hist(data)
 
-lst = [1, 2, 3]
-lst.remove(4)
-print(lst)
+# lst = [1, 2, 3]
+# lst.remove(4)
+# print(lst)
+
+source = 'data/easyprotein.csv'
+protein_id = 1
+protein = Protein(source, protein_id)
+hiker = HillClimber(protein)
+hiker.hike(10)
+best = hiker.get_best()
+hist(hiker)
+writecsv(protein, best)
+visualize(best)

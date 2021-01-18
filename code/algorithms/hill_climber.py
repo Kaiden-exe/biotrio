@@ -18,6 +18,7 @@ class HillClimber(Random):
         for i in range(iterations):
             new = copy.deepcopy(self.best)
             self.mutate(new)
+            new.set_stability()
             self.add_solution(new)
 
             if new.score < self.best.score:
@@ -57,7 +58,7 @@ class HillClimber(Random):
                     new_coordinates = choice(free_coordinates) #You can pick any for the last aminoacid
                     break
 
-                # TODO: add break somewhere for when you have found new coordinates 
+                stop = False
                 for coordinates in free_coordinates:
                     surround = protein.get_surrounding_coordinates(coordinates[0], coordinates[1])
                     for cor in surround:
@@ -68,10 +69,15 @@ class HillClimber(Random):
 
                         if amino == third_amino:
                             new_coordinates = coordinates
+                            stop = True 
+                            break
+
+                    if stop:
+                        break
 
         
-        # Change coordinates of amino acid 
-        second_amino = protein.aminoacids[first_amino.index + 1]   
+        # Change coordinates of second amino acid 
+        second_amino = protein.aminoacids[first_amino.index + 1]  
         lst = protein.positions.items()
         sorted_by_index = sorted(lst, key=lambda x: x[1].index)
         second_amino_cor = sorted_by_index[second_amino.index][0]
