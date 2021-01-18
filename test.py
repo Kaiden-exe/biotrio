@@ -26,10 +26,10 @@ from code.algorithms.hill_climber import HillClimber
 # print(lst)
 
 source = 'data/easyprotein.csv'
-protein_id = 1
+protein_id = '4'
 protein = Protein(source, protein_id)
 hiker = HillClimber(protein)
-hiker.hike(10)
+hiker.hike(100, 1)
 best = hiker.get_best()
 hist(hiker)
 writecsv(protein, best)

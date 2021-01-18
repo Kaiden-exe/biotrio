@@ -13,12 +13,12 @@ def visualize(lst):
     '''
     Visualizes the folded protein.
     '''
-    print("LST:")
-    print(lst)
+    # print("LST:")
+    # print(lst)
     # coordinates = protein.solutions[0]
     coordinates = lst[1]
-    print("COORDINATES:")
-    print(coordinates)
+    # print("COORDINATES:")
+    # print(coordinates)
     data = {"x":[], "y":[], "label":[]}
 
     # Append all amino acids + coordinates into the datafile to plot.
@@ -27,7 +27,7 @@ def visualize(lst):
         data["y"].append(coord[1])
         data["label"].append(label)
 
-    print(data)
+    # print(data)
 
     # Plot figure of the grid
     plt.figure()
