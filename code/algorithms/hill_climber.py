@@ -68,6 +68,7 @@ class HillClimber(Random):
 
                         if amino == third_amino:
                             new_coordinates = coordinates
+
         
         # Change coordinates of amino acid 
         second_amino = protein.aminoacids[first_amino.index + 1]   

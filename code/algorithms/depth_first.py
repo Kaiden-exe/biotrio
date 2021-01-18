@@ -78,6 +78,43 @@ g = {
     'z': ['z']
     }
 
+# get all positions of the state-space
+# in loop: make sure it can't fold in on its self: if statement, if it folds in on itself - don't continue with that route. Do this to avoid
+# over-riding of other positions: graph will become inaccurate.
+# for every amino.index, make a new option, so that they have a different folding.
+# index 0 --> 4 versions
+
+def get_surrounding_coordinates(self, x, y):
+    return [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)]
+
+
+g[(0,0)] = protein.get_surrounding_coordinates(0,0)
+
+while ... < n^(r-1):
+    for pos in g[(0,0)]:
+        g[pos] = protein.get_surrounding_coordinates(pos)
+
+x + (x-1)(n-1) 
+
+n^(r-1)
+n = len(get_fold_list)
+
+g = {
+    (0,0) : protein.get_surrounding_coordinates(0, 0)
+}
+
+# g = {
+#     _, H  : [[amimoacid1_metfolding1], [aminoacid1_metfolding-1]... ], 
+#     1, HP  : [[amimoacid1_metfolding1, amimoacid2_metfolding1], [amimoacid1_metfolding1, amimoacid2_metfolding-1]],
+#     2, HPH :
+# }
+
+
+g = {
+    H : ['-1', '1', '-2', '2'],
+    P : [(-1, -1), (-1, 1), '-2', '2'... (2, 2)],
+    H : 
+
 g = {
     '-': ['L', 'R'],
     'L': ['LL', 'LR'],
