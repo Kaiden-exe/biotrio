@@ -1,5 +1,6 @@
 from code.classes.aminoacid import AminoAcid
 import csv
+from operator import itemgetter
 
 class Protein():
     def __init__(self, source, protein_id):
@@ -43,7 +44,7 @@ class Protein():
 
     def add_position(self, acid, x, y):
         '''
-        Add the coordinates of a specific amino acid to positions dictionary.
+        Add the coordinates of a specific aminoacid to positions dictionary.
         '''
         self.positions[(x, y)] = acid
 
@@ -74,6 +75,31 @@ class Protein():
                         # TODO
         stability /= 2
         self.score = stability
+
+    def remove_last(self):
+        '''
+        Removes the acid with the highest index number from positions
+        and adds the folding of the second to last acid to a list of forbidden folds.
+        Returns the coordinates of the second to last aminoacid.
+        '''
+
+        # Create a list, sorted by index and take the highest
+        lst = self.positions.items()
+        sorted_by_index = sorted(lst, key=lambda x: x[1].index)
+        last = sorted_by_index.pop()
+
+        # Delete last added acid from positions
+        position = last[0]
+        acid = last[1]
+        acid.forbidden_folds.clear()
+        del self.positions[position]
+
+        # Add the folding of the second to last to a list of forbidden folds
+        second = sorted_by_index.pop()
+        acid = second[1]
+        acid.forbidden_folds.append(acid.folding)
+        
+        return second[0]
 
 
     def __repr__(self):

@@ -12,73 +12,78 @@ class Random():
         '''
         Folds a protein randomly. # chooses a random direction for the folding
         '''
-        fold_list = [-1, 1, -2, 2]
-        x = random.choice(fold_list)
-        return x
+        fold_list = self.get_fold_list()
+        folding = random.choice(fold_list)
+        return folding
 
 
-    def fold_random(self, protein):
+    def fold_random(self, protein, positionX, positionY, i):
         '''
+<<<<<<< HEAD
         Folds a protein randomly. 
+=======
+        Folds the next amino acid randomly.
+>>>>>>> e62fe0b4b0525e15d85ece046efb1b55f228f116
         '''
-        
-        positionX = positionY = positionXb = positionYb = 0
+        loop = []
+        acid = protein.aminoacids[i]
 
-        # print(protein.aminoacids)
-        
-        # Finish the protein with random folding 
-        i = 0
-        while i < len(protein.aminoacids):
-            acid = protein.aminoacids[i]
-            protein.add_position(acid, positionX, positionY)
-            loop = 0
-            while True:
-                if acid == protein.aminoacids[-1]:
-                    acid.folding = 0
-                    break
+        while True:
+            if acid == protein.aminoacids[-1]:
+                acid.folding = 0
+                i += 1
                 
-                # chooses a random fold over the x-axis (-1, 1) or the y-axis (-2, 2).
-                folding = self.fold()
-                
-                # Rotate amino acid over the X-axis
-                if folding == 1 or folding == -1:
-                    positionYb = positionY
-                    positionXb = positionX + folding
+                return i, positionX, positionY
+            
+            new_coordinates = self.get_new_coordinates(positionX, positionY)
+            positionXb = new_coordinates[0]
+            positionYb = new_coordinates[1]
+            folding = new_coordinates[2]
+            
+            # Assume position if X and Y coordinates are not already occupied by a previous acid
+            if not (positionXb, positionYb) in protein.positions.keys() and not folding in acid.forbidden_folds:
+                positionX = positionXb
+                positionY = positionYb
+                acid.folding = folding
+                i += 1
 
-                # Rotate amino acid over the Y-axis
-                else:
-                    positionXb = positionX
-                    positionYb = positionY + int(folding/2)
-                
-                # Assume position if X and Y coordinates are not already occupied by a previous acid
-                if not (positionXb, positionYb) in protein.positions.keys():
-                    positionX = positionXb
-                    positionY = positionYb
-                    acid.folding = folding
-                    break
-                else:
-                    loop += 1
+                return i, positionX, positionY
+            else:
+                if not folding in loop:
+                    loop.append(folding)
 
-                if loop == 3:
-                    i -= 1
-                    # TODO: write method to remove the acid with the highest index from protein.positions
-                    protein.remove_last()
-                    break
+            if len(loop) == len(self.get_fold_list()):
+                i -= 1
+                new_coordinates = protein.remove_last()
+                positionX = new_coordinates[0]
+                positionY = new_coordinates[1]
                 
-
+                return i, positionX, positionY
+                
     
     def run_random(self, protein, x):
         '''
         Fold the protein randomly x times.
         '''
         for _ in range(x):
-            self.fold_random(protein)
+
+            # Finish a protein with random folding 
+            positionX = positionY = 0
+            i = 0
+    
+            while i < len(protein.aminoacids):
+                protein.add_position(protein.aminoacids[i], positionX, positionY)
+                i, positionX, positionY = self.fold_random(protein, positionX, positionY, i)
+
             protein.set_stability()
             self.add_solution(protein)
 
         
     
     def add_solution(self, protein):
+        '''
+        Add a solution to the list of solutions.
+        '''
         copy_score = copy.deepcopy(protein.score)
         copy_dict = copy.deepcopy(protein.positions)
         self.solutions.append([copy_score, copy_dict])
@@ -87,21 +92,36 @@ class Random():
 
 
     def get_best(self):
+        '''
+        Returns the best solution from all generated solutions.
+        '''
         best = [1]
         for lst in self.solutions:
             if lst[0] < best[0]:
                 best = lst
         return best
 
+    def get_fold_list(self):
+        '''
+        Returns a list of all possible foldings.
+        '''
+        return [-1, 1, -2, 2]
 
-        # # if the solutions list is empty, add scores
-        # if len(protein.solutions) == 0:
-        #     protein.solutions.append([protein.score, protein.positions])
+    def get_new_coordinates(self, x, y):
+        '''
+        Returns the coordinates for the next aminoacid according to the folding of the previous amino acid.
+        '''
+        # Chooses a random fold over the x-axis (-1, 1) or the y-axis (-2, 2).
+        folding = self.fold()
+        
+        # Rotate amino acid over the X-axis
+        if folding == 1 or folding == -1:
+            yb = y
+            xb = x + folding
 
-        # item = protein.solutions[0]:
-        # if item[0] < protein.score:
-        #     protein.solutions.clear()
-        #     protein.solutions.append([protein.score, protein.positions])
-
-
-        # len(list)/x = % of best solutions
+        # Rotate amino acid over the Y-axis
+        else:
+            xb = x
+            yb = y + int(folding/2)
+        
+        return [xb, yb, folding]
