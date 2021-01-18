@@ -29,7 +29,7 @@ source = 'data/easyprotein.csv'
 protein_id = '4'
 protein = Protein(source, protein_id)
 hiker = HillClimber(protein)
-hiker.hike(100, 1)
+hiker.hike(10000, 5)
 best = hiker.get_best()
 hist(hiker)
 writecsv(protein, best)

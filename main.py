@@ -16,6 +16,7 @@
 import sys
 from code.classes.protein import Protein
 from code.algorithms.random import Random
+from code.algorithms.hill_climber import HillClimber
 from code.visualisation.output import writecsv
 from visualize import visualize, hist
 
@@ -28,8 +29,8 @@ if __name__ == "__main__":
     protein = Protein(source, protein_id)
 
     while True:
-        algor = input("Which algorithm do you want to run?\n r = random\n")
-        if algor in ['r']:
+        algor = input("Which algorithm do you want to run?\n r = random\n h = hill climber\n")
+        if algor in ['r', 'h']:
             break
         else:
             print("Please select a valid algorithm.")
@@ -45,8 +46,22 @@ if __name__ == "__main__":
     if algor == 'r':
         art = Random()
         art.run_random(protein, runs)
-        best = art.get_best()
+    if algor == 'h':
+        
+        while True:
+            mutations = input("How many mutations do you want to make per run?\n")
+            try:
+                mutations = int(mutations)
+                break
+            except ValueError:
+                print("Please give a positive integer.")
 
+        art = HillClimber(protein)
+        art.hike(runs, mutations)
+        
+    best = art.get_best()
     hist(art)
     writecsv(protein, best)
     visualize(best)
+
+    print("Program completed!")

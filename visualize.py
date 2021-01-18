@@ -17,12 +17,13 @@ def visualize(lst):
     # print(lst)
     # coordinates = protein.solutions[0]
     coordinates = lst[1]
+    sorted_coordinates = sorted(coordinates.items(), key=lambda x: x[1].index)
     # print("COORDINATES:")
     # print(coordinates)
     data = {"x":[], "y":[], "label":[]}
 
     # Append all amino acids + coordinates into the datafile to plot.
-    for coord, label in coordinates.items():
+    for coord, label in sorted_coordinates:
         data["x"].append(coord[0])
         data["y"].append(coord[1])
         data["label"].append(label)
