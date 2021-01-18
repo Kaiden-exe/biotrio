@@ -58,7 +58,7 @@ class Protein():
         for x, y in coordinates:
             acid = self.positions[(x, y)]
             if acid.id == 'H':
-                surrounding = [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)]
+                surrounding = self.get_surrounding_coordinates(x, y)
                 surrounding_aminos = []
                 for coordinate in surrounding:
                     try:
@@ -101,6 +101,9 @@ class Protein():
         
         return second[0]
 
+
+    def get_surrounding_coordinates(self, x, y):
+        return [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)]
 
     def __repr__(self):
         return f"{self.id}: f{self.aminoacids}"
