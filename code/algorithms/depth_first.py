@@ -1,5 +1,7 @@
 import copy
 
+# taken from the Radio Russia example
+
 class DepthFirst:
     """
     A Depth First algorithm that builds a stack of graphs with a unique assignment of nodes for each instance.
@@ -69,6 +71,7 @@ class DepthFirst:
 
 #-------------------------------------------------------------------------------------------------------->
 
+# example graph
 g = {
     'u': ['v', 'x'],
     'v': ['y'],
@@ -94,27 +97,26 @@ while ... < n^(r-1):
     for pos in g[(0,0)]:
         g[pos] = protein.get_surrounding_coordinates(pos)
 
-x + (x-1)(n-1) 
 
+# the state-space calculations
 n^(r-1)
 n = len(get_fold_list)
 
+# an example of what the graph will need to look like
 g = {
     (0,0) : protein.get_surrounding_coordinates(0, 0)
 }
 
-# g = {
-#     _, H  : [[amimoacid1_metfolding1], [aminoacid1_metfolding-1]... ], 
-#     1, HP  : [[amimoacid1_metfolding1, amimoacid2_metfolding1], [amimoacid1_metfolding1, amimoacid2_metfolding-1]],
-#     2, HPH :
-# }
 
 
+# like this??
 g = {
-    H : ['-1', '1', '-2', '2'],
-    P : [(-1, -1), (-1, 1), '-2', '2'... (2, 2)],
-    H : 
+    'H' : ['-1', '1', '-2', '2'],
+    'P' : [(-1, -1), (-1, 1), ... (2, 2)],
+    'H' : [...]
+}
 
+# a simple example of what I thought we need to graph
 g = {
     '-': ['L', 'R'],
     'L': ['LL', 'LR'],
@@ -148,3 +150,10 @@ d = depth_first()
 print(d.dfs(g))
 
 # ik snap niet wat ik precies uit de protein moet halen om in me graph te zetten.
+
+
+# g = {
+#     _, H  : [[amimoacid1_metfolding1], [aminoacid1_metfolding-1]... ], 
+#     1, HP  : [[amimoacid1_metfolding1, amimoacid2_metfolding1], [amimoacid1_metfolding1, amimoacid2_metfolding-1]],
+#     2, HPH :
+# }
