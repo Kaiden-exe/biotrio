@@ -19,11 +19,7 @@ class Random():
 
     def fold_random(self, protein, positionX, positionY, i):
         '''
-<<<<<<< HEAD
-        Folds a protein randomly. 
-=======
         Folds the next amino acid randomly.
->>>>>>> e62fe0b4b0525e15d85ece046efb1b55f228f116
         '''
         loop = []
         acid = protein.aminoacids[i]

@@ -109,3 +109,6 @@ class HillClimber(Random):
         copy_score = copy.deepcopy(protein.score)
         copy_dict = copy.deepcopy(protein.positions)
         self.solutions.append([copy_score, copy_dict])
+
+    def get_best(self):
+        return [self.best.score, self.best.positions]
