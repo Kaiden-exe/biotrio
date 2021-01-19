@@ -1,10 +1,11 @@
 import matplotlib
 matplotlib.use('Agg')
 
-import matplotlib.pyplot as plt
-import numpy as np
-import matplotlib as mpl
 import csv
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+from matplotlib.ticker import MaxNLocator
 from code.classes.protein import Protein
 from code.algorithms.grid import Grid
 from code.algorithms.random import Random
@@ -13,13 +14,9 @@ def visualize(lst):
     '''
     Visualizes the folded protein.
     '''
-    # print("LST:")
-    # print(lst)
-    # coordinates = protein.solutions[0]
+    # Gain data of the protein to visualize
     coordinates = lst[1]
     sorted_coordinates = sorted(coordinates.items(), key=lambda x: x[1].index)
-    # print("COORDINATES:")
-    # print(coordinates)
     data = {"x":[], "y":[], "label":[]}
 
     # Append all amino acids + coordinates into the datafile to plot.
@@ -28,11 +25,14 @@ def visualize(lst):
         data["y"].append(coord[1])
         data["label"].append(label)
 
-    # print(data)
-
     # Plot figure of the grid
     plt.figure()
+    ax = plt.gca()
     plt.plot(data["x"], data["y"], '-ok')
+
+    # Set both the X- and Y-axis to integer values
+    ax.yaxis.set_major_locator(MaxNLocator(integer=True))
+    ax.xaxis.set_major_locator(MaxNLocator(integer=True))
 
     # Label all amino acids within the plot
     for x, y, label in zip(data["x"], data["y"], data["label"]):
