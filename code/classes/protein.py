@@ -106,16 +106,16 @@ class Protein():
         return [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)]
 
 
-    def get_nofold_amino(self):
-        '''
-        Returns the first amino acid with no folding.
-        '''
-        # where do I get the protein instance from??
-        for amino in protein:
-            if amino.folding is None:
-                return amino
+    # def get_nofold_amino(self):
+    #     '''
+    #     Returns the first amino acid with no folding.
+    #     '''
+    #     # where do I get the protein instance from??
+    #     for amino in protein:
+    #         if amino.folding is None:
+    #             return amino
         
-        return None
+    #     return None
 
     def __repr__(self):
         return f"{self.id}: f{self.aminoacids}"
