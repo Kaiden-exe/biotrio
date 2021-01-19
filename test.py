@@ -3,7 +3,9 @@ from code.classes.protein import Protein
 from code.algorithms.random import Random
 from code.visualisation.output import writecsv
 from visualize import visualize, hist
+from code.algorithms import depth_first as df
 from code.algorithms.hill_climber import HillClimber
+
 # source = "data/testprotein.csv"
 # protein = Protein(source, '3')
 # randomfolder = Random()
@@ -25,12 +27,21 @@ from code.algorithms.hill_climber import HillClimber
 # lst.remove(4)
 # print(lst)
 
+# source = 'data/easyprotein.csv'
+# protein_id = '4'
+# protein = Protein(source, protein_id)
+# hiker = HillClimber(protein)
+# hiker.hike(10000, 5)
+# best = hiker.get_best()
+# hist(hiker)
+# writecsv(protein, best)
+# visualize(best)
+
 source = 'data/easyprotein.csv'
 protein_id = '4'
 protein = Protein(source, protein_id)
-hiker = HillClimber(protein)
-hiker.hike(10000, 5)
-best = hiker.get_best()
-hist(hiker)
+depth = df.DepthFirst(protein)
+depth.run()
+best = depth.best_solution
 writecsv(protein, best)
 visualize(best)
