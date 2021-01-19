@@ -45,6 +45,9 @@ class Greedy(Random):
 
         # Acquire list of all foldings to try
         fold_list = self.get_fold_list()
+
+        # TODO
+        # Fix even de previous fold indexatie (*-1)
         fold_list.remove(self.prev_fold)
 
         # Remove folds from list if in forbidden lists

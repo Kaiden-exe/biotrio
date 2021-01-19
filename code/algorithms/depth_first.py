@@ -10,6 +10,9 @@ Herhaal tot stack leeg is:
         klaar?
 '''
 import copy
+from .random import Random
+from code.classes.protein import Protein
+from code.classes.aminoacid import AminoAcid
 
 class DepthFirst:
     """
@@ -19,9 +22,10 @@ class DepthFirst:
         self.protein = copy.deepcopy(protein)
 
         self.states = [copy.deepcopy(self.protein)]
+        # self.index = 0
 
         # at the moment best_solution and best_stability are still single value
-        self.best_solution = None
+        self.best_solutions = []
         self.best_stability = 0
 
 
@@ -37,14 +41,20 @@ class DepthFirst:
         Creates all possible child-states and adds them to the list of states.
         '''
         # values are the possible foldings that we can assign to the amino acid
+        # TODO
+        # fold_list = Random.get_fold_list()
+        # failsave for previous amino acid, surroundings acids
         values = [-1, 1, -2, 2]
+
+        # prev_fold = aminoacid.folding[]
+        # values.remove(prev_fold)
 
         # we give the amino acid the different folding options that it can have
         for value in values:
             child = copy.deepcopy(new_protein)
 
             # assign the value to the amino acid's folding (using the aminoacid defined above)
-            child.aminoacid.folding = value 
+            child.acid.folding = value
 
             # add the child to the stack
             self.states.append(child)
@@ -56,30 +66,51 @@ class DepthFirst:
         '''
         new_stability = new_protein.set_stability()
         if new_stability >= self.best_stability:
+
+            # Save all best solutions, not only the last one found
+            # Make sure to save in dictionary/list, with score + folding
+
             self.best_stability = new_stability
-            self.best_solution = new_protein
-            print(f"New best stability score: {self.best_stability}")
+            self.best_solutions.append([self.best_stability, new_protein])
+
+
+    def get_nofold_amino(self, new_protein):
+        '''
+        Returns the first amino acid with no folding.
+        '''
+        # where do I get the protein instance from??
+        for amino in new_protein:
+            if amino.folding is None:
+                return amino
+        
+        return None
 
     
-    def run(self):
+    def run(self, protein):
         '''
         Runs the algorithm untill all possible states are visited.
         '''
+        # self.index = 0
+        
         # while the stack is not empty
         while self.states:
             # we got a protein out of the states: the parent
             new_protein = self.get_next_state()
 
             # we look in our parent and we find the first amino acid without a folding
-            aminoacid = new_protein.get_nofold_amino()
+            # acid = new_protein.aminoacids[self.index]
+            # self.index += 1
+
+            aminoacid = self.get_nofold_amino(new_protein)
             
             # when there are no more foldings to do, remember what the stability score is
+            # if acid == new_protein.aminoacids[-1]:
+            #     acid.folding = 0
             if aminoacid is None:
                 self.check_solution(new_protein)
             else:
                 self.build_children(new_protein, aminoacid)
            
-        # when we are done, override the protein with the best result that has been found
-        self.protein = self.best_solution
+        print(f"New best solutions: {self.best_solutions}")
 
        
