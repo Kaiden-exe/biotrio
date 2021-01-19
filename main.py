@@ -16,6 +16,7 @@
 import sys
 from code.classes.protein import Protein
 from code.algorithms.random import Random
+from code.algorithms.greedy import Greedy
 from code.algorithms.hill_climber import HillClimber
 from code.visualisation.output import writecsv
 from visualize import visualize, hist
@@ -30,7 +31,7 @@ if __name__ == "__main__":
 
     while True:
         algor = input("Which algorithm do you want to run?\n r = random\n h = hill climber\n")
-        if algor in ['r', 'h']:
+        if algor in ['r', 'g', 'h']:
             break
         else:
             print("Please select a valid algorithm.")
@@ -46,6 +47,9 @@ if __name__ == "__main__":
     if algor == 'r':
         art = Random()
         art.run_random(protein, runs)
+    if algor == 'g':
+        art = Greedy()
+        art.run_greedy(protein, runs)
     if algor == 'h':
         
         while True:
