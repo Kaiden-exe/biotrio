@@ -108,8 +108,7 @@ class HillClimber(Random):
         '''
         Changes the coordinates of an aminoacid to the given coordinates
         '''
-        lst = protein.positions.items()
-        sorted_by_index = sorted(lst, key=lambda x: x[1].index)
+        sorted_by_index = self.get_sorted_positions(protein)
         amino_cor = sorted_by_index[aminoacid.index][0]
         del protein.positions[amino_cor]
         protein.positions[coordinates] = aminoacid
