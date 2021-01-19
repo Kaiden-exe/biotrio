@@ -1,29 +1,28 @@
 from .random import Random
+from code.classes.protein import Protein
 import random
+import copy
 
 class Greedy(Random):
     def __init__(self):
-        self.protein = protein
+        self.protein = Protein
+        # List that contains the coordinates of the best found foldings
         self.best = []
+        # List that keeps track of all tried foldings per amino acid
         self.prev_fold = []
 
 
     def fold(self):
         '''
-        Folds a protein randomly.
+        Returns a specific folding value.
         '''
-        fold_list = self.get_fold_list()
-
-        for _ in range(len(self.prev_fold)):
-            if self.prev_fold in fold_list:
-                fold_list = fold_list.remove(self.prev_fold)
-
-        folding = random.choice(fold_list)
+        folding = self.get_best(self.protein)
+        self.prev_fold = [folding]
 
         return folding
 
 
-    def fold_greedy(self, protein):
+    def fold_greedy(self, protein, positionX, positionY, i):
         '''
         1. alle opties fold van volgende aminozuur proberen
             2. van elke optie stability score berekenen
@@ -32,32 +31,31 @@ class Greedy(Random):
         '''
         pass
 
-    
-    def get_new_coordinates(self, x, y):
-        '''
-        Returns the coordinates for the next aminoacid according to the folding of the previous amino acid.
-        '''
-        # Chooses a random fold over the x-axis (-1, 1) or the y-axis (-2, 2).
-        folding = self.fold()
-        
-        # Rotate amino acid over the X-axis
-        if folding == 1 or folding == -1:
-            yb = y
-            xb = x + folding
-
-        # Rotate amino acid over the Y-axis
-        else:
-            xb = x
-            yb = y + int(folding/2)
-        
-        return [xb, yb, folding]
-
-
     def get_best(self, protein):
         '''
         Find the best folding for the next amino acid.
         '''
-        pass
+        # Acquire list of all foldings to try
+        fold_list = self.get_fold_list()
+        fold_list.remove(self.prev_fold)
+
+        for _ in fold_list:
+            pass
+            # 1. Folding toevoegen aan gevouwen eiwit tot nu toe
+            # 2. Stabiliteitsscore berekenen met nieuwe aminozuur
+            # 3. Append to best lijst als hoger dan of gelijk aan vorige score
+
+        return random.choice(self.best)
+
+    
+    def add_best(self, protein):
+        '''
+        Adds 'best' stability folding for next aminoacid to temporary list self.best
+        '''
+        protein.set_stability()
+        copy_score = copy.deepcopy(protein.score)
+        copy_dict = copy.deepcopy(protein.positions)
+        self.best.append([copy_score, copy_dict])
 
 
     def run_greedy(self, protein, x):
@@ -66,13 +64,13 @@ class Greedy(Random):
         '''
         for _ in range(x):
 
-            # Finish a protein with greedy folding 
+            # Finish a protein with greedy folding
             positionX = positionY = 0
             i = 0
     
             while i < len(protein.aminoacids):
                 protein.add_position(protein.aminoacids[i], positionX, positionY)
-                i, positionX, positionY = self.fold_greedy(protein)
+                i, positionX, positionY = self.fold_greedy(protein, positionX, positionY, i)
 
             protein.set_stability()
             self.add_solution(protein)
