@@ -49,7 +49,7 @@ if __name__ == "__main__":
         art = Random()
         art.run_random(protein, runs)
     elif algor == 'g':
-        art = Greedy()
+        art = Greedy(protein)
         art.run_greedy(protein, runs)
     elif algor == 'h':
         
