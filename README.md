@@ -48,3 +48,6 @@ Wednesday 13 Jan:
 * Debug the random_folding function to fix the problems in the folding.
 * Visualization works! The random folding and the bonds between the neighboring amino acids can be seen.
 * Make a graph to visualize the distribution of our scores.
+
+
+INSTALL MATPLOTLIB USING PIP3 INSTALL MATPLOTLIB

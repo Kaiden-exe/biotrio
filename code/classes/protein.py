@@ -57,7 +57,7 @@ class Protein():
         stability = 0
         for x, y in coordinates:
             acid = self.positions[(x, y)]
-            if acid.id == 'H':
+            if acid.id == 'H' or acid.id == 'C':
                 surrounding = self.get_surrounding_coordinates(x, y)
                 surrounding_aminos = []
                 for coordinate in surrounding:
@@ -68,12 +68,16 @@ class Protein():
                         pass
                             
                 for surround in surrounding_aminos:
-                    if not surround.index == acid.index + 1 and not surround.index == acid.index - 1:
-                        if surround.id == 'H':
+                    if surround.index > acid.index + 1:
+                        if surround.id == 'C' and acid.id == 'C':
+                            stability -= 5
+                        elif acid.id == 'H' and surround.id == 'H':
                             stability -= 1
-                        # if surround.id == 'C':
-                        # TODO
-        stability /= 2
+                        elif acid.id == 'C' and surround.id == 'H':
+                            stability -= 1
+                        elif acid.id == 'H' and surround.id == 'C':
+                            stability -= 1
+        # stability /= 2
         self.score = stability
 
     def remove_last(self):
@@ -105,17 +109,6 @@ class Protein():
     def get_surrounding_coordinates(self, x, y):
         return [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)]
 
-
-    # def get_nofold_amino(self):
-    #     '''
-    #     Returns the first amino acid with no folding.
-    #     '''
-    #     # where do I get the protein instance from??
-    #     for amino in protein:
-    #         if amino.folding is None:
-    #             return amino
-        
-    #     return None
 
     def __repr__(self):
         return f"{self.id}: f{self.aminoacids}"
