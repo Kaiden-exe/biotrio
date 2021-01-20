@@ -1,5 +1,5 @@
 from .random import Random
-from random import choice
+from random import choice, getrandbits
 import copy
 
 class HillClimber(Random):
@@ -8,6 +8,9 @@ class HillClimber(Random):
         self.best = self.get_start(protein)
 
     def get_start(self, protein):
+        '''
+        Returns a randomly folded protein to start with.
+        '''
         self.run_random(protein, 1)
         return protein
     
@@ -18,7 +21,7 @@ class HillClimber(Random):
         for i in range(iterations):
             new = copy.deepcopy(self.best)
 
-            for i in range(mutations):
+            for j in range(mutations):
                 self.mutate(new)
 
             new.set_stability()
@@ -27,6 +30,12 @@ class HillClimber(Random):
             if new.score < self.best.score:
                 del self.best
                 self.best = new
+            if new.score == self.best.score:
+                if getrandbits(1):
+                    del self.best
+                    self.best = new
+                else:
+                    del new
             else:
                 del new
     
@@ -37,7 +46,7 @@ class HillClimber(Random):
 
         # New coordinates will be assigned to a random amino acid
         new_coordinates = ()
-        while len(new_coordinates) < 2:
+        while len(new_coordinates) < 2: # Maybe make this not new_coordinates
             
             # Choose a random aminoacid from the protein and get all surronding coordinates (exclude last aminoacid)
             first_amino = protein.aminoacids[-1]
@@ -78,6 +87,9 @@ class HillClimber(Random):
         
 
     def get_free_coordinates(self, protein, surrounding_coordinates):
+        '''
+        Looks at the surrounding coordiates and returns a list of coordinates that are unoccupied.
+        '''
         free_coordinates = []
         for coordinates in surrounding_coordinates:
             if coordinates not in protein.positions.keys():
@@ -126,7 +138,7 @@ class HillClimber(Random):
         folds = self.get_fold_list()
 
         # Find fold
-        folding = None
+        # folding = 0
         for i in range(len(surrounding_coordinates)):
             if surrounding_coordinates[i] == next_coordinates:
                 folding = folds[i]
@@ -151,4 +163,7 @@ class HillClimber(Random):
         self.solutions.append([copy_score, copy_dict])
 
     def get_best(self):
+        '''
+        Returns a list of score and a dictionary of the best found folding.
+        '''
         return [self.best.score, self.best.positions]
