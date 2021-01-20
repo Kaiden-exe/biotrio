@@ -9,6 +9,7 @@ class Protein():
         self.score = 0
         # key = (x, y), value = AminoAcid()
         self.positions = {}
+        self.depth_index = 0
 
 
     def load_proteins(self, source, protein_id):
@@ -119,6 +120,7 @@ class Protein():
         
         string = ""
         string = f"{ string } + { index },{ fold },{ coordinates }"
+
 
     def decode_string(self):
         pass

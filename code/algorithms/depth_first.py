@@ -57,6 +57,7 @@ class DepthFirst:
 
             # assign the value to the amino acid's folding (using the aminoacid defined above)
             child.acid.folding = value
+            child.depth_index += 1
 
             # add the child to the stack
             self.states.append(child)
