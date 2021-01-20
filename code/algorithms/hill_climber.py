@@ -30,14 +30,12 @@ class HillClimber(Random):
             if new.score < self.best.score:
                 del self.best
                 self.best = new
-            if new.score == self.best.score:
+            else:
                 if getrandbits(1):
                     del self.best
                     self.best = new
                 else:
                     del new
-            else:
-                del new
     
     def mutate(self, protein):
         '''
