@@ -20,6 +20,7 @@ from code.algorithms.greedy import Greedy
 from code.algorithms.hill_climber import HillClimber
 from code.visualisation.output import writecsv
 from visualize import visualize, hist
+from code.algorithms.simulated_annealing import Simulated_Annealing
 
 if __name__ == "__main__":
     # Order: data/file, protein id
@@ -30,8 +31,8 @@ if __name__ == "__main__":
     protein = Protein(source, protein_id)
 
     while True:
-        algor = input("Which algorithm do you want to run?\n r = random\n h = hill climber\n")
-        if algor in ['r', 'g', 'h']:
+        algor = input("Which algorithm do you want to run?\n r = random\n g = greedy\n h = hill climber\n s = simulated annealing\n")
+        if algor in ['r', 'g', 'h', 's']:
             break
         else:
             print("Please select a valid algorithm.")
@@ -47,10 +48,10 @@ if __name__ == "__main__":
     if algor == 'r':
         art = Random()
         art.run_random(protein, runs)
-    if algor == 'g':
-        art = Greedy()
+    elif algor == 'g':
+        art = Greedy(protein)
         art.run_greedy(protein, runs)
-    if algor == 'h':
+    elif algor == 'h':
         
         while True:
             mutations = input("How many mutations do you want to make per run?\n")
@@ -61,6 +62,26 @@ if __name__ == "__main__":
                 print("Please give a positive integer.")
 
         art = HillClimber(protein)
+        art.hike(runs, mutations)
+    elif algor == 's':
+        
+        while True:
+            temp = input("What initial temperature do you want?\n")
+            try:
+                temp = int(temp)
+                break
+            except ValueError:
+                print("Please give a positive integer.")
+
+        while True:
+            mutations = input("How many mutations do you want to make per run?\n")
+            try:
+                mutations = int(mutations)
+                break
+            except ValueError:
+                print("Please give a positive integer.")
+
+        art = Simulated_Annealing(protein, temp)
         art.hike(runs, mutations)
         
     best = art.get_best()
