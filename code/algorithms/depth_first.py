@@ -44,6 +44,8 @@ class DepthFirst:
         # TODO
         # fold_list = Random.get_fold_list()
         # failsave for previous amino acid, surroundings acids
+
+        # how do we check what folding the previous amino acid had (what folding the parent had)
         values = [-1, 1, -2, 2]
 
         # prev_fold = aminoacid.folding[]
@@ -114,3 +116,22 @@ class DepthFirst:
         print(f"New best solutions: {self.best_solutions}")
 
        
+# see it as string.
+# start with the first acid, fold and add to stack, go to the next one
+
+# start with short string: which is the parent, which folding can it take, make those children, then go to a child and make that the new parent.
+# in protein, find a way to 
+
+
+# - Index
+# - fold mogelijkheden  
+# - coordinates
+# leg de amino acid neer met een fold
+# split op het strepje:
+# (index, fold, coordinates) - (2, fold, (x, y)) 
+# lengthe van de lijst na de splitter - do this check where you are in the protein
+# to go from parent to child: overshcrijf wat er in de amino zuur zet, update de index,fold,coordinate.
+# parent object aan het overshcrijven steeds. de protein word steeds langer, korter, langer, terug, andere tak af.
+# een protein - heel veel strings die de protein representeren.
+# als je een spegeling aan het maken bent - hou dat tegen door strings te vergelijken: prunen - throw away some of the branches.
+# save the scores from the string - this branch is bad because it doing worse than the branch before.

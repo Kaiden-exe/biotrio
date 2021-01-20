@@ -7,8 +7,9 @@ Proteins are long strands of amino acids that regulate many important processes 
 ### Assumptions
 
 * We assume a 2D grid in which we place every amino acid on a grid point. 
-* The next amino acid is located on one of the adjacent grid points, allowing us to "fold" proteins down, with 90 degree angles
+* The next amino acid is located on one of the adjacent grid points, allowing us to "fold" proteins down, with 90 degree angles.
 * If two H's are next to each other on the grid, the total protein gets a -1 on the score. The lower the score, the more stable the protein.
+* We go on to apply this to proteins that can have "C-bonds" too, which have a stronger bond of -5 making the protein even more stable.
 
 ## Installation Requirements
 
