@@ -5,12 +5,13 @@ import random
 import copy
 
 class Greedy(Random):
-    def __init__(self):
-        self.protein = Protein
+    def __init__(self, protein):
+        super().__init__()
+        self.protein = protein
         # List of all [Score, Folding] combinations
         self.best = []
         # List that keeps track of foldings per amino acid
-        self.prev_fold = []
+        self.prev_fold = 0
         self.positionX = 0
         self.positionY = 0
         self.i = 0
@@ -21,7 +22,10 @@ class Greedy(Random):
         Returns a specific folding value.
         '''
         folding = self.get_best_fold(self.protein)
-        self.prev_fold = [folding]
+
+        print(f"FOLDING THIS AMINO: {folding}")
+
+        self.prev_fold = folding
 
         return folding
 
@@ -37,6 +41,7 @@ class Greedy(Random):
     #     # Return Self of niet???
     #     return i, positionX, positionY
 
+
     def get_best_fold(self, protein):
         '''
         Find the best folding for the next amino acid.
@@ -45,27 +50,44 @@ class Greedy(Random):
 
         # Acquire list of all foldings to try
         fold_list = self.get_fold_list()
-        fold_list.remove(self.prev_fold)
+
+        print("SELF.PREV_FOLD")
+        print(self.prev_fold)
+
+        if not self.prev_fold == 0:
+            fold_list.remove(-self.prev_fold)
 
         # Remove folds from list if in forbidden lists
         acid = protein.aminoacids[self.i]
-        for j in len(acid.forbidden_folds):
+        for j in range(len(acid.forbidden_folds)):
             if acid.forbidden_folds[j] in fold_list:
                 fold_list.remove(acid.forbidden_folds[j])
 
-        # Try all possible foldings and return a random one of the best options
-        for _ in fold_list:
-            folding = fold_list.pop()
-            temp_fold = self.get_temp_coordinates(folding)
-            positionX, positionY = self.try_fold(protein, temp_fold)
+        print(f"fold_list before trials: {fold_list}")
 
-            if positionX:
-                protein.add_position(protein.aminoacids[self.i], positionX, positionY)
+        # Try all possible foldings and return a random one of the best options
+        for k in range(len(fold_list)):
+
+            print(f"fold_list K: {k} - {fold_list}")
+
+            folding = fold_list[k]
+            temp_fold = self.get_temp_coordinates(folding)
+            trial = self.try_fold(protein, temp_fold)
+
+            if trial == True:
+                print("ADD BEST")
                 self.add_best(protein, folding)
             else:
                 pass
+        
+        print(f"self.best: {self.best}")
+        random_best = random.choice(self.best)
 
-        return random.choice(self.best)
+        new_fold = self.get_temp_coordinates(random_best[1])
+        self.positionX = new_fold[0]
+        self.positionY = new_fold[1]
+
+        return random_best[1]
 
     
     def try_fold(self, protein, temp_fold):
@@ -77,12 +99,10 @@ class Greedy(Random):
 
         # Assume position if X and Y coordinates are not already occupied by a previous acid
         if not (positionXb, positionYb) in protein.positions.keys():
-            positionX = positionXb
-            positionY = positionYb
-
-            return positionX, positionY
+            
+            return True
         else:
-            return None, None
+            return False
 
 
     def get_temp_coordinates(self, folding):
@@ -110,10 +130,11 @@ class Greedy(Random):
         copy_score = copy.deepcopy(protein.score)
 
         # Check if this folding gains a higher stability than previous tries.
-        if self.best:    
-            for j in len(self.best):
-                if copy_score >= self.best[j][0]: 
+        if self.best:
+            for j in range(len(self.best)):
+                if copy_score <= self.best[j][0]:
                     self.best.append([copy_score, folding])
+                    break
         else:
             self.best.append([copy_score, folding])
 

@@ -30,7 +30,7 @@ if __name__ == "__main__":
     protein = Protein(source, protein_id)
 
     while True:
-        algor = input("Which algorithm do you want to run?\n r = random\n h = hill climber\n")
+        algor = input("Which algorithm do you want to run?\n r = random\n h = hill climber\n g = greedy\n")
         if algor in ['r', 'g', 'h']:
             break
         else:
@@ -48,7 +48,7 @@ if __name__ == "__main__":
         art = Random()
         art.run_random(protein, runs)
     if algor == 'g':
-        art = Greedy()
+        art = Greedy(protein)
         art.run_greedy(protein, runs)
     if algor == 'h':
         
