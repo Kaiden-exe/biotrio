@@ -46,7 +46,7 @@ class HillClimber(Random):
 
         # New coordinates will be assigned to a random amino acid
         new_coordinates = ()
-        while len(new_coordinates) < 2: # Maybe make this not new_coordinates
+        while len(new_coordinates) < 2: 
             
             # Choose a random aminoacid from the protein and get all surronding coordinates (exclude last aminoacid)
             first_amino = protein.aminoacids[-1]
@@ -148,9 +148,9 @@ class HillClimber(Random):
         '''
         Add a solution to the list of solutions.
         '''
-        copy_score = copy.deepcopy(protein.score)
+        score = protein.score
         copy_dict = copy.deepcopy(protein.positions)
-        self.solutions.append([copy_score, copy_dict])
+        self.solutions.append([score, copy_dict])
 
     def get_best(self):
         '''
