@@ -37,11 +37,11 @@ from code.algorithms.hill_climber import HillClimber
 # writecsv(protein, best)
 # visualize(best)
 
-source = 'data/easyprotein.csv'
-protein_id = '4'
+source = 'data/testprotein.csv'
+protein_id = '2'
 protein = Protein(source, protein_id)
 depth = df.DepthFirst(protein)
 depth.run()
-best = depth.best_solution
+best = depth.check_solution()
 writecsv(protein, best)
 visualize(best)

@@ -80,9 +80,9 @@ class Random():
         '''
         Add a solution to the list of solutions.
         '''
-        copy_score = copy.deepcopy(protein.score)
+        score = protein.score
         copy_dict = copy.deepcopy(protein.positions)
-        self.solutions.append([copy_score, copy_dict])
+        self.solutions.append([score, copy_dict])
         self.clear_protein(protein)
         
     

@@ -1,23 +1,38 @@
 amino,fold
-<<<<<<< HEAD
+P,2
+P,1
+P,-2
 H,-2
-H,1
-H,2
-H,2
-=======
-H,-1
-H,-1
-H,2
-H,2
+H,-2
+P,-1
+P,-2
 H,1
 H,-2
->>>>>>> 673cc5c147cb91c0a2a7ecdda7d3a3bddb17a5bc
+P,-1
+P,-1
+P,-1
+P,-1
+P,-2
+H,-1
+H,-1
+H,-2
+H,-1
+H,2
+H,2
+H,2
+P,2
+P,1
+H,-2
 H,1
-H,2
-H,2
-H,0
-<<<<<<< HEAD
-score,-1.0
-=======
-score,-3.0
->>>>>>> 673cc5c147cb91c0a2a7ecdda7d3a3bddb17a5bc
+P,2
+P,2
+P,2
+P,2
+H,-1
+H,-1
+P,-1
+P,-1
+H,-2
+P,-1
+P,0
+score,-1

@@ -7,7 +7,6 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 from matplotlib.ticker import MaxNLocator
 from code.classes.protein import Protein
-# from code.algorithms.grid import Grid
 from code.algorithms.random import Random
 
 def visualize(lst):

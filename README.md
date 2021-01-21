@@ -26,7 +26,11 @@ All the code for this project was been written in Python 3.7. To be able to run 
 
 To run the program call:
 
-> python3 main.py 
+> python3 main.py source protein_id
+
+Example:
+
+> python3 main.py data/hardprotein.csv 4
 
 ## Repository Structure
 
