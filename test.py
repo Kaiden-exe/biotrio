@@ -3,7 +3,7 @@ from code.classes.protein import Protein
 from code.algorithms.random import Random
 from code.visualisation.output import writecsv
 from visualize import visualize, hist
-from code.algorithms import depth_first as df
+from code.algorithms.depth_first import DepthFirst
 from code.algorithms.hill_climber import HillClimber
 
 # source = "data/testprotein.csv"
@@ -38,9 +38,10 @@ from code.algorithms.hill_climber import HillClimber
 # visualize(best)
 
 source = 'data/testprotein.csv'
-protein_id = '2'
+protein_id = '4'
 protein = Protein(source, protein_id)
-depth = df.DepthFirst(protein)
+depth = DepthFirst(protein)
 depth.run()
+best = depth.best_solutions[0]
 writecsv(protein, best)
 visualize(best)

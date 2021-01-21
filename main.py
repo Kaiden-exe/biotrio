@@ -51,8 +51,7 @@ if __name__ == "__main__":
     elif algor == 'g':
         art = Greedy(protein)
         art.run_greedy(protein, runs)
-    elif algor == 'h':
-        
+    elif algor == 'h':        
         while True:
             mutations = input("How many mutations do you want to make per run?\n")
             try:
@@ -64,7 +63,6 @@ if __name__ == "__main__":
         art = HillClimber(protein)
         art.hike(runs, mutations)
     elif algor == 's':
-        
         while True:
             temp = input("What initial temperature do you want?\n")
             try:

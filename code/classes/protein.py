@@ -87,7 +87,6 @@ class Protein():
         and adds the folding of the second to last acid to a list of forbidden folds.
         Returns the coordinates of the second to last aminoacid.
         '''
-
         # Create a list, sorted by index and take the highest
         lst = self.positions.items()
         sorted_by_index = sorted(lst, key=lambda x: x[1].index)
@@ -110,18 +109,6 @@ class Protein():
     def get_surrounding_coordinates(self, x, y):
         return [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)]
 
-<<<<<<< HEAD
-=======
-    
-    def make_string(self, deepcopy):
-        # FORMAT: "index,fold,(x,y) + index2,fold2,(x,y)"
-
-        index = deepcopy.index
-        fold = deepcopy.fold
-        coordinates = deepcopy.positions[index]
-        
-        string = ""
-        string = f"{ string } + { index },{ fold },{ coordinates }"
 
     def clear_protein(self):
         '''
@@ -139,11 +126,6 @@ class Protein():
         sorted_by_index = sorted(lst, key=lambda x: x[1].index)
         return sorted_by_index
 
-
-    def decode_string(self):
-        pass
-
->>>>>>> 0650ea48a7e7af4c719b22c89a550d8503786176
 
     def __repr__(self):
         return f"{self.id}: f{self.aminoacids}"
