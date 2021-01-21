@@ -85,7 +85,9 @@ class DepthFirst:
 
             self.best_stability = new_stability
             self.best_solutions.clear()
-            self.best_solutions.append(new_protein)
+
+            # !!! have to make sure to save score and coordinates !!!
+            self.best_solutions.append([new_protein.score, new_protein.positions)
 
 
     def get_nofold_amino(self, new_protein):
@@ -127,4 +129,12 @@ class DepthFirst:
            
         print(f"New best solutions: {self.best_solutions}")
 
+    def create_coordinates(self, protein):
+        aminos = protein.aminoacids
 
+        for amino in aminos:
+            if amino.folding == None: 
+                break
+            # previous coordinates 
+            # if -1 or 1 -> new_coordinates =  x + folding 
+            # if -2 or 2 -> new_coordinates = y + folding

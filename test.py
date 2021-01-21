@@ -42,6 +42,5 @@ protein_id = '2'
 protein = Protein(source, protein_id)
 depth = df.DepthFirst(protein)
 depth.run()
-best = depth.check_solution()
 writecsv(protein, best)
 visualize(best)
