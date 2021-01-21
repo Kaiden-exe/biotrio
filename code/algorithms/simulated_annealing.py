@@ -30,7 +30,6 @@ class Simulated_Annealing(HillClimber):
                 del self.best
                 self.best = new
             else:
-                diff = self.get_diff(new)
                 if self.accept(new):
                     del self.best
                     self.best = new
