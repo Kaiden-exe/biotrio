@@ -29,14 +29,26 @@ def visualize(lst):
     ax = plt.gca()
     plt.plot(data["x"], data["y"], '-ok')
 
-    # Set both the X- and Y-axis to integer values
+    # Set both the X- and Y-axis to integer values and label those
+    plt.ylabel('Y-coordinates')
     ax.yaxis.set_major_locator(MaxNLocator(integer=True))
+    plt.xlabel('X-coordinates')
     ax.xaxis.set_major_locator(MaxNLocator(integer=True))
 
     # Label all amino acids within the plot
     for x, y, label in zip(data["x"], data["y"], data["label"]):
         plt.annotate(label, xy = (x, y))
 
+    # Give a title to the grid plot
+    while True:
+        name = input("What title should I give the grid plot?\n")
+        try:
+            name = str(name)
+            break
+        except ValueError:
+            print("Please give a valid title (string).")
+    
+    plt.title(name)
     plt.savefig("grid.png", format="png")
 
 
@@ -46,12 +58,27 @@ def hist(random):
     
     for i in random.solutions:
         data.append(i[0])
-    
+
     plt.hist(data)
+
+    # Set both the X- and Y-axis to integer values and label those
+    ax = plt.gca()
+    plt.ylabel('Amount of iterations')
+    ax.yaxis.set_major_locator(MaxNLocator(integer=True))
+    plt.xlabel('Stability score')
+    ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+
+    # Give a title to the hist plot
+    while True:
+        name = input("What title should I give the hist plot?\n")
+        try:
+            name = str(name)
+            break
+        except ValueError:
+            print("Please give a valid title (string).")
+    
+    plt.title(name)
     plt.savefig("hist.png", format="png")
-    # As rendering voor wanneer negatieve waardes wel geprint kunnen worden.
-    # plt.xlim(-5.5)
-    # plt.ylim(-5,5)
 
 
 

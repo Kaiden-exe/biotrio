@@ -72,6 +72,12 @@ class Greedy(Random):
         positionXb = temp_fold[0]
         positionYb = temp_fold[1]
 
+        '''
+        Hier moet ik regelen dat dezelfde loop / forbidden folds etc. check gebeurd als in fold_random
+        Ik skip namelijk nu deze hele loop, en weet niet zo goed hoe ik deze er los uit zou kunnen halen zonder te kopieren
+        Even met Kaiden kijken of we dit willen splitsen, of dat ik dit beter kan herhalen.
+        '''
+
         # Assume position if X and Y coordinates are not already occupied by a previous acid
         if not (positionXb, positionYb) in protein.positions.keys():
             return True

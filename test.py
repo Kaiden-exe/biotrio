@@ -37,7 +37,7 @@ from code.algorithms.hill_climber import HillClimber
 # writecsv(protein, best)
 # visualize(best)
 
-source = 'data/testprotein.csv'
+source = 'data/easyprotein.csv'
 protein_id = '5'
 protein = Protein(source, protein_id)
 random = Random()
@@ -47,6 +47,8 @@ best = depth.best_solutions[0]
 hist(depth)
 writecsv(protein, best)
 
+
+# Even oplossing voor zoeken nog
 random.solutions = depth.solutions
 
 visualize(best)

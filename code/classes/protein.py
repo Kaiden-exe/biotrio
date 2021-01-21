@@ -102,6 +102,7 @@ class Protein():
         second = sorted_by_index.pop()
         acid = second[1]
         acid.forbidden_folds.append(acid.folding)
+        print("HIER MOET IK KOMEN")
         
         return second[0]
 
