@@ -121,6 +121,22 @@ class Protein():
         string = ""
         string = f"{ string } + { index },{ fold },{ coordinates }"
 
+    def clear_protein(self):
+        '''
+        Sets score to zero and clears the positions dictionary
+        '''
+        self.score = 0
+        self.positions.clear()
+
+
+    def get_sorted_positions(self):
+        '''
+        Returns a list of positions, sorted by index of the aminoacids
+        '''
+        lst = self.positions.items()
+        sorted_by_index = sorted(lst, key=lambda x: x[1].index)
+        return sorted_by_index
+
 
     def decode_string(self):
         pass

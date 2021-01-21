@@ -81,7 +81,7 @@ class HillClimber(Random):
         self.change_folding(protein, first_amino, new_coordinates)
         
         if third_amino:
-            sorted_postitions = self.get_sorted_positions(protein)
+            sorted_postitions = protein.get_sorted_positions()
             third_cor = sorted_postitions[third_amino.index][0]
             self.change_folding(protein, second_amino, third_cor)
         
@@ -120,7 +120,7 @@ class HillClimber(Random):
         '''
         Changes the coordinates of an aminoacid to the given coordinates
         '''
-        sorted_by_index = self.get_sorted_positions(protein)
+        sorted_by_index = protein.get_sorted_positions()
         amino_cor = sorted_by_index[aminoacid.index][0]
         del protein.positions[amino_cor]
         protein.positions[coordinates] = aminoacid
@@ -132,27 +132,17 @@ class HillClimber(Random):
         '''
 
         # Get the aminoacid coordinates and the coordinates around it 
-        lst = self.get_sorted_positions(protein)
+        lst = protein.get_sorted_positions()
         position = lst[aminoacid.index][0]
         surrounding_coordinates = protein.get_surrounding_coordinates(position[0], position[1])
         folds = self.get_fold_list()
 
         # Find fold
-        # folding = 0
         for i in range(len(surrounding_coordinates)):
             if surrounding_coordinates[i] == next_coordinates:
                 folding = folds[i]
                 break
         aminoacid.folding = folding
-
-
-    def get_sorted_positions(self, protein):
-        '''
-        Returns a list of positions, sorted by index of the aminoacids
-        '''
-        lst = protein.positions.items()
-        sorted_by_index = sorted(lst, key=lambda x: x[1].index)
-        return sorted_by_index
 
     def add_solution(self, protein):
         '''
