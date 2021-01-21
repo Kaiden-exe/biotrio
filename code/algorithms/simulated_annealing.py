@@ -31,7 +31,7 @@ class Simulated_Annealing(HillClimber):
                 self.best = new
             else:
                 diff = self.get_diff(new)
-                if random.uniform(0, 1) < math.exp(diff / self.current_temp):
+                if self.accept(new):
                     del self.best
                     self.best = new
                 else:
@@ -39,10 +39,12 @@ class Simulated_Annealing(HillClimber):
             
             self.update_temp()
     
-    def get_diff(self, new):
-        score_best = self.best.score
-        score_new = new.score
-        return abs(score_new - score_best)
+    def accept(self, new):
+        diff = abs(self.best.score) - abs(new.score)
+        acceptance_chance = math.exp(-diff / self.current_temp)
+        if random.uniform(0,1) < acceptance_chance:
+            return True
+        return False
 
     def update_temp(self):
         self.current_temp -= self.alpha
