@@ -38,7 +38,7 @@ from code.algorithms.hill_climber import HillClimber
 # visualize(best)
 
 source = 'data/testprotein.csv'
-protein_id = '4'
+protein_id = '5'
 protein = Protein(source, protein_id)
 random = Random()
 depth = DepthFirst(protein)

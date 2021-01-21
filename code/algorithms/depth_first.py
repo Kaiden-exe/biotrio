@@ -28,11 +28,9 @@ class DepthFirst():
         '''
         Creates all possible child-states and adds them to the list of states.
         '''
-        # TODO
-        # fold_list = Random.get_fold_list()
-        # failsave for previous amino acid, surroundings acids
-
         # how do we check what folding the previous amino acid had (what folding the parent had)
+        # TODO
+        # fold_list = Random.get_fold_list() -------- import without 'self' argument??
         values = [-1, 1, -2, 2]
 
         # don't let it fold back onto itself
@@ -51,7 +49,10 @@ class DepthFirst():
             child.aminoacids[child.depth_index].folding = value
             
             x, y = self.get_coordinates(value, child)
-            neighbours = child.get_surrounding_coordinates(x, y)
+
+            # if a child becomes a parent, the possible values of its offspring cannot b
+            # an attribute that keeps track of what the childrens values can or cannot be.
+            # neighbours = child.get_surrounding_coordinates(x, y)
 
             if (x, y) in child.positions.keys():
                 del child
@@ -62,7 +63,7 @@ class DepthFirst():
             
                 # Add the child to the stack
                 self.states.append(child)
-        
+
 
     def check_solution(self, new_protein):
         '''
@@ -85,10 +86,7 @@ class DepthFirst():
             self.best_stability = new_stability
             self.best_solutions.clear()
 
-            # copy_dict = copy.deepcopy(new_protein.positions)
-            # !!! have to make sure to save score and coordinates !!!
             self.best_solutions.append([new_protein.score, new_protein.positions])
-            print(f"new_protein.positions")
 
 
     def get_coordinates(self, folding, child):
