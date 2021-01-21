@@ -22,7 +22,6 @@ class DepthFirst:
         self.protein = copy.deepcopy(protein)
 
         self.states = [copy.deepcopy(self.protein)]
-        # self.index = 0
 
         # at the moment best_solution and best_stability are still single value
         self.best_solutions = []
@@ -48,33 +47,45 @@ class DepthFirst:
         # how do we check what folding the previous amino acid had (what folding the parent had)
         values = [-1, 1, -2, 2]
 
-        # prev_fold = aminoacid.folding[]
-        # values.remove(prev_fold)
+        # don't let it fold back onto itself
+        parent = new_protein
+        last_folding = parent.aminoacids[parent.depth_index].folding
+        last_folding = last_folding * -1
+        values.remove(last_folding)
 
         # we give the amino acid the different folding options that it can have
         for value in values:
-            child = copy.deepcopy(new_protein)
+            child = copy.deepcopy(parent)
 
             # assign the value to the amino acid's folding (using the aminoacid defined above)
-            child.acid.folding = value
+            child.aminoacid.folding = value
             child.depth_index += 1
+
+            # Check if new folding does not intersect with rest of protein 
+
 
             # add the child to the stack
             self.states.append(child)
+        
 
 
     def check_solution(self, new_protein):
         '''
         Checks and accepts better solutions than the current solution.
         '''
-        new_stability = new_protein.set_stability()
-        if new_stability >= self.best_stability:
+        new_protein.set_stability()
+        new_stability = new_protein.score
+        if new_stability == self.best_stability:
 
             # Save all best solutions, not only the last one found
             # Make sure to save in dictionary/list, with score + folding
 
-            self.best_stability = new_stability
             self.best_solutions.append([self.best_stability, new_protein])
+        elif new_stability > self.best_stability:
+
+            self.best_stability = new_stability
+            self.best_solutions.clear()
+            self.best_solutions.append(new_protein)
 
 
     def get_nofold_amino(self, new_protein):
@@ -89,7 +100,7 @@ class DepthFirst:
         return None
 
     
-    def run(self, protein):
+    def run(self):
         '''
         Runs the algorithm untill all possible states are visited.
         '''
@@ -116,23 +127,4 @@ class DepthFirst:
            
         print(f"New best solutions: {self.best_solutions}")
 
-       
-# see it as string.
-# start with the first acid, fold and add to stack, go to the next one
 
-# start with short string: which is the parent, which folding can it take, make those children, then go to a child and make that the new parent.
-# in protein, find a way to 
-
-
-# - Index
-# - fold mogelijkheden  
-# - coordinates
-# leg de amino acid neer met een fold
-# split op het strepje:
-# (index, fold, coordinates) - (2, fold, (x, y)) 
-# lengthe van de lijst na de splitter - do this check where you are in the protein
-# to go from parent to child: overshcrijf wat er in de amino zuur zet, update de index,fold,coordinate.
-# parent object aan het overshcrijven steeds. de protein word steeds langer, korter, langer, terug, andere tak af.
-# een protein - heel veel strings die de protein representeren.
-# als je een spegeling aan het maken bent - hou dat tegen door strings te vergelijken: prunen - throw away some of the branches.
-# save the scores from the string - this branch is bad because it doing worse than the branch before.
