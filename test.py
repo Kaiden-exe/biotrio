@@ -40,8 +40,13 @@ from code.algorithms.hill_climber import HillClimber
 source = 'data/testprotein.csv'
 protein_id = '4'
 protein = Protein(source, protein_id)
+random = Random()
 depth = DepthFirst(protein)
 depth.run()
 best = depth.best_solutions[0]
+hist(depth)
 writecsv(protein, best)
+
+random.solutions = depth.solutions
+
 visualize(best)
