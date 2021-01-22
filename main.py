@@ -21,6 +21,7 @@ from code.algorithms.hill_climber import HillClimber
 from code.visualisation.output import writecsv
 from visualize import visualize, hist
 from code.algorithms.simulated_annealing import Simulated_Annealing
+from code.algorithms.depth_first import DepthFirst
 
 if __name__ == "__main__":
     # Order: data/file, protein id
@@ -31,8 +32,8 @@ if __name__ == "__main__":
     protein = Protein(source, protein_id)
 
     while True:
-        algor = input("Which algorithm do you want to run?\n r = random\n g = greedy\n h = hill climber\n s = simulated annealing\n")
-        if algor in ['r', 'g', 'h', 's']:
+        algor = input("Which algorithm do you want to run?\n r = random\n g = greedy\n h = hill climber\n s = simulated annealing\n d = depth first\n")
+        if algor in ['r', 'g', 'h', 's', 'd']:
             break
         else:
             print("Please select a valid algorithm.")
@@ -51,6 +52,9 @@ if __name__ == "__main__":
     elif algor == 'g':
         art = Greedy(protein)
         art.run_greedy(protein, runs)
+    elif algor == 'd':
+        art = DepthFirst(protein)
+        art.run()
     elif algor == 'h':        
         while True:
             mutations = input("How many mutations do you want to make per run?\n")
