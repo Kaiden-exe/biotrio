@@ -21,6 +21,7 @@ from code.algorithms.hill_climber import HillClimber
 from code.visualisation.output import writecsv
 from visualize import visualize, hist
 from code.algorithms.simulated_annealing import Simulated_Annealing
+import time
 
 if __name__ == "__main__":
     # Order: data/file, protein id
@@ -47,10 +48,14 @@ if __name__ == "__main__":
     
     if algor == 'r':
         art = Random()
+        start_time = time.time()
         art.run_random(protein, runs)
+        print("Algoritm took %s seconds to run (without visualisation)" % (time.time() - start_time))
     elif algor == 'g':
         art = Greedy(protein)
+        start_time = time.time()
         art.run_greedy(protein, runs)
+        print("Algoritm took %s seconds to run (without visualisation)" % (time.time() - start_time))
     elif algor == 'h':
         
         while True:
@@ -62,7 +67,9 @@ if __name__ == "__main__":
                 print("Please give a positive integer.")
 
         art = HillClimber(protein)
+        start_time = time.time()
         art.hike(runs, mutations)
+        print("Algoritm took %s seconds to run (without visualisation)" % (time.time() - start_time))
     elif algor == 's':
         
         while True:
@@ -82,7 +89,9 @@ if __name__ == "__main__":
                 print("Please give a positive integer.")
 
         art = Simulated_Annealing(protein, temp)
+        start_time = time.time()
         art.hike(runs, mutations)
+        print("Algoritm took %s seconds to run (without visualisation)" % (time.time() - start_time))
         
     best = art.get_best()
     hist(art)
