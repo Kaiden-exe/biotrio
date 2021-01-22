@@ -107,6 +107,16 @@ class DepthFirst():
                 yb = prev_y + int(folding/2)
             
             return [xb, yb]
+
+
+    def get_best(self):
+        '''
+        Returns a random best solution from all generated best solutions.
+        '''
+        # Choose a random best solution
+        best = random.choice(self.best_solutions)
+
+        return best
             
 
     def run(self):

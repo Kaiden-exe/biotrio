@@ -19,7 +19,7 @@ from code.algorithms.random import Random
 from code.algorithms.greedy import Greedy
 from code.algorithms.hill_climber import HillClimber
 from code.visualisation.output import writecsv
-from visualize import visualize, hist
+from code.visualisation.visualize import visualize, hist
 from code.algorithms.simulated_annealing import Simulated_Annealing
 from code.algorithms.depth_first import DepthFirst
 import time
@@ -61,8 +61,10 @@ if __name__ == "__main__":
         best = art.get_best()
     elif algor == 'd':
         art = DepthFirst(protein)
+        start_time = time.time()
         art.run()
-        best = art.best_solutions
+        print("Algoritm took %s seconds to run (without visualisation)" % (time.time() - start_time))
+        best = art.get_best()
     elif algor == 'h':        
         while True:
             mutations = input("How many mutations do you want to make per run?\n")

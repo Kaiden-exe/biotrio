@@ -97,6 +97,7 @@ class Random():
         for lst in self.solutions:
             if lst[0] < best[0]:
                 best = lst
+
         return best
 
 
