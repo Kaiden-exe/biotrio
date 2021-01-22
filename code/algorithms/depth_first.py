@@ -29,9 +29,7 @@ class DepthFirst():
         Creates all possible child-states and adds them to the list of states.
         '''
         # how do we check what folding the previous amino acid had (what folding the parent had)
-        # TODO
-        # fold_list = Random.get_fold_list() -------- import without 'self' argument??
-        values = [-1, 1, -2, 2]
+        values = Protein.get_fold_list(self.protein)
 
         # don't let it fold back onto itself
         parent = new_protein

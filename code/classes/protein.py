@@ -106,6 +106,13 @@ class Protein():
         return second[0]
 
 
+    def get_fold_list(self):
+        '''
+        Returns a list of all possible foldings.
+        '''
+        return [-1, 1, -2, 2]
+
+
     def get_surrounding_coordinates(self, x, y):
         return [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)]
 

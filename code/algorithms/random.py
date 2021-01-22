@@ -96,11 +96,6 @@ class Random():
                 best = lst
         return best
 
-    def get_fold_list(self):
-        '''
-        Returns a list of all possible foldings.
-        '''
-        return [-1, 1, -2, 2]
 
     def get_new_coordinates(self, x, y):
         '''

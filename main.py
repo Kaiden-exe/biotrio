@@ -21,11 +21,8 @@ from code.algorithms.hill_climber import HillClimber
 from code.visualisation.output import writecsv
 from visualize import visualize, hist
 from code.algorithms.simulated_annealing import Simulated_Annealing
-<<<<<<< HEAD
-import time
-=======
 from code.algorithms.depth_first import DepthFirst
->>>>>>> d8286c070f50f104b9cc2dd31a35c6ff40b3d08c
+import time
 
 if __name__ == "__main__":
     # Order: data/file, protein id
@@ -55,13 +52,17 @@ if __name__ == "__main__":
         start_time = time.time()
         art.run_random(protein, runs)
         print("Algoritm took %s seconds to run (without visualisation)" % (time.time() - start_time))
+        best = art.get_best()
     elif algor == 'g':
         art = Greedy(protein)
         start_time = time.time()
         art.run_greedy(protein, runs)
+        print("Algoritm took %s seconds to run (without visualisation)" % (time.time() - start_time))
+        best = art.get_best()
     elif algor == 'd':
         art = DepthFirst(protein)
         art.run()
+        best = art.best_solutions
     elif algor == 'h':        
         while True:
             mutations = input("How many mutations do you want to make per run?\n")
@@ -75,6 +76,7 @@ if __name__ == "__main__":
         start_time = time.time()
         art.hike(runs, mutations)
         print("Algoritm took %s seconds to run (without visualisation)" % (time.time() - start_time))
+        best = art.get_best()
     elif algor == 's':
         while True:
             temp = input("What initial temperature do you want?\n")
@@ -96,8 +98,8 @@ if __name__ == "__main__":
         start_time = time.time()
         art.hike(runs, mutations)
         print("Algoritm took %s seconds to run (without visualisation)" % (time.time() - start_time))
+        best = art.get_best()
         
-    best = art.get_best()
     hist(art)
     writecsv(protein, best)
     visualize(best)
