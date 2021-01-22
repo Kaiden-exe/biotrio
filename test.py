@@ -3,7 +3,7 @@ from code.classes.protein import Protein
 from code.algorithms.random import Random
 from code.visualisation.output import writecsv
 from visualize import visualize, hist
-from code.algorithms import depth_first as df
+from code.algorithms.depth_first import DepthFirst
 from code.algorithms.hill_climber import HillClimber
 
 # source = "data/testprotein.csv"
@@ -37,11 +37,18 @@ from code.algorithms.hill_climber import HillClimber
 # writecsv(protein, best)
 # visualize(best)
 
-source = 'data/testprotein.csv'
-protein_id = '2'
+source = 'data/easyprotein.csv'
+protein_id = '5'
 protein = Protein(source, protein_id)
-depth = df.DepthFirst(protein)
+random = Random()
+depth = DepthFirst(protein)
 depth.run()
-best = depth.check_solution()
+best = depth.best_solutions[0]
+hist(depth)
 writecsv(protein, best)
+
+
+# Even oplossing voor zoeken nog
+random.solutions = depth.solutions
+
 visualize(best)

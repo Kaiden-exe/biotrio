@@ -1,4 +1,5 @@
 amino,fold
+<<<<<<< HEAD
 H,-1
 C,-1
 P,-2
@@ -50,3 +51,11 @@ P,-1
 H,-2
 H,0
 score,-8
+=======
+P,2
+H,2
+P,1
+P,-2
+H,
+score,-1
+>>>>>>> d8286c070f50f104b9cc2dd31a35c6ff40b3d08c

@@ -21,7 +21,11 @@ from code.algorithms.hill_climber import HillClimber
 from code.visualisation.output import writecsv
 from visualize import visualize, hist
 from code.algorithms.simulated_annealing import Simulated_Annealing
+<<<<<<< HEAD
 import time
+=======
+from code.algorithms.depth_first import DepthFirst
+>>>>>>> d8286c070f50f104b9cc2dd31a35c6ff40b3d08c
 
 if __name__ == "__main__":
     # Order: data/file, protein id
@@ -32,8 +36,8 @@ if __name__ == "__main__":
     protein = Protein(source, protein_id)
 
     while True:
-        algor = input("Which algorithm do you want to run?\n r = random\n g = greedy\n h = hill climber\n s = simulated annealing\n")
-        if algor in ['r', 'g', 'h', 's']:
+        algor = input("Which algorithm do you want to run?\n r = random\n g = greedy\n h = hill climber\n s = simulated annealing\n d = depth first\n")
+        if algor in ['r', 'g', 'h', 's', 'd']:
             break
         else:
             print("Please select a valid algorithm.")
@@ -55,9 +59,10 @@ if __name__ == "__main__":
         art = Greedy(protein)
         start_time = time.time()
         art.run_greedy(protein, runs)
-        print("Algoritm took %s seconds to run (without visualisation)" % (time.time() - start_time))
-    elif algor == 'h':
-        
+    elif algor == 'd':
+        art = DepthFirst(protein)
+        art.run()
+    elif algor == 'h':        
         while True:
             mutations = input("How many mutations do you want to make per run?\n")
             try:
@@ -71,7 +76,6 @@ if __name__ == "__main__":
         art.hike(runs, mutations)
         print("Algoritm took %s seconds to run (without visualisation)" % (time.time() - start_time))
     elif algor == 's':
-        
         while True:
             temp = input("What initial temperature do you want?\n")
             try:
