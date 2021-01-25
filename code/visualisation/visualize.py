@@ -52,11 +52,11 @@ def visualize(lst):
     plt.savefig("grid.png", format="png")
 
 
-def hist(random):
+def hist(algorithm):
     plt.figure()
     data = []
     
-    for i in random.solutions:
+    for i in algorithm.solutions:
         data.append(i[0])
 
     plt.hist(data)

@@ -34,7 +34,7 @@ class Greedy(Random):
         self.best = []
 
         # Acquire list of all foldings to try
-        fold_list = self.get_fold_list()
+        fold_list = Protein.get_fold_list(protein)
 
         if not self.prev_fold == 0:
             fold_list.remove(-self.prev_fold)

@@ -6,13 +6,14 @@ import copy
 class Random():
     def __init__(self):
         self.solutions = []
+        self.protein = None
 
     
     def fold(self):
         '''
         Folds a protein randomly. # chooses a random direction for the folding
         '''
-        fold_list = self.get_fold_list()
+        fold_list = Protein.get_fold_list(self.protein)
         folding = random.choice(fold_list)
         return folding
 
@@ -48,7 +49,7 @@ class Random():
                 if not folding in loop:
                     loop.append(folding)
 
-            if len(loop) == len(self.get_fold_list()):
+            if len(loop) == len(Protein.get_fold_list(self.protein)):
                 i -= 1
                 new_coordinates = protein.remove_last()
                 positionX = new_coordinates[0]
@@ -61,6 +62,8 @@ class Random():
         '''
         Fold the protein randomly x times.
         '''
+        self.protein = protein
+
         for _ in range(x):
 
             # Finish a protein with random folding 
@@ -94,13 +97,9 @@ class Random():
         for lst in self.solutions:
             if lst[0] < best[0]:
                 best = lst
+
         return best
 
-    def get_fold_list(self):
-        '''
-        Returns a list of all possible foldings.
-        '''
-        return [-1, 1, -2, 2]
 
     def get_new_coordinates(self, x, y):
         '''

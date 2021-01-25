@@ -1,4 +1,5 @@
 from .random import Random
+from code.classes.protein import Protein
 from random import choice, getrandbits
 import copy
 
@@ -135,7 +136,7 @@ class HillClimber(Random):
         lst = protein.get_sorted_positions()
         position = lst[aminoacid.index][0]
         surrounding_coordinates = protein.get_surrounding_coordinates(position[0], position[1])
-        folds = self.get_fold_list()
+        folds = Protein.get_fold_list(protein)
 
         # Find fold
         for i in range(len(surrounding_coordinates)):
