@@ -5,6 +5,9 @@ import random
 import copy
 
 class Greedy(Random):
+    """
+    A Greedy algorithm that builds a stack of proteins with a unique folding for each instance.
+    """
     def __init__(self, protein):
         super().__init__()
         self.protein = protein
@@ -78,18 +81,6 @@ class Greedy(Random):
         '''
         positionXb = temp_fold[0]
         positionYb = temp_fold[1]
-
-        '''
-        Hier moet ik regelen dat dezelfde loop / forbidden folds etc. check gebeurd als in fold_random
-        Ik skip namelijk nu deze hele loop, en weet niet zo goed hoe ik deze er los uit zou kunnen halen zonder te kopieren
-        Even met Kaiden kijken of we dit willen splitsen, of dat ik dit beter kan herhalen.
-
-        Mogelijk:
-        --- Return None ipv random.choice(self.best)
-        --- get new coordinates (random) returned niet i, x, y maar None
-        --- if new_coordinates is niet values maar None, return termination
-        --- In greedy_run(), if termination ipv i, x, y --> start iteratie opnieuw
-        '''
 
         # Assume position if X and Y coordinates are not already occupied by a previous acid
         if not (positionXb, positionYb) in protein.positions.keys():
