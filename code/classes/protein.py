@@ -10,6 +10,7 @@ class Protein():
         # key = (x, y), value = AminoAcid()
         self.positions = {}
         self.depth_index = 0
+        self.depth_values = self.get_fold_list()
 
 
     def load_proteins(self, source, protein_id):
@@ -135,7 +136,7 @@ class Protein():
 
 
     def __repr__(self):
-        return f"{self.id}: f{self.aminoacids}"
+        return f"{self.id}: f{self.positions}"
 
 class Temp_Protein(Protein):
     def __init__(self, aminoacids):

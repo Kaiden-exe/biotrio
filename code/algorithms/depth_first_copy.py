@@ -28,39 +28,35 @@ class DepthFirst():
         '''
         Creates all possible child-states and adds them to the list of states.
         '''
+        # how do we check what folding the previous amino acid had (what folding the parent had)
+        values = Protein.get_fold_list(self.protein)
+
         # don't let it fold back onto itself
         last_folding = curr_state.aminoacids[curr_state.depth_index].folding
-        
+
         if last_folding is not None:
             last_folding = last_folding * -1
-            curr_state.depth_values.remove(last_folding)
+            values.remove(last_folding)
 
-        if curr_state.depth_values:
-            value = curr_state.depth_values.pop()
-            self.states.append(curr_state)
+        # we give the amino acid the different folding options that it can have
+        for value in values:
+            child = copy.deepcopy(curr_state)
 
-            if value is not None:
-                child = copy.deepcopy(curr_state)
+            # assign the value to the amino acid's folding (using the aminoacid defined above)
+            child.aminoacids[child.depth_index].folding = value
+            
+            x, y = self.get_coordinates(value, child)
 
-                # assign the value to the amino acid's folding (using the aminoacid defined above)
-                child.aminoacids[child.depth_index].folding = value
-                
-                x, y = self.get_coordinates(value, child)
-
-                if (x, y) in child.positions.keys():
-                    # Delete non-available possibilities
-                    del child
-                else:
-                    # Check if new folding does not intersect with rest of protein
-                    child.depth_index += 1
-                    child.add_position(child.aminoacids[child.depth_index], x, y)
-
-                    # Add the child to the stack
-                    child.depth_values = child.get_fold_list()
-                    self.states.append(child)
-
-        else:
-            del curr_state
+            if (x, y) in child.positions.keys():
+                # Delete non-available possibilities
+                del child
+            else:
+                # Check if new folding does not intersect with rest of protein
+                child.depth_index += 1
+                child.add_position(child.aminoacids[child.depth_index], x, y)
+            
+                # Add the child to the stack
+                self.states.append(child)
 
 
     def check_solution(self, new_protein):
@@ -71,20 +67,17 @@ class DepthFirst():
         new_stability = new_protein.score
         
         # Add solution to the list
-        # self.solutions.append([new_protein.score, new_protein.positions])
+        self.solutions.append([new_protein.score, new_protein.positions])
 
         # Check if solution is better or equal to previous solutions
         if new_stability == self.best_stability:
-            # self.best_solutions.append([self.best_stability, new_protein.positions])
-            pass
+            self.best_solutions.append([self.best_stability, new_protein.positions])
 
         elif new_stability < self.best_stability:
 
             self.best_stability = new_stability
             self.best_solutions.clear()
             self.best_solutions.append([new_protein.score, new_protein.positions])
-
-        del new_protein
 
 
     def get_coordinates(self, folding, child):
@@ -127,8 +120,6 @@ class DepthFirst():
 
         # while the stack is not empty
         while self.states:
-            if len(self.states) > 20:
-                print(len(self.states))
             # we got a protein out of the states: the parent
             curr_state = self.get_next_state()
             
@@ -137,6 +128,9 @@ class DepthFirst():
                 self.check_solution(curr_state)
             else:
                 self.build_children(curr_state)
+
+            # After use, delete current state
+            del curr_state
         
         # Fill original protein class with a best solution to visualize this data
         final_solution = random.choice(self.best_solutions)
