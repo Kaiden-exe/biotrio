@@ -4,6 +4,9 @@ import random
 import copy
 
 class Random():
+    '''
+    Algorithm that folds the amino acids in the protein at random.
+    '''
     def __init__(self):
         self.solutions = []
         self.protein = None
@@ -11,7 +14,7 @@ class Random():
     
     def fold(self):
         '''
-        Folds a protein randomly. # chooses a random direction for the folding
+        Chooses a random direction for the folding.
         '''
         fold_list = Protein.get_fold_list(self.protein)
         folding = random.choice(fold_list)
@@ -110,7 +113,7 @@ class Random():
         '''
         Returns the coordinates for the next aminoacid according to the folding of the previous amino acid.
         '''
-        # Chooses a random fold over the x-axis (-1, 1) or the y-axis (-2, 2).
+        # Chooses a random fold over the x-axis (-1, 1) or the y-axis (-2, 2)
         folding = self.fold()
 
         # Fail save for greedy algorithm
