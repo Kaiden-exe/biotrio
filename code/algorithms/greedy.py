@@ -22,7 +22,11 @@ class Greedy(Random):
         Returns a specific folding value.
         '''
         folding = self.get_best_fold(self.protein)
-        self.prev_fold = folding
+
+        if folding == None:
+            self.prev_fold = 0
+        else:
+            self.prev_fold = folding
 
         return folding
 
@@ -56,7 +60,10 @@ class Greedy(Random):
             else:
                 pass
         
-        random_best = random.choice(self.best)
+        if self.best:
+            random_best = random.choice(self.best)
+        else:
+            return None
 
         new_fold = self.get_temp_coordinates(random_best[1])
         self.positionX = new_fold[0]
@@ -143,7 +150,11 @@ class Greedy(Random):
         '''
         Fold the protein according to the greedy algorithm x times.
         '''
-        for _ in range(x):
+        for k in range(x):
+            
+            # Keep track of progression while running
+            if k % 1000 == 0:
+                print(f"Total number of iterations done: {k}")
 
             # Finish a protein with greedy folding
             self.positionX = self.positionY = 0
@@ -152,6 +163,8 @@ class Greedy(Random):
             while self.i < len(protein.aminoacids):
                 protein.add_position(protein.aminoacids[self.i], self.positionX, self.positionY)
                 self.i, self.positionX, self.positionY = self.fold_random(protein, self.positionX, self.positionY, self.i)
+                if self.i == 0:
+                    protein.positions.clear()
 
             protein.set_stability()
             self.add_solution(protein)

@@ -33,6 +33,11 @@ class Random():
                 return i, positionX, positionY
             
             new_coordinates = self.get_new_coordinates(positionX, positionY)
+            
+            # Fail save for greedy algorithm
+            if new_coordinates == [None, None, None]:
+                return 0, 0, 0
+            
             positionXb = new_coordinates[0]
             positionYb = new_coordinates[1]
             folding = new_coordinates[2]
@@ -107,6 +112,10 @@ class Random():
         '''
         # Chooses a random fold over the x-axis (-1, 1) or the y-axis (-2, 2).
         folding = self.fold()
+
+        # Fail save for greedy algorithm
+        if folding == None:
+            return [None, None, None]
         
         # Rotate amino acid over the X-axis
         if folding == 1 or folding == -1:

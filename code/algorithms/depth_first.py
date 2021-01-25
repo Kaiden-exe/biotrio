@@ -62,10 +62,13 @@ class DepthFirst():
                 # Add the child to the stack
                 self.states.append(child)
 
+        # TODO ########################
+        # del parent (of new_protein?)
+
 
     def check_solution(self, new_protein):
         '''
-        Checks and accepts better solutions than the current solution.
+        Checks and accepts better solutions than the current solution, or save equally good ones.
         '''
         new_protein.set_stability()
         new_stability = new_protein.score
@@ -73,17 +76,19 @@ class DepthFirst():
         # Add solution to the list
         self.solutions.append([new_protein.score, new_protein.positions])
 
+        # Check if solution is better or equal to previous solutions
         if new_stability == self.best_stability:
-
-            # Save all best solutions, not only the last one found
-            # Make sure to save in dictionary/list, with score + folding
-
             self.best_solutions.append([self.best_stability, new_protein.positions])
+            # TODO ##############################
+            # del new_protein
+
         elif new_stability < self.best_stability:
 
             self.best_stability = new_stability
-            self.best_solutions.clear()
+            # TODO ###############################
+            # del new_protein
 
+            self.best_solutions.clear()
             self.best_solutions.append([new_protein.score, new_protein.positions])
 
 
@@ -137,6 +142,9 @@ class DepthFirst():
                 self.check_solution(new_protein)
             else:
                 self.build_children(new_protein)
+
+            # TODO ##############################
+            # del new_protein
         
         # Fill original protein class with a best solution to visualize this data
         final_solution = random.choice(self.best_solutions)
