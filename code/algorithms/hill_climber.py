@@ -158,3 +158,11 @@ class HillClimber(Random):
         Returns a list of score and a dictionary of the best found folding.
         '''
         return [self.best.score, self.best.positions]
+
+
+class HillClimber_Alt(HillClimber):
+    def hike(self, iterations, mutations):
+        pass
+
+    def mutate(self, protein, mutations):
+        pass
