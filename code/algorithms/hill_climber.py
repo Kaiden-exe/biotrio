@@ -155,8 +155,7 @@ class HillClimber(Random):
         Add a solution to the list of solutions.
         '''
         score = protein.score
-        copy_dict = copy.deepcopy(protein.positions)
-        self.solutions.append([score, copy_dict])
+        self.solutions.append(score)
 
 
     def get_best(self):
@@ -274,8 +273,9 @@ class HillClimber_Pull(HillClimber):
 
     def mutate(self, protein):
 
-        # Pick random acid, but not the last one
-        i_plus = choice([i for i in protein.positions.items() if i[1] != protein.aminoacids[-1]])
+        # Pick random acid, but not the first
+        i_plus = choice([i for i in protein.positions.items() if i[1] != protein.aminoacids[0]])
+        i_plus_cor = i_plus[0]
         i = protein.aminoacids[i_plus[1].index - 1]
         sorted_acids = protein.get_sorted_positions()
         i_cor = sorted_acids[i.index][0]
@@ -287,27 +287,51 @@ class HillClimber_Pull(HillClimber):
         # See if you have free coordinates for i
         if len(free_coordinates) > 0:
             
-            for L in free_coordinates:
-                if i.folding in [-1, 1]:
-                    Cx = L[0] + i_min_fold
-                    Cy = L[1]
-                else:
-                    Cx = L[0]
-                    Cy = L[1] + int(i_min_fold/2)
-                
-                C = (Cx, Cy)
+            # If i is the first amino acid, pull anywhere
+            if i.index == 0:
+                L = choice(free_coordinates)
+                self.change_coordinates(protein, i, L)
+                self.change_folding(protein, i, i_plus_cor)
+            else: 
+                for L in free_coordinates:
+                    C = self.get_C(i_cor, i_plus_cor, L)
 
-                if not C in protein.positions.keys() and C in protein.get_surrounding_coordinates(i_cor[0], i_cor[1]):
+                    if C in protein.positions.keys():
+
+                        if protein.positions[C] == protein.aminoacids[i.index - 1]:
+                            self.change_coordinates(protein, i, L)
+                            self.change_folding(protein, i, i_plus_cor)
+                            self.change_folding(protein, protein.aminoacid[i.index - 1], L)
+                            break
+                    else: 
+                        # TODO: C is free, move i to L and continue moving i - x until the new C is i - x - 1
+                        # Move i to L and i - 1 to C
+                        self.change_coordinates(protein, i, L)
+                        i_min = protein.aminoacids[i.index - 1]
+                        self.change_coordinates(protein, i_min, C)
+
+                        # See if the previous amino acid is in the surrounding coordinates
+                        prev = protein.aminoacids[i_min.index - 1]
+                        next_cor = sorted_acids[i_min.index][0]
+                        surrounding_coordinates = protein.get_surrounding_coordinates(i_min_cor[0], i_min_cor[1])
+                        
+                        # Keep moving amino acids until chain is back together 
+                        while not prev in surrounding_coordinates:
+                            self.change_coordinates(protein, prev, next_cor)
+                            prev = 
+                        
+
+
                     
-                    self.pull(protein, i, L, C)
-                    self.success += 1
-                    break
 
+    def get_C(self, A, B, L):
+        delta_x = L[0] - B[0]
+        delta_y = L[1] - B[1]
 
-    def pull(self, protein, i, L, C):
-        
-        acid = i
-        minus = protein.aminoacids[i.index - 1]
+        Cx = A[0] + delta_x
+        Cy = A[0] + delta_y
 
+        C = (Cx, Cy)
 
+        return C
 
