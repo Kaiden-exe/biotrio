@@ -24,7 +24,7 @@ class DepthFirst():
         return self.states.pop()
 
 
-    def build_children(self, new_protein):
+    def build_children(self, curr_state):
         '''
         Creates all possible child-states and adds them to the list of states.
         '''
@@ -32,8 +32,7 @@ class DepthFirst():
         values = Protein.get_fold_list(self.protein)
 
         # don't let it fold back onto itself
-        parent = new_protein
-        last_folding = parent.aminoacids[parent.depth_index].folding
+        last_folding = curr_state.aminoacids[curr_state.depth_index].folding
 
         if last_folding is not None:
             last_folding = last_folding * -1
@@ -41,18 +40,15 @@ class DepthFirst():
 
         # we give the amino acid the different folding options that it can have
         for value in values:
-            child = copy.deepcopy(parent)
+            child = copy.deepcopy(curr_state)
 
             # assign the value to the amino acid's folding (using the aminoacid defined above)
             child.aminoacids[child.depth_index].folding = value
             
             x, y = self.get_coordinates(value, child)
 
-            # if a child becomes a parent, the possible values of its offspring cannot b
-            # an attribute that keeps track of what the childrens values can or cannot be.
-            # neighbours = child.get_surrounding_coordinates(x, y)
-
             if (x, y) in child.positions.keys():
+                # Delete non-available possibilities
                 del child
             else:
                 # Check if new folding does not intersect with rest of protein
@@ -61,9 +57,6 @@ class DepthFirst():
             
                 # Add the child to the stack
                 self.states.append(child)
-
-        # TODO ########################
-        # del parent (of new_protein?)
 
 
     def check_solution(self, new_protein):
@@ -79,15 +72,10 @@ class DepthFirst():
         # Check if solution is better or equal to previous solutions
         if new_stability == self.best_stability:
             self.best_solutions.append([self.best_stability, new_protein.positions])
-            # TODO ##############################
-            # del new_protein
 
         elif new_stability < self.best_stability:
 
             self.best_stability = new_stability
-            # TODO ###############################
-            # del new_protein
-
             self.best_solutions.clear()
             self.best_solutions.append([new_protein.score, new_protein.positions])
 
@@ -128,25 +116,46 @@ class DepthFirst():
         '''
         Runs the algorithm untill all possible states are visited.
         '''      
-        # Initiate coordinates of the first amino acid 
-        self.protein.add_position(self.protein.aminoacids[0], 0, 0)
-        self.states.append(self.protein)
+        self.initiate()
 
         # while the stack is not empty
         while self.states:
+            if len(self.states) % 10000 == 0:
+                print(f"Total number of states: {len(self.states)}")
             # we got a protein out of the states: the parent
-            new_protein = self.get_next_state()
+            curr_state = self.get_next_state()
             
             # when there are no more foldings to do, remember what the stability score is
-            if new_protein.depth_index+1 == len(self.protein.aminoacids):
-                self.check_solution(new_protein)
+            if curr_state.depth_index + 1 == len(self.protein.aminoacids):
+                self.check_solution(curr_state)
             else:
-                self.build_children(new_protein)
+                self.build_children(curr_state)
 
-            # TODO ##############################
-            # del new_protein
+            # After use, delete current state
+            del curr_state
         
         # Fill original protein class with a best solution to visualize this data
         final_solution = random.choice(self.best_solutions)
         self.protein.positions = final_solution[1]
         self.protein.score = final_solution[0]
+
+
+    def initiate(self):
+        '''
+        Initiates first states in the stack.
+        '''
+        # Initiate coordinates of the first 2 amino acids
+        self.protein.add_position(self.protein.aminoacids[0], 0, 0)
+        self.protein.add_position(self.protein.aminoacids[1], 1, 0)
+        self.protein.depth_index = 2
+
+        # Initiate both 2 options of coordinates for the 3rd amino acid
+        self.protein.add_position(self.protein.aminoacids[2], 2, 0)
+        start_state1 = copy.deepcopy(self.protein)
+        self.protein.remove_last()
+
+        self.protein.add_position(self.protein.aminoacids[2], 1, 1)
+        start_state2 = copy.deepcopy(self.protein)
+        
+        self.states.append(start_state1)
+        self.states.append(start_state2)

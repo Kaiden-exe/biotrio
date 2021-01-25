@@ -135,4 +135,4 @@ class Protein():
 
 
     def __repr__(self):
-        return f"{self.id}: f{self.aminoacids}"
+        return f"{self.id}: {self.aminoacids}: {self.positions}"
