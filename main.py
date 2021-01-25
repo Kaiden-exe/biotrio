@@ -21,11 +21,8 @@ from code.algorithms.hill_climber import HillClimber
 from code.visualisation.output import writecsv
 from visualize import visualize, hist
 from code.algorithms.simulated_annealing import Simulated_Annealing
-<<<<<<< HEAD
 import time
-=======
 from code.algorithms.depth_first import DepthFirst
->>>>>>> d8286c070f50f104b9cc2dd31a35c6ff40b3d08c
 
 if __name__ == "__main__":
     # Order: data/file, protein id
