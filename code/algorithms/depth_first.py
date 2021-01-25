@@ -81,25 +81,25 @@ class DepthFirst():
 
 
     def get_coordinates(self, folding, child):
-            '''
-            Returns the coordinates for the next amino according to the folding of the previous amino.
-            '''
-            coordinates = child.positions.keys()
-            for x, y in coordinates:
-                prev_x = x
-                prev_y = y
+        '''
+        Returns the coordinates for the next amino according to the folding of the previous amino.
+        '''
+        coordinates = child.positions.keys()
+        for x, y in coordinates:
+            prev_x = x
+            prev_y = y
 
-            # Rotate amino acid over the X-axis
-            if folding == 1 or folding == -1:
-                yb = prev_y
-                xb = prev_x + folding
+        # Rotate amino acid over the X-axis
+        if folding == 1 or folding == -1:
+            yb = prev_y
+            xb = prev_x + folding
 
-            # Rotate amino acid over the Y-axis
-            else:
-                xb = prev_x
-                yb = prev_y + int(folding/2)
-            
-            return [xb, yb]
+        # Rotate amino acid over the Y-axis
+        else:
+            xb = prev_x
+            yb = prev_y + int(folding/2)
+        
+        return [xb, yb]
 
 
     def get_best(self):
