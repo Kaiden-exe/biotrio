@@ -1,5 +1,5 @@
 from .random import Random
-from code.classes.protein import Protein
+from code.classes.protein import Protein, Temp_Protein
 from random import choice, getrandbits
 import copy
 
@@ -158,3 +158,46 @@ class HillClimber(Random):
         Returns a list of score and a dictionary of the best found folding.
         '''
         return [self.best.score, self.best.positions]
+
+
+class HillClimber_Alt(HillClimber):
+    def hike(self, iterations, mutations):
+        '''
+        Runs the alternative hill climber. 
+        '''
+        for i in range(iterations):
+            new = copy.deepcopy(self.best)
+
+            self.mutate(new, mutations)
+
+            new.set_stability()
+            self.add_solution(new)
+
+            if new.score < self.best.score:
+                del self.best
+                self.best = new
+            elif new.score == self.best.score:
+                if getrandbits(1):
+                    del self.best
+                    self.best = new
+                else:
+                    del new
+            else:
+                del new 
+
+    def mutate(self, protein, mutations):
+        '''
+        Makes a single mutation of mutations length. 
+        '''
+        
+        # Get aminoacids to rearrange
+        temp_protein = self.get_aminoacids(protein, mutations)
+
+    
+    def get_aminoacids(self, protein, mutations):
+
+        protein_length = len(protein.aminoacids)
+        start_choices = [i for i in range(protein_length - mutations + 1)]
+        start = choice(start_choices)
+        aminoacids = protein.aminoacids[start:start + mutations]
+        temp_protein = Temp_Protein()
