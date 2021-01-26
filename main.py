@@ -9,10 +9,6 @@
 ## Status: Unfinished
 ##################################################
 
-# from code.classes.aminoacid import AminoAcid
-# from code.classes.protein import Protein
-# from code.algorithms import randomchoice
-
 import sys
 from code.classes.protein import Protein
 from code.algorithms.random import Random

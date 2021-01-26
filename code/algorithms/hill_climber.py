@@ -279,13 +279,9 @@ class HillClimber_Cut(HillClimber):
 
 
 class HillClimber_Pull(HillClimber):
-<<<<<<< HEAD
     # TODO - add docstring
 
-    def __init__(protein):
-=======
     def __init__(self, protein):
->>>>>>> 8d6a1e17e772255abae35408e7b6fedbf2b51808
         super().__init__(protein)
         self.success = 0
 

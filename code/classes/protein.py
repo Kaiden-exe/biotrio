@@ -150,7 +150,6 @@ class Protein():
     def __repr__(self):
         return f"{self.id}: f{self.positions}"
 
-<<<<<<< HEAD
 
 class Temp_Protein(Protein):
     # TODO - add docstring
@@ -163,7 +162,7 @@ class Temp_Protein(Protein):
         # key = (x, y), value = AminoAcid()
         self.positions = {}
         self.depth_index = 0
-=======
+        
 # class Temp_Protein(Protein):
 #     def __init__(self, aminoacids):
 #         self.id = protein_id
@@ -172,4 +171,3 @@ class Temp_Protein(Protein):
 #         # key = (x, y), value = AminoAcid()
 #         self.positions = {}
 #         self.depth_index = 0
->>>>>>> 8d6a1e17e772255abae35408e7b6fedbf2b51808
