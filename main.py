@@ -17,7 +17,7 @@ import sys
 from code.classes.protein import Protein
 from code.algorithms.random import Random
 from code.algorithms.greedy import Greedy
-from code.algorithms.hill_climber import HillClimber
+from code.algorithms.hill_climber import HillClimber, HillClimber_Pull
 from code.visualisation.output import writecsv
 from code.visualisation.visualize import visualize, hist
 from code.algorithms.simulated_annealing import Simulated_Annealing
@@ -33,19 +33,20 @@ if __name__ == "__main__":
     protein = Protein(source, protein_id)
 
     while True:
-        algor = input("Which algorithm do you want to run?\n r = random\n g = greedy\n h = hill climber\n s = simulated annealing\n d = depth first\n")
-        if algor in ['r', 'g', 'h', 's', 'd']:
+        algor = input("Which algorithm do you want to run?\n r = random\n g = greedy\n h = hill climber\n p = hill climber (pull version)\n s = simulated annealing\n d = depth first\n")
+        if algor in ['r', 'g', 'h', 'p', 's', 'd']:
             break
         else:
             print("Please select a valid algorithm.")
     
-    while True:
-        runs = input("How often do you want to run this algorithm?\n")
-        try:
-            runs = int(runs)
-            break
-        except ValueError:
-            print("Please give a positive integer.")
+    if algor != 'd':
+        while True:
+            runs = input("How often do you want to run this algorithm?\n")
+            try:
+                runs = int(runs)
+                break
+            except ValueError:
+                print("Please give a positive integer.")
     
     if algor == 'r':
         art = Random()
@@ -79,6 +80,12 @@ if __name__ == "__main__":
         art.hike(runs, mutations)
         print("Algoritm took %s seconds to run (without visualisation)" % (time.time() - start_time))
         best = art.get_best()
+    elif algor == 'p':        
+        art = HillClimber_Pull(protein)
+        start_time = time.time()
+        art.hike(runs)
+        print("Algoritm took %s seconds to run (without visualisation)" % (time.time() - start_time))
+        best = art.get_best()
     elif algor == 's':
         while True:
             temp = input("What initial temperature do you want?\n")
@@ -104,6 +111,6 @@ if __name__ == "__main__":
         
     hist(art)
     writecsv(protein, best)
-    visualize(best)
+    visualize(best, algor)
 
     print("Program completed!")
