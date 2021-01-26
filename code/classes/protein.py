@@ -3,10 +3,16 @@ import csv
 from operator import itemgetter
 
 class Protein():
+    # TODO - complete the docstring
+    '''
+    Class that...
+    '''
     def __init__(self, source, protein_id):
         self.id = protein_id
         self.aminoacids = self.load_proteins(source, protein_id)
         self.score = 0
+
+        # TODO - take the comment below out?
         # key = (x, y), value = AminoAcid()
         self.positions = {}
         self.depth_index = 0
@@ -32,6 +38,8 @@ class Protein():
         Converts the string of aminoacids into a list of chars,
         then returns a list of aminoacids accordingly.
         '''
+
+        # TODO - delete comment below?
         # protein = lijst van chars H/P/C
         protein = []
         protein[:0] = aminos
@@ -41,12 +49,13 @@ class Protein():
             amino = AminoAcid(acid_id, index)
             acidlist.append(amino)
             index += 1
+
         return acidlist
 
 
     def add_position(self, acid, x, y):
         '''
-        Add the coordinates of a specific aminoacid to positions dictionary.
+        Add the coordinates of a specific amino acid to positions dictionary.
         '''
         self.positions[(x, y)] = acid
 
@@ -55,6 +64,8 @@ class Protein():
         '''
         Analyses folded protein for H/H or H/C bonds and returns stability.
         '''
+        # TODO - add comments
+
         coordinates = self.positions.keys()
         stability = 0
         for x, y in coordinates:
@@ -82,18 +93,19 @@ class Protein():
         # stability /= 2
         self.score = stability
 
+
     def remove_last(self):
         '''
-        Removes the acid with the highest index number from positions
-        and adds the folding of the second to last acid to a list of forbidden folds.
-        Returns the coordinates of the second to last aminoacid.
+        Removes the amino acid with the highest index number from positions
+        and adds the folding of the second to last amino acid to a list of forbidden folds.
+        Returns the coordinates of the second to last amino acid.
         '''
         # Create a list, sorted by index and take the highest
         lst = self.positions.items()
         sorted_by_index = sorted(lst, key=lambda x: x[1].index)
         last = sorted_by_index.pop()
 
-        # Delete last added acid from positions
+        # Delete last added amino acid from positions
         position = last[0]
         acid = last[1]
         acid.forbidden_folds.clear()
@@ -120,7 +132,7 @@ class Protein():
 
     def clear_protein(self):
         '''
-        Sets score to zero and clears the positions dictionary
+        Sets score to zero and clears the positions dictionary.
         '''
         self.score = 0
         self.positions.clear()
@@ -128,7 +140,7 @@ class Protein():
 
     def get_sorted_positions(self):
         '''
-        Returns a list of positions, sorted by index of the aminoacids
+        Returns a list of positions, sorted by index of the amino acids.
         '''
         lst = self.positions.items()
         sorted_by_index = sorted(lst, key=lambda x: x[1].index)
@@ -138,7 +150,11 @@ class Protein():
     def __repr__(self):
         return f"{self.id}: f{self.positions}"
 
+
 class Temp_Protein(Protein):
+    # TODO - add docstring
+    '''
+    '''
     def __init__(self, aminoacids):
         self.id = protein_id
         self.aminoacids = aminoacids

@@ -82,7 +82,7 @@ class Greedy(Random):
         positionXb = temp_fold[0]
         positionYb = temp_fold[1]
 
-        # Assume position if X and Y coordinates are not already occupied by a previous acid
+        # Assume position if X and Y coordinates are not already occupied by a previous amino acid
         if not (positionXb, positionYb) in protein.positions.keys():
             return True
         else:
@@ -107,6 +107,7 @@ class Greedy(Random):
 
     
     def add_best(self, protein, temp_fold):
+        # TODO - docstring looks incomplete
         '''
         Adds stability folding for next aminoacid to temporary list self.best, if best
         '''
@@ -123,7 +124,7 @@ class Greedy(Random):
 
         del temp_protein
 
-        # Check if this folding gains a higher stability than previous tries.
+        # Check if this folding gains a higher stability than previous tries
         if self.best:
             if temp_score < self.best[0][0]:
                 self.best.clear()
@@ -150,7 +151,8 @@ class Greedy(Random):
             # Finish a protein with greedy folding
             self.positionX = self.positionY = 0
             self.i = 0
-    
+
+            # TODO - write a comment for this
             while self.i < len(protein.aminoacids):
                 protein.add_position(protein.aminoacids[self.i], self.positionX, self.positionY)
                 self.i, self.positionX, self.positionY = self.fold_random(protein, self.positionX, self.positionY, self.i)

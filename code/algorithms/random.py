@@ -37,6 +37,7 @@ class Random():
             
             new_coordinates = self.get_new_coordinates(positionX, positionY)
             
+            # TODO - maybe explain in more detail what the comment below means
             # Fail save for greedy algorithm
             if new_coordinates == [None, None, None]:
                 return 0, 0, 0
@@ -45,7 +46,7 @@ class Random():
             positionYb = new_coordinates[1]
             folding = new_coordinates[2]
             
-            # Assume position if X and Y coordinates are not already occupied by a previous acid
+            # Assume position if X and Y coordinates are not already occupied by a previous amino acid
             if not (positionXb, positionYb) in protein.positions.keys() and not folding in acid.forbidden_folds:
                 positionX = positionXb
                 positionY = positionYb
@@ -57,6 +58,7 @@ class Random():
                 if not folding in loop:
                     loop.append(folding)
 
+            # TODO - add a comment here
             if len(loop) == len(Protein.get_fold_list(self.protein)):
                 i -= 1
                 new_coordinates = protein.remove_last()
@@ -74,6 +76,7 @@ class Random():
 
         for _ in range(x):
 
+            # TODO - reword comment below: 'finish a protein'
             # Finish a protein with random folding 
             positionX = positionY = 0
             i = 0
@@ -85,7 +88,6 @@ class Random():
             protein.set_stability()
             self.add_solution(protein)
 
-        
     
     def add_solution(self, protein):
         '''
@@ -111,11 +113,12 @@ class Random():
 
     def get_new_coordinates(self, x, y):
         '''
-        Returns the coordinates for the next aminoacid according to the folding of the previous amino acid.
+        Returns the coordinates for the next amino acid according to the folding of the previous amino acid.
         '''
         # Chooses a random fold over the x-axis (-1, 1) or the y-axis (-2, 2)
         folding = self.fold()
 
+        # TODO - explain comment below
         # Fail save for greedy algorithm
         if folding == None:
             return [None, None, None]

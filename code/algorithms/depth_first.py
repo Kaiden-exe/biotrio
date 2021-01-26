@@ -1,5 +1,4 @@
 import copy
-# from .random import Random
 from code.classes.protein import Protein
 from code.classes.aminoacid import AminoAcid
 from code.algorithms.random import Random
