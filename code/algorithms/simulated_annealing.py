@@ -1,4 +1,4 @@
-from .hill_climber import HillClimber
+from .hill_climber import HillClimber, HillClimber_Pull
 import random
 import math
 import copy
@@ -7,40 +7,12 @@ class Simulated_Annealing(HillClimber):
     # TODO - add docstring
     '''
     '''
-    def __init__(self, protein, initial_temp):
-        super().__init__(protein)
+    def __init__(self, protein, initial_temp, runs):
         self.initial_temp = initial_temp
-        self.alpha = None
+        self.alpha = initial_temp / runs
         self.current_temp = initial_temp
+        super().__init__(protein, runs)
 
-
-    def hike(self, iterations, mutations):
-        '''
-        Runs the simulated annealing algorithm.
-        '''
-        self.alpha = self.initial_temp / iterations
-
-        for i in range(iterations):
-            new = copy.deepcopy(self.best)
-
-            for j in range(mutations):
-                self.mutate(new)
-
-            new.set_stability()
-            self.add_solution(new)
-
-            if new.score < self.best.score:
-                del self.best
-                self.best = new
-            else:
-                if self.accept(new):
-                    del self.best
-                    self.best = new
-                else:
-                    del new
-            
-            self.update_temp()
-    
 
     def accept(self, new):
         # TODO - add docstring
@@ -58,3 +30,15 @@ class Simulated_Annealing(HillClimber):
         '''
         '''
         self.current_temp -= self.alpha
+
+    
+    def add_solution(self, protein):
+        '''
+        Add a solution to the list of solutions.
+        '''
+        score = protein.score
+        self.solutions.append(score)
+        self.update_temp()
+
+class Simulated_Annealing_Pull(Simulated_Annealing, HillClimber_Pull):
+    pass

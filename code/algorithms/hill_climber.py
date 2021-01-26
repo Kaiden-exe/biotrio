@@ -1,15 +1,15 @@
 from .random import Random
 from code.classes.protein import Protein, Temp_Protein
 from random import choice, getrandbits, randint
-from .depth_first import DepthFirst
 import copy
 
 class HillClimber(Random):
     # TODO
     # add docstring
-    def __init__(self, protein):
+    def __init__(self, protein, runs):
         super().__init__()
         self.best = self.get_start(protein)
+        self.iterations = runs
 
 
     def get_start(self, protein):
@@ -20,13 +20,13 @@ class HillClimber(Random):
         return protein
     
 
-    def hike(self, iterations, mutations):
+    def hike(self, mutations):
         '''
         Runs the hill climber algorithm.
         '''
         # TODO
         # maybe add a few comments
-        for i in range(iterations):
+        for i in range(self.iterations):
             new = copy.deepcopy(self.best)
 
             for j in range(mutations):
@@ -38,14 +38,18 @@ class HillClimber(Random):
             if new.score < self.best.score:
                 del self.best
                 self.best = new
-            elif new.score == self.best.score:
-                if getrandbits(1):
-                    del self.best
-                    self.best = new
-                else:
-                    del new
+            elif self.accept(new):
+                del self.best
+                self.best = new
             else:
                 del new 
+
+    
+    def accept(self, new):
+        print("wrong accept")
+        if new.score == self.best.score and getrandbits(1):
+            return True
+        return False
     
 
     def mutate(self, protein):
@@ -173,123 +177,20 @@ class HillClimber(Random):
         return [self.best.score, self.best.positions]
 
 
-class HillClimber_Cut(HillClimber):
-    # TODO 
-    # add a docstring
-
-    def hike(self, iterations):
-        '''
-        Runs the alternative hill climber. 
-        '''
-        for i in range(iterations):
-            new = copy.deepcopy(self.best)
-
-            self.mutate(new)
-
-            new.set_stability()
-            self.add_solution(new)
-
-            if new.score < self.best.score:
-                del self.best
-                self.best = new
-            elif new.score == self.best.score:
-                if getrandbits(1):
-                    del self.best
-                    self.best = new
-                else:
-                    del new
-            else:
-                del new 
-
-    def mutate(self, protein):
-        '''
-        Makes a single mutation of mutations length. 
-        '''
-
-        # TODO - below comment is een beetje vaag.
-        # Get amino acids to rearrange
-        while True:
-            temp_protein = self.get_aminoacids(protein)
-            end_cor = self.get_end_coordinates(protein, temp_protein)
-            depth_first = DepthFirst_Climber(temp_protein)
-            depth_first.run()
-            new_foldings = self.pick_solution(depth_first, end_cor)
-
-            if len(new_foldings) > 0:
-                break
-            else:
-                # TODO: Delete everything, before doing it all again
-                # TODO: save the failed length etc.
-                pass
-            
-    
-    def get_aminoacids(self, protein):
-
-        # TODO - reword the docstring.
-        '''
-        Returns a sub-string of amino acids from the protein a temporary protein.
-        '''
-        # Get a random chain length 
-        protein_length = len(protein.aminoacids)
-        min_length = 3
-        max_length = int(protein_length / 4)
-        if max_length < min_length:
-            max_length = min_length
-        chain_length = randin(min_length, max_length)
-
-        last_option = protein_length - chain_length
-        start = randint(0, last_option)
-        aminoacids = protein.aminoacids[start:start + chain_length]
-        
-        return Temp_Protein(aminoacids)
-        
-
-    def get_end_coordinates(self, protein, temp_protein):
-        '''
-        Calculates and returns the coordinates the last amino acid needs when the start is at (0,0).
-        '''
-        sorted_acids = protein.get_sorted_positions()
-        start_index = temp_protein.aminoacids[0].index
-        end_index = temp_protein.aminoacids[-1].index
-        start_cor = sorted_acids[start_index][0]
-        end_cor = sorted_acids[end_index][0]
-
-        delta_x = end_cor[0] - start_cor[0]
-        delta_y = end_cor[1] - start_cor[1]
-
-        return (delta_x, delta_y)
-
-
-    def pick_solution(self, depth_first, end_cor):
-        '''
-        Checks all solutions for a valid folding.
-        '''
-        solutions = depth_first.solutions
-        solutions.sort(key=lambda x:x[0], reverse=True)
-
-        for solution in solutions:
-            positions = solution[1].items()
-            positions.sort(key=lambda x:x[1].index)
-            
-            if positions[-1][0] == end_cor:
-                # TODO: check if acids are directly edited. If yes, you only have to change the coordinates
-                return solutions[1].values()
-        
-        return []
-
-
 class HillClimber_Pull(HillClimber):
     # TODO - add docstring
 
-    def __init__(self, protein):
-        super().__init__(protein)
+    def __init__(self, protein, runs):
+        super().__init__(protein, runs)
         self.success = 0
 
-    def hike(self, iterations):
+
+    def hike(self):
         '''
         Runs the hill climber algorithm.
         '''
-        for i in range(iterations):
+
+        for i in range(self.iterations):
             new = copy.deepcopy(self.best)
             success = self.mutate(new)
 
@@ -301,16 +202,13 @@ class HillClimber_Pull(HillClimber):
                 if new.score < self.best.score:
                     del self.best
                     self.best = new
-                elif new.score == self.best.score:
-                    if getrandbits(1):
-                        del self.best
-                        self.best = new
-                    else:
-                        del new
+                elif self.accept(new):
+                    del self.best
+                    self.best = new
                 else:
                     del new 
 
-        print(f"{self.success} out of {iterations} mutations were successful")
+        print(f"{self.success} out of {self.iterations} mutations were successful")
 
 
     def mutate(self, protein):
@@ -327,7 +225,7 @@ class HillClimber_Pull(HillClimber):
         surrounding_coordinates = protein.get_surrounding_coordinates(i_plus[0][0], i_plus[0][1])
         free_coordinates = self.get_free_coordinates(protein, surrounding_coordinates)
 
-        if free_coordinates == 0:
+        if len(free_coordinates) == 0:
             return False
 
         # If i is the first amino acid, pull anywhere

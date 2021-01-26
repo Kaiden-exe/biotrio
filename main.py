@@ -16,7 +16,7 @@ from code.algorithms.greedy import Greedy, GreedyLookahead
 from code.algorithms.hill_climber import HillClimber, HillClimber_Pull
 from code.visualisation.output import writecsv
 from code.visualisation.visualize import visualize, hist
-from code.algorithms.simulated_annealing import Simulated_Annealing
+from code.algorithms.simulated_annealing import Simulated_Annealing, Simulated_Annealing_Pull
 from code.algorithms.depth_first import DepthFirst
 import time
 
@@ -29,8 +29,8 @@ if __name__ == "__main__":
     protein = Protein(source, protein_id)
 
     while True:
-        algor = input("Which algorithm do you want to run?\n r = random\n g = greedy\n l = greedy lookahead\n h = hill climber\n p = hill climber (pull version)\n s = simulated annealing\n d = depth first\n")
-        if algor in ['r', 'g', 'l', 'h', 'p', 's', 'd']:
+        algor = input("Which algorithm do you want to run?\nr = random\ng = greedy\nl = greedy lookahead\nh = hill climber\np = hill climber (pull version)\ns = simulated annealing\nsp = simulated annealing (using pull hill climber)\nd = depth first\n")
+        if algor in ['r', 'g', 'l', 'h', 'p', 's', 'sp', 'd']:
             break
         else:
             print("Please select a valid algorithm.")
@@ -93,20 +93,19 @@ if __name__ == "__main__":
             except ValueError:
                 print("Please give a positive integer.")
 
-        art = HillClimber(protein)
+        art = HillClimber(protein, runs)
         start_time = time.time()
-        art.hike(runs, mutations)
+        art.hike(mutations)
         print("Algoritm took %s seconds to run (without visualisation)" % (time.time() - start_time))
         best = art.get_best()
 
     elif algor == 'p':        
-        art = HillClimber_Pull(protein)
+        art = HillClimber_Pull(protein, runs)
         start_time = time.time()
-        art.hike(runs)
+        art.hike()
         print("Algoritm took %s seconds to run (without visualisation)" % (time.time() - start_time))
         best = art.get_best()
-
-    elif algor == 's':
+    elif algor == 's' or algor == 'sp':
         while True:
             temp = input("What initial temperature do you want?\n")
             try:
@@ -114,18 +113,24 @@ if __name__ == "__main__":
                 break
             except ValueError:
                 print("Please give a positive integer.")
+    
+        if algor == 's':
 
-        while True:
-            mutations = input("How many mutations do you want to make per run?\n")
-            try:
-                mutations = int(mutations)
-                break
-            except ValueError:
-                print("Please give a positive integer.")
+            while True:
+                mutations = input("How many mutations do you want to make per run?\n")
+                try:
+                    mutations = int(mutations)
+                    break
+                except ValueError:
+                    print("Please give a positive integer.")
 
-        art = Simulated_Annealing(protein, temp)
-        start_time = time.time()
-        art.hike(runs, mutations)
+            art = Simulated_Annealing(protein, temp, runs)
+            start_time = time.time()
+            art.hike(mutations)
+        else: 
+            art = Simulated_Annealing_Pull(protein, temp, runs)
+            start_time = time.time()
+            art.hike()
         print("Algoritm took %s seconds to run (without visualisation)" % (time.time() - start_time))
         best = art.get_best()
     
