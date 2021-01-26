@@ -55,20 +55,14 @@ def visualize(lst):
 
 
 def hist(algorithm, algor):
-<<<<<<< HEAD
     '''
     Plot solutions of the used algorithm in a histogram.
     '''
-=======
-    # TODO - add docstring
-    
->>>>>>> 8191c136d4bd5b18bf012d409bbff5ed3b611d1e
     plt.figure()
     data = []
 
     for i in algorithm.solutions:
         data.append(i)
-
 
     plt.hist(data)
 
