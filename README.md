@@ -51,13 +51,25 @@ Then the program will ask how often you want to run the algorithm:
 
 > How often do you want to run this algorithm?
 
-For this example we choose 1,000 iterations:
+For this example we choose 10,000 iterations:
 
-> 1000
+> 10000
 
 When the program is finished running it will display the following:
 
-> ...
+> Algoritm took 0.7245039939880371 seconds to run (without visualisation)
+
+> What title should I give the hist plot?
+
+You then give the histogram plot a name
+
+> What title should I give the grid plot?
+
+Give the grid plot a name
+
+And finally:
+
+> Program completed!
 
 ## Repository Structure
 
