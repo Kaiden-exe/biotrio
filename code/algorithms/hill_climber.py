@@ -316,9 +316,9 @@ class HillClimber_Pull(HillClimber):
                         surrounding_coordinates = protein.get_surrounding_coordinates(i_min_cor[0], i_min_cor[1])
                         
                         # Keep moving amino acids until chain is back together 
-                        while not prev in surrounding_coordinates:
-                            self.change_coordinates(protein, prev, next_cor)
-                            prev = 
+                        # while not prev in surrounding_coordinates:
+                        #     self.change_coordinates(protein, prev, next_cor)
+                        #     prev = 
                         
 
 

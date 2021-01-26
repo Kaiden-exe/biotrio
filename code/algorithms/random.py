@@ -9,6 +9,7 @@ class Random():
     '''
     def __init__(self):
         self.solutions = []
+        self.best = [0, {}]
         self.protein = None
 
     
@@ -89,11 +90,17 @@ class Random():
     
     def add_solution(self, protein):
         '''
-        Add a solution to the list of solutions.
+        Add a solution to the list of solutions, and checks if it is best solution found yet.
         '''
         score = protein.score
-        copy_dict = copy.deepcopy(protein.positions)
-        self.solutions.append([score, copy_dict])
+
+        # Add to best if score is better than current best found
+        if score < self.best[0]:
+            self.best.clear()
+            copy_dict = copy.deepcopy(protein.positions)
+            self.best.append([score, copy_dict])
+        
+        self.solutions.append([score])
         protein.clear_protein()
 
 
@@ -101,12 +108,7 @@ class Random():
         '''
         Returns the best solution from all generated solutions.
         '''
-        best = [1]
-        for lst in self.solutions:
-            if lst[0] < best[0]:
-                best = lst
-
-        return best
+        return self.best
 
 
     def get_new_coordinates(self, x, y):

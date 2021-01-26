@@ -87,25 +87,25 @@ class DepthFirst():
 
 
     def get_coordinates(self, folding, child):
-        '''
-        Returns the coordinates for the next amino according to the folding of the previous amino.
-        '''
-        coordinates = child.positions.keys()
-        for x, y in coordinates:
-            prev_x = x
-            prev_y = y
+            '''
+            Returns the coordinates for the next amino according to the folding of the previous amino.
+            '''
+            coordinates = child.positions.keys()
+            for x, y in coordinates:
+                prev_x = x
+                prev_y = y
 
-        # Rotate amino acid over the X-axis
-        if folding == 1 or folding == -1:
-            yb = prev_y
-            xb = prev_x + folding
+            # Rotate amino acid over the X-axis
+            if folding == 1 or folding == -1:
+                yb = prev_y
+                xb = prev_x + folding
 
-        # Rotate amino acid over the Y-axis
-        else:
-            xb = prev_x
-            yb = prev_y + int(folding/2)
-        
-        return [xb, yb]
+            # Rotate amino acid over the Y-axis
+            else:
+                xb = prev_x
+                yb = prev_y + int(folding/2)
+            
+            return [xb, yb]
 
 
     def get_best(self):
@@ -126,8 +126,6 @@ class DepthFirst():
 
         # while the stack is not empty
         while self.states:
-            if len(self.states) > 20:
-                print(len(self.states))
             # we get a protein out of the states: the parent
             curr_state = self.get_next_state()
             
@@ -162,10 +160,3 @@ class DepthFirst():
         
         self.states.append(start_state1)
         self.states.append(start_state2)
-
-
-        # def memory_usage_psutil():
-        # # return the memory usage in percentage like top
-        # process = psutil.Process(os.getpid())
-        # mem = process.memory_percent()
-        # return mem

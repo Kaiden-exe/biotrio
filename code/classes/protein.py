@@ -138,11 +138,11 @@ class Protein():
     def __repr__(self):
         return f"{self.id}: f{self.positions}"
 
-class Temp_Protein(Protein):
-    def __init__(self, aminoacids):
-        self.id = protein_id
-        self.aminoacids = aminoacids
-        self.score = 0
-        # key = (x, y), value = AminoAcid()
-        self.positions = {}
-        self.depth_index = 0
+# class Temp_Protein(Protein):
+#     def __init__(self, aminoacids):
+#         self.id = protein_id
+#         self.aminoacids = aminoacids
+#         self.score = 0
+#         # key = (x, y), value = AminoAcid()
+#         self.positions = {}
+#         self.depth_index = 0

@@ -52,18 +52,21 @@ def visualize(lst):
     plt.savefig("grid.png", format="png")
 
 
-def hist(algorithm):
+def hist(algorithm, algor):
     plt.figure()
-    data = []
-    
-    for i in algorithm.solutions:
-        data.append(i)
+    data = algorithm.solutions
 
     plt.hist(data)
 
     # Set both the X- and Y-axis to integer values and label those
     ax = plt.gca()
-    plt.ylabel('Amount of solutions')
+
+    # Set correct y-axis label for different algorithms
+    if algor == 'd':
+        plt.ylabel('Amount of solutions')
+    else:
+        plt.ylabel('Amount of iterations')
+
     ax.yaxis.set_major_locator(MaxNLocator(integer=True))
     plt.xlabel('Stability score')
     ax.xaxis.set_major_locator(MaxNLocator(integer=True))
