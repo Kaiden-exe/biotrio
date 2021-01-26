@@ -1,7 +1,7 @@
 from .random import Random
 from code.classes.protein import Protein, Temp_Protein
 from random import choice, getrandbits, randint
-from depth_first import DepthFirst
+from .depth_first import DepthFirst
 import copy
 
 class HillClimber(Random):
@@ -267,7 +267,7 @@ class HillClimber_Cut(HillClimber):
 
 
 class HillClimber_Pull(HillClimber):
-    def __init__(protein):
+    def __init__(self, protein):
         super().__init__(protein)
         self.success = 0
 
@@ -337,7 +337,7 @@ class HillClimber_Pull(HillClimber):
                 self.change_folding(protein, i, i_plus_cor)
                 i_min = protein.aminoacids[i.index - 1]
                 self.change_coordinates(protein, i_min, C)
-                self.change_folding(protein, i_min, i_cor)
+                self.change_folding(protein, i_min, L)
 
                 # See if the previous amino acid is in the surrounding coordinates
                 prev = protein.aminoacids[i_min.index - 1]
@@ -346,8 +346,8 @@ class HillClimber_Pull(HillClimber):
                 # If i - 2 not next to C, keep pulling until the chain is back together
                 if not prev in surrounding_coordinates:
                     self.pull(protein, i, prev, surrounding_coordinates, sorted_acids)
-     
-                        
+
+
     def pull(self, protein, i, prev, surrounding_coordinates, original_positions):
         
         backwards_index = i.index
