@@ -36,12 +36,12 @@ To run the program with an example, call this in your terminal:
 Next the program will ask you which algorithm you would like to run:
 
 > Which algorithm do you want to run?
- r = random
- g = greedy
- h = hill climber
- p = hill climber (pull version)
- s = simulated annealing
- d = depth first
+> r = random
+> g = greedy
+> h = hill climber
+> p = hill climber (pull version)
+> s = simulated annealing
+> d = depth first
 
 Choose an algorithm, for example random:
 
