@@ -127,6 +127,7 @@ class Protein():
 
 
     def get_surrounding_coordinates(self, x, y):
+        # TODO: Change so you can just insert a tuple 
         return [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)]
 
 
