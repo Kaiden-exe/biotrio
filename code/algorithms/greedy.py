@@ -14,8 +14,6 @@ class Greedy(Random):
         self.protein = protein
         # List of all [Score, Folding] combinations per fold
         self.best_fold = []
-        # List that keeps track of foldings per amino acid
-        self.prev_fold = 0
         self.positionX = 0
         self.positionY = 0
         self.i = 0
@@ -26,12 +24,6 @@ class Greedy(Random):
         Returns a specific folding value.
         '''
         folding = self.get_best_fold(self.protein)
-
-        # Update previous folding, 0 if the iteration is reset
-        if folding == None:
-            self.prev_fold = 0
-        else:
-            self.prev_fold = folding
 
         return folding
 
@@ -45,8 +37,9 @@ class Greedy(Random):
         # Acquire list of all foldings to try
         fold_list = Protein.get_fold_list(protein)
 
-        if not self.prev_fold == 0:
-            fold_list.remove(-self.prev_fold)
+        if self.i > 0:
+            prev_fold = protein.aminoacids[self.i-1].folding
+            fold_list.remove(prev_fold * -1)
 
         # Remove folds from list if in forbidden lists
         acid = protein.aminoacids[self.i]
@@ -147,7 +140,7 @@ class Greedy(Random):
         for k in range(runs):
             
             # Keep track of progression while running
-            if k % 1000 == 0:
+            if k % 10 == 0:
                 print(f"Total number of iterations done: {k}")
 
             # Finish a protein with greedy folding

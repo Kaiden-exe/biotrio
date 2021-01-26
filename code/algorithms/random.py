@@ -112,6 +112,12 @@ class Random():
             del copy_dict
 
         self.solutions.append(score)
+
+        # if score in self.solutions.keys():
+        #     self.solutions[score] += 1
+        # else:
+        #     self.solutions[score] = 1
+
         protein.clear_protein()
 
 
