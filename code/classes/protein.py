@@ -145,9 +145,13 @@ class Protein():
 
     def clear_protein(self):
         '''
-        Sets score to zero and clears the positions dictionary.
+        Sets score to zero, clears the positions dictionary and the forbidden folds list of every amino acid.
         '''
         self.score = 0
+        
+        for amino in self.aminoacids:
+            amino.forbidden_folds.clear()
+        
         self.positions.clear()
 
 

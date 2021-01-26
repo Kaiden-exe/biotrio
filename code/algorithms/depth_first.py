@@ -107,7 +107,7 @@ class DepthFirst():
             return [xb, yb]
 
 
-    def get_best(self):
+    def get_best_solution(self):
         '''
         Returns a random best solution from all generated best solutions.
         '''
@@ -117,7 +117,7 @@ class DepthFirst():
         return best
             
 
-    def run(self):
+    def run_depthfirst(self):
         '''
         Runs the algorithm untill all possible states are visited.
         '''
@@ -128,6 +128,8 @@ class DepthFirst():
             # we get a protein out of the states: the parent
             curr_state = self.get_next_state()
             
+            print(f"depth index: {curr_state.depth_index}")
+            print(f"length: {len(self.protein.aminoacids)}")
             # when there are no more foldings to do, remember what the stability score is
             if curr_state.depth_index + 1 == len(self.protein.aminoacids):
                 self.check_solution(curr_state)

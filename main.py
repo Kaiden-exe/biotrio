@@ -12,7 +12,7 @@
 import sys
 from code.classes.protein import Protein
 from code.algorithms.random import Random
-from code.algorithms.greedy import Greedy
+from code.algorithms.greedy import Greedy, GreedyLookahead
 from code.algorithms.hill_climber import HillClimber, HillClimber_Pull
 from code.visualisation.output import writecsv
 from code.visualisation.visualize import visualize, hist
@@ -29,8 +29,8 @@ if __name__ == "__main__":
     protein = Protein(source, protein_id)
 
     while True:
-        algor = input("Which algorithm do you want to run?\n r = random\n g = greedy\n h = hill climber\n p = hill climber (pull version)\n s = simulated annealing\n d = depth first\n")
-        if algor in ['r', 'g', 'h', 'p', 's', 'd']:
+        algor = input("Which algorithm do you want to run?\n r = random\n g = greedy\n l = greedy lookahead\n h = hill climber\n p = hill climber (pull version)\n s = simulated annealing\n d = depth first\n")
+        if algor in ['r', 'g', 'l', 'h', 'p', 's', 'd']:
             break
         else:
             print("Please select a valid algorithm.")
@@ -50,18 +50,40 @@ if __name__ == "__main__":
         art.run_random(protein, runs)
         print("Algoritm took %s seconds to run (without visualisation)" % (time.time() - start_time))
         best = art.get_best()
+
     elif algor == 'g':
         art = Greedy(protein)
         start_time = time.time()
         art.run_greedy(protein, runs)
         print("Algoritm took %s seconds to run (without visualisation)" % (time.time() - start_time))
         best = art.get_best()
+
+    elif algor == 'l':
+        while True:
+            lookahead = input("How many amino acids do you want to look ahead per placement?\n")
+            try:
+                lookahead = int(lookahead)
+            except ValueError:
+                print("Please give a positive integer.")
+            else:
+                if 1 <= lookahead <= 7:
+                    break
+                else:
+                    print("Please give an integer in range of 1 - 7.")
+
+        art = GreedyLookahead(protein, lookahead)
+        start_time = time.time()
+        art.run_greedy(protein, runs)
+        print("Algoritm took %s seconds to run (without visualisation)" % (time.time() - start_time))
+        best = art.get_best()
+
     elif algor == 'd':
         art = DepthFirst(protein)
         start_time = time.time()
-        art.run()
+        art.run_depthfirst()
         print("Algoritm took %s seconds to run (without visualisation)" % (time.time() - start_time))
-        best = art.get_best()
+        best = art.get_best_solution()
+
     elif algor == 'h':        
         while True:
             mutations = input("How many mutations do you want to make per run?\n")
@@ -76,12 +98,14 @@ if __name__ == "__main__":
         art.hike(runs, mutations)
         print("Algoritm took %s seconds to run (without visualisation)" % (time.time() - start_time))
         best = art.get_best()
+
     elif algor == 'p':        
         art = HillClimber_Pull(protein)
         start_time = time.time()
         art.hike(runs)
         print("Algoritm took %s seconds to run (without visualisation)" % (time.time() - start_time))
         best = art.get_best()
+
     elif algor == 's':
         while True:
             temp = input("What initial temperature do you want?\n")
@@ -104,7 +128,7 @@ if __name__ == "__main__":
         art.hike(runs, mutations)
         print("Algoritm took %s seconds to run (without visualisation)" % (time.time() - start_time))
         best = art.get_best()
-        
+    
     hist(art, algor)
     writecsv(protein, best)
     visualize(best)

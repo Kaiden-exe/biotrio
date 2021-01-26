@@ -1,4 +1,5 @@
 from .random import Random
+from .depth_first import DepthFirst
 from code.classes.protein import Protein
 from code.classes.aminoacid import AminoAcid
 import random
@@ -11,8 +12,8 @@ class Greedy(Random):
     def __init__(self, protein):
         super().__init__()
         self.protein = protein
-        # List of all [Score, Folding] combinations
-        self.best = []
+        # List of all [Score, Folding] combinations per fold
+        self.best_fold = []
         # List that keeps track of foldings per amino acid
         self.prev_fold = 0
         self.positionX = 0
@@ -26,6 +27,7 @@ class Greedy(Random):
         '''
         folding = self.get_best_fold(self.protein)
 
+        # Update previous folding, 0 if the iteration is reset
         if folding == None:
             self.prev_fold = 0
         else:
@@ -38,7 +40,7 @@ class Greedy(Random):
         '''
         Find the best folding for the next amino acid.
         '''
-        self.best = []
+        self.best_fold = []
 
         # Acquire list of all foldings to try
         fold_list = Protein.get_fold_list(protein)
@@ -63,8 +65,9 @@ class Greedy(Random):
             else:
                 pass
         
-        if self.best:
-            random_best = random.choice(self.best)
+        # Return best fold choice, none if no options available to reset of iteration
+        if self.best_fold:
+            random_best = random.choice(self.best_fold)
         else:
             return None
 
@@ -115,27 +118,26 @@ class Greedy(Random):
         positionYb = temp_fold[1]
         folding = temp_fold[2]
 
+        # Save score of the temporary folding to the next amino acid
         temp_protein = copy.deepcopy(protein)
-
         temp_protein.add_position(protein.aminoacids[self.i+1], positionXb, positionYb)
         temp_protein.set_stability()
-        
         temp_score = temp_protein.score
 
         del temp_protein
 
         # Check if this folding gains a higher stability than previous tries
-        if self.best:
-            if temp_score < self.best[0][0]:
-                self.best.clear()
-                self.best.append([temp_score, folding])
+        if self.best_fold:
+            if temp_score < self.best_fold[0][0]:
+                self.best_fold.clear()
+                self.best_fold.append([temp_score, folding])
             else:
-                for j in range(len(self.best)):
-                    if temp_score == self.best[j][0]:
-                        self.best.append([temp_score, folding])
+                for j in range(len(self.best_fold)):
+                    if temp_score == self.best_fold[j][0]:
+                        self.best_fold.append([temp_score, folding])
                         break
         else:
-            self.best.append([temp_score, folding])
+            self.best_fold.append([temp_score, folding])
 
 
     def run_greedy(self, protein, runs):
@@ -155,17 +157,24 @@ class Greedy(Random):
             # Loop through a protein and fill in each amino acid per iteration
             while self.i < len(protein.aminoacids):
                 protein.add_position(protein.aminoacids[self.i], self.positionX, self.positionY)
-                self.i, self.positionX, self.positionY = self.fold_random(protein, self.positionX, self.positionY, self.i)
-                
-                # Reset the protein if no folds are able for the next amino acid
-                if self.i == 0:
-                    protein.positions.clear()
+                temp_i, temp_positionX, temp_positionY = self.fold_random(protein, self.positionX, self.positionY, self.i)
+
+                # Check if a valid folding is possible, if not retry the previous amino acid with another folding, else continue
+                if temp_i == 0:
+                    prev_coordinates = protein.remove_last()
+                    self.i -= 1
+                    self.positionX = prev_coordinates[0]
+                    self.positionY = prev_coordinates[1]
+                else:
+                    self.i = temp_i
+                    self.positionX = temp_positionX
+                    self.positionY = temp_positionY
 
             protein.set_stability()
             self.add_solution(protein)
 
 
-class GreedyLookahead(Greedy):
+class GreedyLookahead(Greedy, DepthFirst):
     """
     The greedy lookahead algorithm will configure an X amount of amino acids at once
     to calculate a corresponding stability score.
@@ -175,70 +184,48 @@ class GreedyLookahead(Greedy):
     def __init__(self, protein, lookahead):
         super().__init__(protein)
         self.lookahead = lookahead
-
-    def run_greedy(self, protein, runs):
-        '''
-        Fold the protein according to the greedy lookahead algorithm.
-        '''
-        for k in range(runs):
-            
-            # Keep track of progression while running
-            if k % 1000 == 0:
-                print(f"Total number of iterations done: {k}")
-
-            # Finish a protein with greedy folding
-            self.positionX = self.positionY = 0
-            self.i = 0
-
-            # Loop through a protein and fill in each amino acid per iteration
-            while self.i < len(protein.aminoacids):
-                protein.add_position(protein.aminoacids[self.i], self.positionX, self.positionY)
-                self.i, self.positionX, self.positionY = self.fold_random(protein, self.positionX, self.positionY, self.i)
-                
-                # Reset the protein if no folds are able for the next amino acid
-                if self.i == 0:
-                    protein.positions.clear()
-
-            protein.set_stability()
-            self.add_solution(protein)
+        self.states = []
 
 
     def get_best_fold(self, protein):
         '''
-        Find the best folding for the next amino acid according to X amount of amino acids placed in the upcoming acids.
+        Get's the best fold for the current amino acid, according to the depth first results.
         '''
-        self.best = []
+        # Run depth first with the current folded protein and the lookahead amino's
+        self.run_depthfirst()
 
-        # Acquire list of all foldings to try
-        fold_list = Protein.get_fold_list(protein)
+        # Isolate information from best result from depth first algorithm
+        best_solution = self.get_best_solution()
 
-        if not self.prev_fold == 0:
-            fold_list.remove(-self.prev_fold)
-
-        # Remove folds from list if in forbidden lists
-        acid = protein.aminoacids[self.i]
-        for j in range(len(acid.forbidden_folds)):
-            if acid.forbidden_folds[j] in fold_list:
-                fold_list.remove(acid.forbidden_folds[j])
-
-        # Try all possible foldings and return a random one of the best options
-        for k in range(len(fold_list)):
-            folding = fold_list[k]
-            temp_fold = self.get_temp_coordinates(folding)
-            trial = self.try_fold(protein, temp_fold)
-
-            if trial == True:
-                self.add_best(protein, temp_fold)
-            else:
-                pass
-        
-        if self.best:
-            random_best = random.choice(self.best)
-        else:
+        if not best_solution:
             return None
 
-        new_fold = self.get_temp_coordinates(random_best[1])
-        self.positionX = new_fold[0]
-        self.positionY = new_fold[1]
+        dict_best = best_solution[1]
+        best_values = list(dict_best.values())
+    
+        # Calculate the fold of the next amino acid in the protein
+        curr_amino = best_values[-self.lookahead]
+        fold = curr_amino.folding
 
-        return random_best[1]
+        return fold
+
+
+    def initiate(self):
+        '''
+        Initiates first states in the stack for the depth first algorithm.
+        '''
+        start_state = copy.deepcopy(self.protein)
+
+        # Make sure DepthFirst knows what amino acid should be folded next in the protein 
+        start_state.depth_index = self.i
+
+        # self.lookahead amino's + positions isoleren, staart afknippen
+        amino_remove = len(start_state.aminoacids) - len(start_state.positions) - self.lookahead
+
+        if amino_remove > 0:
+            for _ in range(amino_remove):
+                remove = start_state.aminoacids[-1]
+                start_state.aminoacids.remove(remove)
+
+        # Add current state of the protein to the stack of depth first
+        self.states.append(start_state)
