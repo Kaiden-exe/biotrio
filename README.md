@@ -25,13 +25,39 @@ All the code for this project was been written in Python 3.7. To be able to run 
 
 ## Usage
 
-To run the program call:
+This is the input needed to run the program:
 
 > python3 main.py source protein_id
 
-Example:
+To run the program with an example, call this in your terminal:
 
 > python3 main.py data/easyprotein.csv 3
+
+Next the program will ask you which algorithm you would like to run:
+
+> Which algorithm do you want to run?
+> r = random
+> g = greedy
+> h = hill climber
+> p = hill climber (pull version)
+> s = simulated annealing
+> d = depth first
+
+Choose an algorithm, for example random:
+
+> r
+
+Then the program will ask how often you want to run the algorithm:
+
+> How often do you want to run this algorithm?
+
+For this example we choose 1,000 iterations:
+
+> 1000
+
+When the program is finished running it will display the following:
+
+> ...
 
 ## Repository Structure
 
