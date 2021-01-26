@@ -100,7 +100,7 @@ class Random():
         if score < self.best[0]:
             self.best.clear()
             copy_dict = copy.deepcopy(protein.positions)
-            self.best.append([score, copy_dict])
+            self.best.append(score, copy_dict)
         
         self.solutions.append([score])
         protein.clear_protein()

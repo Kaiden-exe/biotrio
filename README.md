@@ -20,8 +20,8 @@ All the code for this project was been written in Python 3.7. To be able to run 
 
 > pip3 install matplotlib
 
-~ version: ...
-~ if pip3 results in an error use pip.
+* version: ...
+* if pip3 results in an error use pip.
 
 ## Usage
 

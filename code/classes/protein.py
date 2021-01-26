@@ -12,7 +12,7 @@ class Protein():
         self.aminoacids = self.load_proteins(source, protein_id)
         self.score = 0
 
-        # TODO - take the comment below out?
+        # TODO - take the comment below out? Quinten also had a comment about this
         # key = (x, y), value = AminoAcid()
         self.positions = {}
         self.depth_index = 0
@@ -162,7 +162,7 @@ class Temp_Protein(Protein):
         # key = (x, y), value = AminoAcid()
         self.positions = {}
         self.depth_index = 0
-        
+
 # class Temp_Protein(Protein):
 #     def __init__(self, aminoacids):
 #         self.id = protein_id
