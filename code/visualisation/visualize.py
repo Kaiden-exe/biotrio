@@ -54,14 +54,9 @@ def visualize(lst):
     plt.savefig("grid.png", format="png")
 
 
-<<<<<<< HEAD
-def hist(algorithm):
-    # TODO - add docstring
-    '''
-    '''
-=======
 def hist(algorithm, algor):
->>>>>>> 8d6a1e17e772255abae35408e7b6fedbf2b51808
+    # TODO - add docstring
+    
     plt.figure()
     data = algorithm.solutions
 
