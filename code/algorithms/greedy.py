@@ -138,11 +138,11 @@ class Greedy(Random):
             self.best.append([temp_score, folding])
 
 
-    def run_greedy(self, protein, x):
+    def run_greedy(self, protein, runs):
         '''
         Fold the protein according to the greedy algorithm x times.
         '''
-        for k in range(x):
+        for k in range(runs):
             
             # Keep track of progression while running
             if k % 1000 == 0:
@@ -152,10 +152,12 @@ class Greedy(Random):
             self.positionX = self.positionY = 0
             self.i = 0
 
-            # TODO - write a comment for this
+            # Loop through a protein and fill in each amino acid per iteration
             while self.i < len(protein.aminoacids):
                 protein.add_position(protein.aminoacids[self.i], self.positionX, self.positionY)
                 self.i, self.positionX, self.positionY = self.fold_random(protein, self.positionX, self.positionY, self.i)
+                
+                # Reset the protein if no folds are able for the next amino acid
                 if self.i == 0:
                     protein.positions.clear()
 
@@ -164,4 +166,79 @@ class Greedy(Random):
 
 
 class GreedyLookahead(Greedy):
-    pass
+    """
+    The greedy lookahead algorithm will configure an X amount of amino acids at once
+    to calculate a corresponding stability score.
+    The first amino acid will be placed according to the best stability score found,
+    from where the same pattern will be repeated.w
+    """
+    def __init__(self, protein, lookahead):
+        super().__init__()
+        lookahead = lookahead
+
+    def run_greedy(self, protein, runs, lookahead):
+        '''
+        Fold the protein according to the greedy lookahead algorithm.
+        '''
+        for k in range(runs):
+            
+            # Keep track of progression while running
+            if k % 1000 == 0:
+                print(f"Total number of iterations done: {k}")
+
+            # Finish a protein with greedy folding
+            self.positionX = self.positionY = 0
+            self.i = 0
+
+            # Loop through a protein and fill in each amino acid per iteration
+            while self.i < len(protein.aminoacids):
+                protein.add_position(protein.aminoacids[self.i], self.positionX, self.positionY)
+                self.i, self.positionX, self.positionY = self.fold_random(protein, self.positionX, self.positionY, self.i)
+                
+                # Reset the protein if no folds are able for the next amino acid
+                if self.i == 0:
+                    protein.positions.clear()
+
+            protein.set_stability()
+            self.add_solution(protein)
+
+
+    def get_best_fold(self, protein):
+        '''
+        Find the best folding for the next amino acid.
+        '''
+        self.best = []
+
+        # Acquire list of all foldings to try
+        fold_list = Protein.get_fold_list(protein)
+
+        if not self.prev_fold == 0:
+            fold_list.remove(-self.prev_fold)
+
+        # Remove folds from list if in forbidden lists
+        acid = protein.aminoacids[self.i]
+        for j in range(len(acid.forbidden_folds)):
+            if acid.forbidden_folds[j] in fold_list:
+                fold_list.remove(acid.forbidden_folds[j])
+
+        # Try all possible foldings and return a random one of the best options
+        for k in range(len(fold_list)):
+            folding = fold_list[k]
+            temp_fold = self.get_temp_coordinates(folding)
+            trial = self.try_fold(protein, temp_fold)
+
+            if trial == True:
+                self.add_best(protein, temp_fold)
+            else:
+                pass
+        
+        if self.best:
+            random_best = random.choice(self.best)
+        else:
+            return None
+
+        new_fold = self.get_temp_coordinates(random_best[1])
+        self.positionX = new_fold[0]
+        self.positionY = new_fold[1]
+
+        return random_best[1]
