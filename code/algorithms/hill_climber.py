@@ -5,6 +5,8 @@ from .depth_first import DepthFirst
 import copy
 
 class HillClimber(Random):
+    # TODO
+    # add docstring
     def __init__(self, protein):
         super().__init__()
         self.best = self.get_start(protein)
@@ -22,6 +24,8 @@ class HillClimber(Random):
         '''
         Runs the hill climber algorithm.
         '''
+        # TODO
+        # maybe add a few comments
         for i in range(iterations):
             new = copy.deepcopy(self.best)
 
@@ -48,28 +52,30 @@ class HillClimber(Random):
         '''
         Changes the coordinates of a single aminoacid.
         '''
-
         # New coordinates will be assigned to a random amino acid
         new_coordinates = ()
         while len(new_coordinates) < 2: 
             
-            # Choose a random aminoacid from the protein and get all surronding coordinates (exclude last aminoacid)
+            # Choose a random amino acid from the protein and get all surronding coordinates (exclude last aminoacid)
             first_amino = protein.aminoacids[-1]
             while first_amino == protein.aminoacids[-1]:
                 amino_coordinates = choice(list(protein.positions.keys()))
                 first_amino = protein.positions[amino_coordinates]
             surrounding_coordinates = protein.get_surrounding_coordinates(amino_coordinates[0], amino_coordinates[1])
             
+            # TODO - reword this comment
             # Add all coordinates that are unoccupied to a list
             free_coordinates = self.get_free_coordinates(protein, surrounding_coordinates)
             
-            # Check if the any of the free coordinates is between the chosen aminoacid and two acids over
+            # TODO - reword this comment
+            # Check if the any of the free coordinates is between the chosen amino acid and two acids over
             if len(free_coordinates) > 0:
                 try:
                     third_amino = protein.aminoacids[first_amino.index + 2]
                 except IndexError: 
-                   
-                    #You can pick any for the last aminoacid
+                    
+                    # TODO - pick any what?
+                    # You can pick any for the last aminoacid
                     third_amino = None
                     new_coordinates = choice(free_coordinates) 
                     break
@@ -82,6 +88,7 @@ class HillClimber(Random):
         second_amino = protein.aminoacids[first_amino.index + 1] 
         self.change_coordinates(protein, second_amino, new_coordinates)
 
+        # TODO - change folding of the second amino acid?
         # Change foldings
         self.change_folding(protein, first_amino, new_coordinates)
         
@@ -93,7 +100,7 @@ class HillClimber(Random):
 
     def get_free_coordinates(self, protein, surrounding_coordinates):
         '''
-        Looks at the surrounding coordiates and returns a list of coordinates that are unoccupied.
+        Looks at the surrounding coordinates and returns a list of coordinates that are unoccupied.
         '''
         free_coordinates = []
         for coordinates in surrounding_coordinates:
@@ -105,8 +112,8 @@ class HillClimber(Random):
     
     def find_third_aminoacid(self, protein, third_amino, coordinates):
         '''
-        Looks at coordinates and tries to find the third aminoacid in the surrounding coordinates.
-        If third aminoacid is present, coordinates are returned. If not, then an empty tuple is returned.
+        Looks at coordinates and tries to find the third amino acid in the surrounding coordinates.
+        If third amino acid is present, coordinates are returned. If not, then an empty tuple is returned.
         '''
         surrounding_coordinates = protein.get_surrounding_coordinates(coordinates[0], coordinates[1])
         for cor in surrounding_coordinates:
@@ -123,7 +130,7 @@ class HillClimber(Random):
 
     def change_coordinates(self, protein, aminoacid, coordinates):
         '''
-        Changes the coordinates of an aminoacid to the given coordinates
+        Changes the coordinates of an amino acid to the given coordinates.
         '''
         sorted_by_index = protein.get_sorted_positions()
         amino_cor = sorted_by_index[aminoacid.index][0]
@@ -133,20 +140,21 @@ class HillClimber(Random):
 
     def change_folding(self, protein, aminoacid, next_coordinates):
         '''
-        Cross-references the aminoacid and the coordinates of the next one to determine the folding
+        Cross-references the amino acid and the coordinates of the next one to determine the folding.
         '''
-
-        # Get the aminoacid coordinates and the coordinates around it 
+        # Get the amino acid coordinates and the coordinates around it 
         lst = protein.get_sorted_positions()
         position = lst[aminoacid.index][0]
         surrounding_coordinates = protein.get_surrounding_coordinates(position[0], position[1])
         folds = Protein.get_fold_list(protein)
 
+        # TODO - maybe add more to this comment
         # Find fold
         for i in range(len(surrounding_coordinates)):
             if surrounding_coordinates[i] == next_coordinates:
                 folding = folds[i]
                 break
+
         aminoacid.folding = folding
 
 
@@ -166,6 +174,9 @@ class HillClimber(Random):
 
 
 class HillClimber_Cut(HillClimber):
+    # TODO 
+    # add a docstring
+
     def hike(self, iterations):
         '''
         Runs the alternative hill climber. 
@@ -194,8 +205,9 @@ class HillClimber_Cut(HillClimber):
         '''
         Makes a single mutation of mutations length. 
         '''
-        
-        # Get aminoacids to rearrange
+
+        # TODO - below comment is een beetje vaag.
+        # Get amino acids to rearrange
         while True:
             temp_protein = self.get_aminoacids(protein)
             end_cor = self.get_end_coordinates(protein, temp_protein)
@@ -212,10 +224,11 @@ class HillClimber_Cut(HillClimber):
             
     
     def get_aminoacids(self, protein):
+
+        # TODO - reword the docstring.
         '''
-        Returns a sub-string of aminoacids from the protein a temporary protein
+        Returns a sub-string of amino acids from the protein a temporary protein.
         '''
-        
         # Get a random chain length 
         protein_length = len(protein.aminoacids)
         min_length = 3
@@ -224,18 +237,17 @@ class HillClimber_Cut(HillClimber):
             max_length = min_length
         chain_length = randin(min_length, max_length)
 
-
         last_option = protein_length - chain_length
         start = randint(0, last_option)
         aminoacids = protein.aminoacids[start:start + chain_length]
         
         return Temp_Protein(aminoacids)
         
+
     def get_end_coordinates(self, protein, temp_protein):
         '''
-        Calculates and returns the coordinates the last aminoacid needs when the start is at (0,0).
+        Calculates and returns the coordinates the last amino acid needs when the start is at (0,0).
         '''
-
         sorted_acids = protein.get_sorted_positions()
         start_index = temp_protein.aminoacids[0].index
         end_index = temp_protein.aminoacids[-1].index
@@ -250,7 +262,7 @@ class HillClimber_Cut(HillClimber):
 
     def pick_solution(self, depth_first, end_cor):
         '''
-        Checks all solutions for a valid folding
+        Checks all solutions for a valid folding.
         '''
         solutions = depth_first.solutions
         solutions.sort(key=lambda x:x[0], reverse=True)
@@ -267,6 +279,8 @@ class HillClimber_Cut(HillClimber):
 
 
 class HillClimber_Pull(HillClimber):
+    # TODO - add docstring
+
     def __init__(self, protein):
         super().__init__(protein)
         self.success = 0
@@ -300,8 +314,9 @@ class HillClimber_Pull(HillClimber):
 
 
     def mutate(self, protein):
+        # TODO - add docstring
 
-        # Pick random acid, but not the first
+        # Pick random amino acid, but not the first
         i_plus = choice([i for i in protein.positions.items() if i[1] != protein.aminoacids[0]])
         i_plus_cor = i_plus[0]
         i = protein.aminoacids[i_plus[1].index - 1]

@@ -4,17 +4,20 @@ import math
 import copy
 
 class Simulated_Annealing(HillClimber):
+    # TODO - add docstring
+    '''
+    '''
     def __init__(self, protein, initial_temp):
         super().__init__(protein)
         self.initial_temp = initial_temp
         self.alpha = None
         self.current_temp = initial_temp
 
+
     def hike(self, iterations, mutations):
         '''
         Runs the simulated annealing algorithm.
         '''
-
         self.alpha = self.initial_temp / iterations
 
         for i in range(iterations):
@@ -38,12 +41,20 @@ class Simulated_Annealing(HillClimber):
             
             self.update_temp()
     
+
     def accept(self, new):
+        # TODO - add docstring
+        '''
+        '''
         diff = abs(self.best.score) - abs(new.score)
         acceptance_chance = math.exp(-diff / self.current_temp)
         if random.uniform(0,1) < acceptance_chance:
             return True
         return False
 
+
     def update_temp(self):
+        # TODO - add docstring
+        '''
+        '''
         self.current_temp -= self.alpha

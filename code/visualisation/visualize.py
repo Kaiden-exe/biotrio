@@ -13,12 +13,14 @@ def visualize(lst):
     '''
     Visualizes the folded protein.
     '''
+
+    # TODO - comment below: gain or get?
     # Gain data of the protein to visualize
     coordinates = lst[1]
     sorted_coordinates = sorted(coordinates.items(), key=lambda x: x[1].index)
     data = {"x":[], "y":[], "label":[]}
 
-    # Append all amino acids + coordinates into the datafile to plot.
+    # Append all amino acids + coordinates into the data file to plot
     for coord, label in sorted_coordinates:
         data["x"].append(coord[0])
         data["y"].append(coord[1])
@@ -53,8 +55,17 @@ def visualize(lst):
 
 
 def hist(algorithm, algor):
+    '''
+    Plot solutions of the used algorithm in a histogram.
+    '''
+    # TODO - add docstring
+    
     plt.figure()
-    data = algorithm.solutions
+    data = []
+
+    for i in algorithm.solutions:
+        data.append(i)
+
 
     plt.hist(data)
 
@@ -82,6 +93,3 @@ def hist(algorithm, algor):
     
     plt.title(name)
     plt.savefig("hist.png", format="png")
-
-
-
