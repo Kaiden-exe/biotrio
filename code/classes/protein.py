@@ -132,6 +132,19 @@ class Protein():
         return [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)]
 
 
+    def get_surrounding_acids(self, x, y):
+        surrounding_coordinates = self.get_surrounding_coordinates(x, y)
+        acids = []
+        for cor in surrounding_coordinates:
+            try:
+                acid = self.positions[cor]
+                acids.append(acid)
+            except KeyError:
+                pass
+
+        return acids
+
+
     def clear_protein(self):
         '''
         Sets score to zero and clears the positions dictionary.
@@ -164,12 +177,3 @@ class Temp_Protein(Protein):
         # key = (x, y), value = AminoAcid()
         self.positions = {}
         self.depth_index = 0
-
-# class Temp_Protein(Protein):
-#     def __init__(self, aminoacids):
-#         self.id = protein_id
-#         self.aminoacids = aminoacids
-#         self.score = 0
-#         # key = (x, y), value = AminoAcid()
-#         self.positions = {}
-#         self.depth_index = 0

@@ -170,13 +170,13 @@ class GreedyLookahead(Greedy):
     The greedy lookahead algorithm will configure an X amount of amino acids at once
     to calculate a corresponding stability score.
     The first amino acid will be placed according to the best stability score found,
-    from where the same pattern will be repeated.w
+    from where the same pattern will be repeated.
     """
     def __init__(self, protein, lookahead):
-        super().__init__()
-        lookahead = lookahead
+        super().__init__(protein)
+        self.lookahead = lookahead
 
-    def run_greedy(self, protein, runs, lookahead):
+    def run_greedy(self, protein, runs):
         '''
         Fold the protein according to the greedy lookahead algorithm.
         '''
@@ -205,7 +205,7 @@ class GreedyLookahead(Greedy):
 
     def get_best_fold(self, protein):
         '''
-        Find the best folding for the next amino acid.
+        Find the best folding for the next amino acid according to X amount of amino acids placed in the upcoming acids.
         '''
         self.best = []
 
