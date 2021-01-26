@@ -1,27 +1,26 @@
-<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLNote</id><coordinates><x>100</x><y>480</y><w>370</w><h>130</h></coordinates><panel_attributes>2D array: Voor eiwit van lengte x, is de array x bij x
-  - valt het eiwit buiten het array - &gt; sowieso niet de beste vouwing 
-bg=yellow</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>100</x><y>430</y><w>100</w><h>30</h></coordinates><panel_attributes>1D array</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>240</x><y>430</y><w>100</w><h>30</h></coordinates><panel_attributes>2D array</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>190</x><y>440</y><w>70</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>50;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>104</x><y>140</y><w>230</w><h>250</h></coordinates><panel_attributes>_Protein_
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>108</x><y>100</y><w>230</w><h>280</h></coordinates><panel_attributes>Protein
 --
-id: int
-aminoacids: list of amino acids
-score: int
-positions: dict
-solutions: list of lists [{folding}, stabiliteit]
+id: Int
+aminoacids: ...
+score: Int
+positions: Dict
+depth_index: Int
+depth_values: List
 --
-load_proteins
-load_acids
-add_position
-set_stability
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>374</x><y>140</y><w>210</w><h>250</h></coordinates><panel_attributes>Amino acid
+load_proteins(self, source, protein_id): ...
+load_acids(self, aminos): []
+add_position(self, acid, x, y): None
+set_stability(self): None
+remove_last(self): ...
+get_fold_list(self): []
+get_surrounding_coordinates(self, x, y): [(Int, Int)]
+get_surrounding_acids(self, x, y): []
+clear_protein(self): None
+get_sorted_positions(self): []
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>448</x><y>100</y><w>230</w><h>90</h></coordinates><panel_attributes>Amino acid
 --
-id: char
-index: int
-folding: int</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>324</x><y>330</y><w>70</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;50;10</additional_attributes></element><element><id>Relation</id><coordinates><x>40</x><y>380</y><w>90</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>60;70;10;10;64;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>510</x><y>430</y><w>210</w><h>110</h></coordinates><panel_attributes>_Random Algorithm_
---
-solutions: list
---
-Methods: 
-fold_random
-run_random
-add_solution
-get_best</panel_attributes><additional_attributes></additional_attributes></element></diagram>
+id: Char
+folding: Int
+index: Int
+forbidden_folds: List</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>334</x><y>100</y><w>130</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;110;10</additional_attributes></element></diagram>
