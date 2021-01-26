@@ -296,6 +296,8 @@ class HillClimber_Pull(HillClimber):
                 else:
                     del new 
 
+        print(f"{self.success} out of {iterations} mutations were successful")
+
 
     def mutate(self, protein):
 
@@ -329,7 +331,7 @@ class HillClimber_Pull(HillClimber):
                 if protein.positions[C] == protein.aminoacids[i.index - 1]:
                     self.change_coordinates(protein, i, L)
                     self.change_folding(protein, i, i_plus_cor)
-                    self.change_folding(protein, protein.aminoacid[i.index - 1], L)
+                    self.change_folding(protein, protein.aminoacids[i.index - 1], L)
                     return True
             else: 
                 # Move i to L and i - 1 to C
@@ -341,39 +343,42 @@ class HillClimber_Pull(HillClimber):
 
                 # See if the previous amino acid is in the surrounding coordinates
                 prev = protein.aminoacids[i_min.index - 1]
-                surrounding_coordinates = protein.get_surrounding_coordinates(C[0], C[1])
-                
+                surrounding_acids = protein.get_surrounding_acids(C[0], C[1])
+
                 # If i - 2 not next to C, keep pulling until the chain is back together
-                if not prev in surrounding_coordinates:
-                    self.pull(protein, i, prev, surrounding_coordinates, sorted_acids)
+                if not prev in surrounding_acids:
+                    self.pull(protein, i, prev, surrounding_acids, sorted_acids)
 
 
-    def pull(self, protein, i, prev, surrounding_coordinates, original_positions):
-        
+    def pull(self, protein, i, prev, surrounding_acids, original_positions):
+        '''
+        Keeps pulling until the chain can be linked back together or the last amino acid is reached.
+        '''
         backwards_index = i.index
 
-        # Keep pulling until the chain can be linked back together 
-        while not prev in surrounding_coordinates:
-            next_cor = sorted_acids[backwards_index][0]
+        while not prev in surrounding_acids and prev.index < backwards_index:
+            next_cor = original_positions[backwards_index][0]
             self.change_coordinates(protein, prev, next_cor)
             sorted_lst = protein.get_sorted_positions()
             next_acid_cor = sorted_lst[prev.index + 1][0]
             self.change_folding(protein, prev, next_acid_cor)
             prev = protein.aminoacids[prev.index - 1]
-            surrounding_coordinates = protein.get_surrounding_coordinates(next_cor[0], next_cor[1])
+            surrounding_acids = protein.get_surrounding_acids(next_cor[0], next_cor[1])
             backwards_index -= 1
-        
-        # Change the fold of the final amino acid 
-        self.change_folding(protein, prev, next_cor)
+
+        # Change the fold of the final amino acid
+        if prev != protein.aminoacids[-1]:
+            self.change_folding(protein, prev, next_cor)
            
 
     def get_C(self, A, B, L):
+        '''
+        Finds the fourth point (C) in the square ABL.
+        '''
         delta_x = L[0] - B[0]
         delta_y = L[1] - B[1]
-
         Cx = A[0] + delta_x
-        Cy = A[0] + delta_y
-
+        Cy = A[1] + delta_y
         C = (Cx, Cy)
 
         return C

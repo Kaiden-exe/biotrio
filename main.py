@@ -109,8 +109,8 @@ if __name__ == "__main__":
         print("Algoritm took %s seconds to run (without visualisation)" % (time.time() - start_time))
         best = art.get_best()
         
-    hist(art)
+    hist(art, algor)
     writecsv(protein, best)
-    visualize(best, algor)
+    visualize(best)
 
     print("Program completed!")
