@@ -71,12 +71,11 @@ class DepthFirst():
         new_stability = new_protein.score
         
         # Add solution to the list
-        # self.solutions.append([new_protein.score, new_protein.positions])
+        self.solutions.append(new_stability)
 
         # Check if solution is better or equal to previous solutions
         if new_stability == self.best_stability:
-            # self.best_solutions.append([self.best_stability, new_protein.positions])
-            pass
+            self.best_solutions.append([self.best_stability, new_protein.positions])
 
         elif new_stability < self.best_stability:
 
@@ -129,7 +128,7 @@ class DepthFirst():
         while self.states:
             if len(self.states) > 20:
                 print(len(self.states))
-            # we got a protein out of the states: the parent
+            # we get a protein out of the states: the parent
             curr_state = self.get_next_state()
             
             # when there are no more foldings to do, remember what the stability score is

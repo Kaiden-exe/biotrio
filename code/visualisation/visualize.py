@@ -57,13 +57,13 @@ def hist(algorithm):
     data = []
     
     for i in algorithm.solutions:
-        data.append(i[0])
+        data.append(i)
 
     plt.hist(data)
 
     # Set both the X- and Y-axis to integer values and label those
     ax = plt.gca()
-    plt.ylabel('Amount of iterations')
+    plt.ylabel('Amount of solutions')
     ax.yaxis.set_major_locator(MaxNLocator(integer=True))
     plt.xlabel('Stability score')
     ax.xaxis.set_major_locator(MaxNLocator(integer=True))
