@@ -58,14 +58,16 @@ def hist(algorithm, algor):
     '''
     Plot solutions of the used algorithm in a histogram.
     '''
+<<<<<<< HEAD
+=======
     # TODO - add docstring
     
+>>>>>>> 97edc166c035a094746e4a240c93dc3f95993c4d
     plt.figure()
     data = []
 
     for i in algorithm.solutions:
         data.append(i)
-
 
     plt.hist(data)
 

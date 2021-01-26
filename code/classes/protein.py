@@ -128,10 +128,14 @@ class Protein():
 
     def get_surrounding_coordinates(self, x, y):
         # TODO: Change so you can just insert a tuple 
+        # TODO - add docstring
+
         return [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)]
 
 
     def get_surrounding_acids(self, x, y):
+        # TODO - add docstring
+
         surrounding_coordinates = self.get_surrounding_coordinates(x, y)
         acids = []
         for cor in surrounding_coordinates:
@@ -163,16 +167,3 @@ class Protein():
 
     def __repr__(self):
         return f"{self.id}: f{self.positions}"
-
-
-class Temp_Protein(Protein):
-    # TODO - add docstring
-    '''
-    '''
-    def __init__(self, aminoacids):
-        self.id = protein_id
-        self.aminoacids = aminoacids
-        self.score = 0
-        # key = (x, y), value = AminoAcid()
-        self.positions = {}
-        self.depth_index = 0

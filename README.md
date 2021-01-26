@@ -51,11 +51,11 @@ When the program is finished running it will display the following:
 
 > What title should I give the hist plot?
 
-You then give the histogram plot a name
+You then give the histogram plot a name.
 
 > What title should I give the grid plot?
 
-Give the grid plot a name
+Give the grid plot a name.
 
 And finally:
 
@@ -69,6 +69,20 @@ The following list describes the most important directories and files in the pro
 * **/code/algorithms**: contains the code for the 5 algorithms: random, depth-first, hillclimber, greedy (contains greedy-lookahead) and simulated annealing algorithms.
 * **/code/classes**: contains the 2 classes for this case: Protein and AminoAcid.
 * **/code/visualisation**: contains output.py where the csv output files are created. Contains the matplotlib code for the visualization. 
+
+## The Algorithms
+
+### Random
+
+### Greedy
+
+### Depth-first
+
+The Depth-First algorithm searches through the state space looking for the protein that has the most stable folding. 
+
+### Hill Climber
+
+### Simulated Annealing
 
 ## Authors
 
