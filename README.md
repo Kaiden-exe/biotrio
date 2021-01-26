@@ -1,6 +1,6 @@
 # Protein Pow(d)er by BioTrio
 
-Proteins are long strands of amino acids that regulate many important processes in the human body. It is known that proteins are "folded" in the body cells, and that the specific folding determines their functioning; Misfolded proteins are at the basis of cancer, Alzheimer's disease and cystic fibrosis, among other things. It is therefore of great importance for both the pharmaceutical industry and medical science to be able to say something about the exact shape of the folding.
+Proteins are long strands of amino acids that regulate many important processes in the human body. It is known that proteins are "folded" in the body cells, and that the specific folding determines their functioning. Misfolded proteins are at the basis of cancer, Alzheimer's and cystic fibrosis. It is therefore of great importance for both the pharmaceutical industry and medical science to be able to say something about the exact shape of the folding. In the protein structure: hydrophobic amino acids (H) like to be "next to each other", polar amino acids (P) do not have that preference. When two hydrophobic amino acids are next to each other, an "H-bond" is created due to the attractive forces between the two. And the more bonds, the more stable the protein. 
 
 **The aim of this project** is to fold the proteins in such a way that the hydrophobic amino acids (H) found in the protein form cross-bonds - known as "H-bonds" - with one another. The more H-bonds the protein has the higher the stability of that protein. It is important for scientists and pharmacists to know to what stability of the protein could be folded at the maximum. The goal is to fold the given proteins in such a way that they are as stable as possible.
 
@@ -11,17 +11,11 @@ Proteins are long strands of amino acids that regulate many important processes 
 * If two H's are next to each other on the grid, the total protein gets a -1 on the score. The lower the score, the more stable the protein.
 * We go on to apply this to proteins that can have "C-bonds" too, which have a stronger bond of -5 making the protein even more stable.
 
-## Installation Requirements
+## Requirements
 
-All the code for this project was been written in Python 3.7. To be able to run the project a few installations are required:
-* Install matplotlib.
+All the code in this project is written entirely in Python 3.7. Requirements.txt contains all necessary packages to run the code successfully. These are easy to install via pip using the following instruction:
 
-### matplotlib
-
-> pip3 install matplotlib
-
-~ version: ...
-~ if pip3 results in an error use pip.
+> pip install -r requirements.txt
 
 ## Usage
 
@@ -43,21 +37,29 @@ Next the program will ask you which algorithm you would like to run:
 > s = simulated annealing
 > d = depth first
 
-Choose an algorithm, for example random:
-
-> r
+Choose an algorithm, for example random.
 
 Then the program will ask how often you want to run the algorithm:
 
 > How often do you want to run this algorithm?
 
-For this example we choose 1,000 iterations:
-
-> 1000
+For this example we choose 10,000 iterations.
 
 When the program is finished running it will display the following:
 
-> ...
+> Algoritm took 0.7245039939880371 seconds to run (without visualisation)
+
+> What title should I give the hist plot?
+
+You then give the histogram plot a name
+
+> What title should I give the grid plot?
+
+Give the grid plot a name
+
+And finally:
+
+> Program completed!
 
 ## Repository Structure
 
