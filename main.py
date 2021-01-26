@@ -111,6 +111,6 @@ if __name__ == "__main__":
         
     hist(art)
     writecsv(protein, best)
-    visualize(best)
+    visualize(best, algor)
 
     print("Program completed!")
