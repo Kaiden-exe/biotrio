@@ -1,5 +1,5 @@
 from .random import Random
-from .depth_first import DepthFirst
+from .depth_first import DepthFirst, GreedyDepth
 from code.classes.protein import Protein
 from code.classes.aminoacid import AminoAcid
 import random
@@ -165,6 +165,9 @@ class Greedy(Random):
                     self.i -= 1
                     self.positionX = prev_coordinates[0]
                     self.positionY = prev_coordinates[1]
+                elif type(temp_i) is dict:
+                    protein.positions = temp_i
+                    break
                 else:
                     self.i = temp_i
                     self.positionX = temp_positionX
@@ -174,7 +177,7 @@ class Greedy(Random):
             self.add_solution(protein)
 
 
-class GreedyLookahead(Greedy, DepthFirst):
+class GreedyLookahead(Greedy, GreedyDepth):
     """
     The greedy lookahead algorithm will configure an X amount of amino acids at once
     to calculate a corresponding stability score.
@@ -184,33 +187,40 @@ class GreedyLookahead(Greedy, DepthFirst):
     def __init__(self, protein, lookahead):
         super().__init__(protein)
         self.lookahead = lookahead
-        self.states = []
 
 
     def get_best_fold(self, protein):
         '''
         Get's the best fold for the current amino acid, according to the depth first results.
         '''
+        start_state = self.get_start_state()
+
         # Run depth first with the current folded protein and the lookahead amino's
-        self.run_depthfirst()
+        depth_first = GreedyDepth(start_state)
+        depth_first.run_depthfirst()
 
         # Isolate information from best result from depth first algorithm
-        best_solution = self.get_best_solution()
+        best_solution = depth_first.get_best_solution()
 
         if not best_solution:
             return None
 
         dict_best = best_solution[1]
         best_values = list(dict_best.values())
-    
-        # Calculate the fold of the next amino acid in the protein
-        curr_amino = best_values[-self.lookahead]
+
+        # Terminate the depth first early when the last amino acids are positioned.
+        if len(dict_best) == len(protein.aminoacids):
+            return dict_best
+
+        curr_amino = best_values[-self.lookahead-1]
+        
         fold = curr_amino.folding
+        del start_state
 
         return fold
 
 
-    def initiate(self):
+    def get_start_state(self):
         '''
         Initiates first states in the stack for the depth first algorithm.
         '''
@@ -227,5 +237,5 @@ class GreedyLookahead(Greedy, DepthFirst):
                 remove = start_state.aminoacids[-1]
                 start_state.aminoacids.remove(remove)
 
-        # Add current state of the protein to the stack of depth first
-        self.states.append(start_state)
+        # Return part of the protein for the correct state state in depth first
+        return start_state

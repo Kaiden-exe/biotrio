@@ -40,8 +40,11 @@ class Random():
             
             # TODO - maybe explain in more detail what the comment below means
             # Fail save for greedy algorithm
-            if new_coordinates == [None, None, None]:
+            if new_coordinates == [None]:
                 return 0, 0, 0
+            # Fail save for GreedyLookahead algorithm
+            elif type(new_coordinates) is dict:
+                return new_coordinates, 0, 0
             
             positionXb = new_coordinates[0]
             positionYb = new_coordinates[1]
@@ -107,8 +110,7 @@ class Random():
             copy_dict = copy.deepcopy(protein.positions)
             self.best = [score, copy_dict]
             del copy_dict
-            
-        
+
         self.solutions.append(score)
         protein.clear_protein()
 
@@ -130,7 +132,9 @@ class Random():
         # TODO - explain comment below
         # Fail save for greedy algorithm
         if folding == None:
-            return [None, None, None]
+            return [None]
+        elif type(folding) is dict:
+            return folding
         
         # Rotate amino acid over the X-axis
         if folding == 1 or folding == -1:

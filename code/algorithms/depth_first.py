@@ -27,12 +27,13 @@ class DepthFirst():
         '''
         Creates all possible child-states and adds them to the list of states.
         '''
-        last_folding = curr_state.aminoacids[curr_state.depth_index].folding
+        last_folding = curr_state.aminoacids[curr_state.depth_index-1].folding
         
         # Makes sure the amino acid does not fold back on itself
         if last_folding is not None:
-            last_folding = last_folding * -1
-            curr_state.depth_values.remove(last_folding)
+            last_folding *= -1
+            if last_folding in curr_state.depth_values:
+                curr_state.depth_values.remove(last_folding)
 
         # Gets a folding direction (value) from the possible foldings
         if curr_state.depth_values:
@@ -154,3 +155,22 @@ class DepthFirst():
         
         self.states.append(start_state1)
         self.states.append(start_state2)
+
+
+
+class GreedyDepth(DepthFirst):
+    '''
+    # TODO
+    Fixes correct communication between Greedy lookahead and DepthFirst.
+    '''
+    def __init__(self, protein):
+        super().__init__(protein)
+        self.states = [protein]
+
+
+    def initiate(self):
+        '''
+        Initiates first states in the stack for the depth first algorithm, in case greedy lookahead is requested.
+        '''
+        pass
+

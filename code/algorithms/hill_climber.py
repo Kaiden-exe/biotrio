@@ -1,5 +1,5 @@
 from .random import Random
-from code.classes.protein import Protein, Temp_Protein
+from code.classes.protein import Protein
 from random import choice, getrandbits, randint
 import copy
 
@@ -295,4 +295,3 @@ class HillClimber_Pull(HillClimber):
         C = (Cx, Cy)
 
         return C
-
