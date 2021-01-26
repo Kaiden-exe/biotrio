@@ -13,7 +13,7 @@ Proteins are long strands of amino acids that regulate many important processes 
 
 ## Requirements
 
-This codebase is written entirely in Python 3.7. Requirements.txt contains all necessary packages to run the code successfully. These are easy to install via pip using the following instruction:
+All the code in this project is written entirely in Python 3.7. Requirements.txt contains all necessary packages to run the code successfully. These are easy to install via pip using the following instruction:
 
 > pip install -r requirements.txt
 
@@ -37,17 +37,13 @@ Next the program will ask you which algorithm you would like to run:
 > s = simulated annealing
 > d = depth first
 
-Choose an algorithm, for example random:
-
-> r
+Choose an algorithm, for example random.
 
 Then the program will ask how often you want to run the algorithm:
 
 > How often do you want to run this algorithm?
 
-For this example we choose 10,000 iterations:
-
-> 10000
+For this example we choose 10,000 iterations.
 
 When the program is finished running it will display the following:
 
