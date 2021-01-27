@@ -109,7 +109,7 @@ class DepthFirst():
         return [xb, yb]
 
 
-    def get_best_solution(self):
+    def get_best(self):
         '''
         Returns the best solution from all generated solutions, return None if no solutions are found.
         '''
@@ -141,6 +141,11 @@ class DepthFirst():
         '''
         Initiates first states in the stack.
         '''
+        # Initiate the first 2 foldings of the protein and the last amino acid
+        self.protein.aminoacids[0].folding = 1
+        self.protein.aminoacids[1].folding = 1
+        self.protein.aminoacids[-1].folding = 0
+
         # Initiate coordinates of the first 2 amino acids
         self.protein.add_position(self.protein.aminoacids[0], 0, 0)
         self.protein.add_position(self.protein.aminoacids[1], 1, 0)
@@ -148,12 +153,15 @@ class DepthFirst():
 
         # Initiate both 2 options of coordinates for the 3rd amino acid
         self.protein.add_position(self.protein.aminoacids[2], 2, 0)
+        self.protein.aminoacids[2].folding = 1
         start_state1 = copy.deepcopy(self.protein)
         self.protein.remove_last()
 
         self.protein.add_position(self.protein.aminoacids[2], 1, 1)
+        self.protein.aminoacids[2].folding = 2
         start_state2 = copy.deepcopy(self.protein)
         
+        # Add start states to the stack
         self.states.append(start_state1)
         self.states.append(start_state2)
 

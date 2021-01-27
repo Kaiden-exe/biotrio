@@ -38,7 +38,6 @@ class Simulated_Annealing(HillClimber):
         '''
         Tallies the solution scores.
         '''
-
         # Count all found stability scores
         if protein.score in self.sol_dict.keys():
             self.sol_dict[protein.score] += 1
@@ -46,8 +45,6 @@ class Simulated_Annealing(HillClimber):
             self.sol_dict[protein.score] = 1
         
         self.update_temp()
-
-        
 
 
 class Simulated_Annealing_Pull(Simulated_Annealing, HillClimber_Pull):

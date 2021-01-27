@@ -23,7 +23,7 @@ def visualize(lst):
     Visualizes the folded protein.
     '''
     data = {"x":[], "y":[], "label":[]}
-    
+
     # Retreive data of the protein to visualize
     coordinates = lst[1]
     sorted_coordinates = sorted(coordinates.items(), key=lambda x: x[1].index)

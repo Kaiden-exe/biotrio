@@ -222,7 +222,6 @@ class HillClimber_Pull(HillClimber):
         '''
         Tries the pull move, and returns whether it was successful or not.
         '''
-        # TODO: change i, i_min and i_plus to first, second and third amino EN ALLE ANDERE NEPPE VARIABEL NAMEN
         original_positions = protein.get_sorted_positions()
         
         # Pick random amino acid, but not the first
@@ -251,8 +250,7 @@ class HillClimber_Pull(HillClimber):
             self.change_folding(protein, second_amino, third_amino_cor)
 
             return True
-         
-        # TODO - Change L and C to loc_L and loc_C
+ 
         # Pull if possible and return if successful or not 
         for loc_L in free_coordinates:
             loc_C = self.get_C(second_amino_cor, third_amino_cor, loc_L)

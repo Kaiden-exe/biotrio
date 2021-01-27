@@ -65,7 +65,6 @@ class Protein():
             if acid.id != 'P':
                 surrounding_aminos = self.get_surrounding_acids(x, y)
                 
-                # TODO: Do this smarter
                 # Add stability scores accordingly
                 for surround in surrounding_aminos:
                     if surround.index > acid.index + 1 and surround.id != 'P':
@@ -73,14 +72,6 @@ class Protein():
                             stability -= 1
                         else:
                             stability -= 5
-                        # if surround.id == 'C' and acid.id == 'C':
-                        #     stability -= 5
-                        # elif acid.id == 'H' and surround.id == 'H':
-                        #     stability -= 1
-                        # elif acid.id == 'C' and surround.id == 'H':
-                        #     stability -= 1
-                        # elif acid.id == 'H' and surround.id == 'C':
-                        #     stability -= 1
 
         self.score = stability
 
@@ -118,8 +109,6 @@ class Protein():
 
 
     def get_surrounding_coordinates(self, x, y):
-        # TODO: Change so you can just insert a tuple 
-        # TODO - add docstring
         '''
         Returns the coordinates surrounding the specified amino acid.
         '''
@@ -127,17 +116,15 @@ class Protein():
 
 
     def get_surrounding_acids(self, x, y):
-        # TODO - add docstring
         '''
+        Returns a list of aminoacids that are on the surrounding coordinates.
         '''
         surrounding_coordinates = self.get_surrounding_coordinates(x, y)
         acids = []
         for cor in surrounding_coordinates:
-            try:
+            if cor in self.positions.keys():
                 acid = self.positions[cor]
                 acids.append(acid)
-            except KeyError:
-                pass
 
         return acids
 

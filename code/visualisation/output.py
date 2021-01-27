@@ -5,7 +5,7 @@ def get_folding(lst):
     Retreive all foldings from a best solution, used for csv output.
     '''
     positions = lst[1]
-    pos_dict = dict(sorted(positions.items(), key=custom_sort))
+    pos_dict = dict(sorted(positions.items(), key=lambda x:x[1].index))
     folding_lst = []
     acid_lst = []
 
@@ -16,7 +16,7 @@ def get_folding(lst):
     return [acid_lst, folding_lst]
 
 
-def writecsv(protein, lst):
+def writecsv(protein, lst, source):
     '''
     Writes a csv file for a single protein. 
     '''
@@ -32,7 +32,11 @@ def writecsv(protein, lst):
 
     # Add score to data
     data.append(["score", score])
-    name = f"Protein: {protein.id}"
+
+    # Output name generation
+    source = source[:-len('.csv')]
+    source = source[len('data/'):]
+    name = f"{source}: {protein.id}"
 
     # Write the csv file
     with open(f"data/output/{name}", "w+", newline='') as f:
