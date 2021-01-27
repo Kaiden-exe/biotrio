@@ -61,8 +61,10 @@ def hist(algorithm, algor):
     plt.figure()
     data = []
 
-    # for key in sorted(algorithm.solutions):
-    #     print(f"{key}: {algorithm.solutions[key]}")
+    ###################################################
+    for key in sorted(algorithm.sol_dict):
+        print(f"{key}: {algorithm.sol_dict[key]}")
+    ###################################################
 
     for i in algorithm.solutions:
         data.append(i)

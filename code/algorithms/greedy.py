@@ -140,7 +140,7 @@ class Greedy(Random):
         for k in range(runs):
             
             # Keep track of progression while running
-            if k % 10 == 0:
+            if k % 50 == 0:
                 print(f"Total number of iterations done: {k}")
 
             # Finish a protein with greedy folding

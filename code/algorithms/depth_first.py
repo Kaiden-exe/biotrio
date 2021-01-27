@@ -110,7 +110,10 @@ class DepthFirst():
         '''
         Returns a random best solution from all generated best solutions.
         '''
-        best = random.choice(self.best_solutions)
+        if self.best_solutions:
+            best = random.choice(self.best_solutions)
+        else:
+            best = None
 
         return best
             

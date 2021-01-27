@@ -12,6 +12,8 @@ class Random():
         self.best = [0, {}]
         self.protein = None
 
+        self.sol_dict = {}
+
     
     def fold(self):
         '''
@@ -103,7 +105,6 @@ class Random():
         if score < self.best[0]:
             self.best.clear()
             copy_dict = copy.deepcopy(protein.positions)
-            
             self.best = [score, copy_dict]
             del copy_dict
         elif self.best == [0, {}]:
@@ -113,10 +114,10 @@ class Random():
 
         self.solutions.append(score)
 
-        # if score in self.solutions.keys():
-        #     self.solutions[score] += 1
-        # else:
-        #     self.solutions[score] = 1
+        if score in self.sol_dict.keys():
+            self.sol_dict[score] += 1
+        else:
+            self.sol_dict[score] = 1
 
         protein.clear_protein()
 
