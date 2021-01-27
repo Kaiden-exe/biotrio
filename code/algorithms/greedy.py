@@ -140,7 +140,7 @@ class Greedy(Random):
         for k in range(runs):
             
             # Keep track of progression while running
-            if k % 50 == 0:
+            if k % 1 == 0:
                 print(f"Total number of iterations done: {k}")
 
             # Finish a protein with greedy folding
@@ -218,6 +218,12 @@ class GreedyLookahead(Greedy, GreedyDepth):
         Initiates first states in the stack for the depth first algorithm.
         '''
         start_state = copy.deepcopy(self.protein)
+
+        # Remove folds from list if in forbidden lists
+        acid = start_state.aminoacids[self.i]
+        for j in range(len(acid.forbidden_folds)):
+            if acid.forbidden_folds[j] in start_state.depth_values:
+                start_state.depth_values.remove(acid.forbidden_folds[j])
 
         # Make sure DepthFirst knows what amino acid should be folded next in the protein 
         start_state.depth_index = self.i

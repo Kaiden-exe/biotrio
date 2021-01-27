@@ -15,6 +15,8 @@ class DepthFirst():
         self.best_solutions = []
         self.best_stability = 0
 
+        self.temp = 0
+
 
     def get_next_state(self):
         '''
@@ -134,9 +136,10 @@ class DepthFirst():
                 self.build_children(curr_state)
         
         # Fill original protein class with a best solution to visualize data
-        final_solution = random.choice(self.best_solutions)
-        self.protein.positions = final_solution[1]
-        self.protein.score = final_solution[0]
+        if self.best_solutions:
+            final_solution = random.choice(self.best_solutions)
+            self.protein.positions = final_solution[1]
+            self.protein.score = final_solution[0]
 
 
     def initiate(self):
