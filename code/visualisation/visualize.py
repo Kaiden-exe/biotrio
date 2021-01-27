@@ -54,32 +54,35 @@ def visualize(lst):
     plt.savefig("data/output/grid.png", format="png")
 
 
-def hist(algorithm, algor):
+def bar(algorithm, algor):
     '''
     Plot solutions of the used algorithm in a histogram.
     '''
-    dictonary = algorithm.sol_dict
-    new_dictonary = {str((k)):v1 for k, v in dictonary.items() for v1 in v.items()}
-    # new_dictonary = {str((k,k1)):v1 for k, v in dictonary.items() for k1,v1 in v.items()}
-    plt.figure()
-    plt.bar(new_dictonary.keys(), new_dictonary.values(), width=.5, color='g')
-    plt.savefig("data/output/hist.png", format="png")
-    
     # TODO --------------------------------------------------- Eigen functie?
     # Show the amount of each stability score that is found
     for key in sorted(algorithm.sol_dict):
         print(f"{key}: {algorithm.sol_dict[key]}")
     
     ###################################################
-    data = []
-    for i in algorithm.solutions:
-        data.append(i)
+    # data = []
+    # for i in algorithm.solutions:
+    #     data.append(i)
     ###################################################
+
+    # TODO -----------------------------------------------------
+    # Plot all stability scores + aantal voorkomen
     plt.figure()
-    plt.hist(algorithm.sol_dict)
+    plt.bar(list(algorithm.sol_dict.keys()), algorithm.sol_dict.values(), color='b')
 
     # Set both the X- and Y-axis to integer values and label those
     ax = plt.gca()
+
+    # Create a list of all labels (keys)
+    x_labels = []
+    all_scores = []
+    for key in algorithm.sol_dict:  
+        x_labels.append(key)
+        all_scores.append(key)
 
     # Set correct y-axis label for different algorithms
     if algor == 'd':
@@ -88,12 +91,15 @@ def hist(algorithm, algor):
         plt.ylabel('Amount of iterations')
 
     ax.yaxis.set_major_locator(MaxNLocator(integer=True))
-    plt.xlabel('Stability score')
-    ax.xaxis.set_major_locator(MaxNLocator(integer=True))
 
-    # Give a title to the hist plot
+    ax.set_xticks(all_scores)
+    ax.set_xticklabels(x_labels)
+    plt.xlabel('Stability score')
+    # ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+
+    # Give a title to the bar plot
     while True:
-        name = input("What title should I give the hist plot?\n")
+        name = input("What title should I give the bar plot?\n")
         try:
             name = str(name)
             break
@@ -101,4 +107,4 @@ def hist(algorithm, algor):
             print("Please give a valid title (string).")
     
     plt.title(name)
-    plt.savefig("data/output/hist.png", format="png")
+    plt.savefig("data/output/bar.png", format="png")

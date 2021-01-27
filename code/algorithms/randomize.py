@@ -113,13 +113,13 @@ class Random():
 
 
         # TODO -----------------------------------------------------------
-        self.solutions.append(score)
+        self.solutions.append(protein.score)
 
         # Count all found stability scores
-        if score in self.sol_dict.keys():
-            self.sol_dict[score] += 1
+        if protein.score in self.sol_dict.keys():
+            self.sol_dict[protein.score] += 1
         else:
-            self.sol_dict[score] = 1
+            self.sol_dict[protein.score] = 1
 
         protein.clear_protein()
 

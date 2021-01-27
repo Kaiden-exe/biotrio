@@ -15,7 +15,7 @@ from code.algorithms.randomize import Random
 from code.algorithms.greedy import Greedy, GreedyLookahead
 from code.algorithms.hill_climber import HillClimber, HillClimber_Pull
 from code.visualisation.output import writecsv
-from code.visualisation.visualize import visualize, hist
+from code.visualisation.visualize import visualize, bar
 from code.algorithms.simulated_annealing import Simulated_Annealing, Simulated_Annealing_Pull
 from code.algorithms.depth_first import DepthFirst
 import time
@@ -134,8 +134,8 @@ if __name__ == "__main__":
         print("Algoritm took %s seconds to run (without visualisation)" % (time.time() - start_time))
         best = art.get_best()
     
-    hist(art, algor)
     writecsv(protein, best)
     visualize(best)
+    bar(art, algor)
 
     print("Program completed!")
