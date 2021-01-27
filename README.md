@@ -15,41 +15,46 @@ Proteins are long strands of amino acids that regulate many important processes 
 
 All the code in this project is written entirely in Python 3.7. Requirements.txt contains all necessary packages to run the code successfully. These are easy to install via pip using the following instruction:
 
->>> pip install -r requirements.txt
+```pip install -r requirements.txt
+```
 
 ## Usage
 
 This is the input needed to run the program:
 
->>> python3 main.py source protein_id
+```python3 main.py source protein_id
+```
 
 To run the program with an example, call this in your terminal:
 
->>> python3 main.py data/hardprotein.csv 4
+```python3 main.py data/hardprotein.csv 4
+```
 
 Next the program will ask you which algorithm you would like to run:
 
->>> Which algorithm do you want to run?
->>> r = random
->>> g = greedy
->>> h = hill climber
->>> p = hill climber (pull version)
->>> s = simulated annealing
->>> d = depth first
-
+```Which algorithm do you want to run?
+r = random
+g = greedy
+h = hill climber
+p = hill climber (pull version)
+s = simulated annealing
+d = depth first
+```
 Choose an algorithm, for example random.
 
 Then the program will ask how often you want to run the algorithm:
 
->>> How often do you want to run this algorithm?
+```How often do you want to run this algorithm?
+```
 
 For this example we choose 10,000 iterations.
 
 When the program is finished running it will display the following:
 
->>> Algoritm took 6.44096565246582 seconds to run (without visualisation)
+```Algoritm took 6.44096565246582 seconds to run (without visualisation)
+```
 
->>> The amount of solutions that were found with a specific stability score:
+```The amount of solutions that were found with a specific stability score:
 -19: 1
 -18: 3
 -17: 4
@@ -69,19 +74,22 @@ When the program is finished running it will display the following:
 -3: 1464
 -2: 1031
 -1: 470
-0: 115r
+0: 115
+```
 
->>> What title should I give the grid plot?
+ What title should I give the grid plot?
 
 You then give the grid plot a name.
 
->>> What title should I give the bar plot?
+```What title should I give the bar plot?
+```
 
 Give the bar plot a name.
 
 And finally:
 
->>> Program completed!
+```Program completed!
+```
 
 ~ varies slightly per algorithm.
 
