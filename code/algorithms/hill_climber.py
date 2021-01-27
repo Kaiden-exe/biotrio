@@ -151,10 +151,7 @@ class HillClimber(Random):
         # Get the amino acid coordinates and the coordinates around it 
         lst = protein.get_sorted_positions()
         position = lst[aminoacid.index][0]
-        print(f"amino acid on: {position}")
         surrounding_coordinates = protein.get_surrounding_coordinates(position[0], position[1])
-        print(f"surrounding cors: {surrounding_coordinates}")
-        print(f"looking for {next_coordinates}")
         folds = protein.get_fold_list()
 
         # Find fold for amino acid
@@ -281,7 +278,7 @@ class HillClimber_Pull(HillClimber):
 
                 # If i - 2 not next to C, keep pulling until the chain is back together
                 if not prev in surrounding_acids:
-                    self.pull(protein, first_amino, prev, surrounding_acids, original_positions)
+                    self.pull(protein, second_amino, prev, surrounding_acids, original_positions)
 
                 return True
         
@@ -297,16 +294,14 @@ class HillClimber_Pull(HillClimber):
         # Pull until the chain is back together
         
         while not prev in surrounding_acids and prev.index < backwards_index:
-            print(prev.index)
+            
             # Pull the previous amino acid in the chain
             next_cor = original_positions[backwards_index][0]
-            print(next_cor)
             self.change_coordinates(protein, prev, next_cor)
 
             # Change the folding of that same amino acid
             sorted_lst = protein.get_sorted_positions()
             next_acid_cor = sorted_lst[prev.index + 1][0]
-            print(sorted_lst[prev.index + 1])
             self.change_folding(protein, prev, next_acid_cor)
 
             # Get parameters to check if the chain is back together
