@@ -1,7 +1,7 @@
-import copy
-from code.classes.protein import Protein
 from code.classes.aminoacid import AminoAcid
-from code.algorithms.random import Random
+from code.classes.protein import Protein
+from .randomize import Random
+import copy
 import random
 
 class DepthFirst():
@@ -15,8 +15,6 @@ class DepthFirst():
         self.best_solutions = []
         self.best_stability = 0
 
-        self.temp = 0
-
 
     def get_next_state(self):
         '''
@@ -29,6 +27,7 @@ class DepthFirst():
         '''
         Creates all possible child-states and adds them to the list of states.
         '''
+        # Retreive the folding of the last folded amino acid
         last_folding = curr_state.aminoacids[curr_state.depth_index-1].folding
         
         # Makes sure the amino acid does not fold back on itself
@@ -37,15 +36,16 @@ class DepthFirst():
             if last_folding in curr_state.depth_values:
                 curr_state.depth_values.remove(last_folding)
 
-        # Gets a folding direction (value) from the possible foldings
+        # Get the next folding (value) from the possible foldings
         if curr_state.depth_values:
             value = curr_state.depth_values.pop()
             self.states.append(curr_state)
 
+            # Make children if folding values are available
             if value is not None:
                 child = copy.deepcopy(curr_state)
 
-                # Assign the value to the amino acid's folding (using the amino acid defined above)
+                # Assign the value to the amino acid's folding 
                 child.aminoacids[child.depth_index].folding = value
                 
                 x, y = self.get_coordinates(value, child)
@@ -71,14 +71,12 @@ class DepthFirst():
         '''
         new_protein.set_stability()
         new_stability = new_protein.score
-        
-        # Add solution to the list
+
+        # TODO ---------------------------------------------------------->
         self.solutions.append(new_stability)
 
-        # Check if solution is better or equal to previous solutions
-        if new_stability == self.best_stability:
-            self.best_solutions.append([self.best_stability, new_protein.positions])
-        elif new_stability < self.best_stability:
+        # Check if solution is better than previous solutions, if so overwrite it
+        if new_stability < self.best_stability:
             self.best_stability = new_stability
             self.best_solutions.clear()
             self.best_solutions.append([new_protein.score, new_protein.positions])
@@ -114,6 +112,7 @@ class DepthFirst():
         '''
         if self.best_solutions:
             best = random.choice(self.best_solutions)
+        # TODO ---------------------------------------------------------->
         else:
             best = None
 
@@ -135,11 +134,12 @@ class DepthFirst():
             else:
                 self.build_children(curr_state)
         
-        # Fill original protein class with a best solution to visualize data
-        if self.best_solutions:
-            final_solution = random.choice(self.best_solutions)
-            self.protein.positions = final_solution[1]
-            self.protein.score = final_solution[0]
+        # TODO ---------------------------------------------------------->
+        # # Fill original protein class with a best solution to visualize data
+        # if self.best_solutions:
+        #     final_solution = random.choice(self.best_solutions)
+        #     self.protein.positions = final_solution[1]
+        #     self.protein.score = final_solution[0]
 
 
     def initiate(self):
@@ -163,11 +163,9 @@ class DepthFirst():
         self.states.append(start_state2)
 
 
-
 class GreedyDepth(DepthFirst):
     '''
-    # TODO
-    Fixes correct communication between Greedy lookahead and DepthFirst.
+    DepthFirst algorithm, specific for running the GreedyLookahead algorithm.
     '''
     def __init__(self, protein):
         super().__init__(protein)
@@ -176,7 +174,6 @@ class GreedyDepth(DepthFirst):
 
     def initiate(self):
         '''
-        Initiates first states in the stack for the depth first algorithm, in case greedy lookahead is requested.
+        Skip original initiation of states from DepthFirst.
         '''
         pass
-

@@ -66,26 +66,28 @@ And finally:
 The following list describes the most important directories and files in the project, and where to find them:
 
 * **/code**: holds all the code for this project.
-* **/code/algorithms**: contains the code for the 5 algorithms: random, depth-first, hillclimber, greedy (contains greedy-lookahead) and simulated annealing algorithms.
+* **/code/algorithms**: contains the code for the 5 algorithms: Random, Depth-First, Hill Climber, Hill Climber Pull, Greedy, Greedy Lookahead, Simulated Annealing and Simulated Annealing Pull algorithms.
 * **/code/classes**: contains the 2 classes for this case: Protein and AminoAcid.
-* **/code/visualisation**: contains output.py where the csv output files are created. Contains the matplotlib code for the visualization. 
+* **/code/visualisation**: contains output.py where the csv output files are created and where we can find the hist.png and grid.png. Contains visualize.py where we find the matplotlib code for the visualization. 
 
 ## The Algorithms
 
 ### Random
 
-### Greedy
+### Greedy and Greedy Lookahead
 
 ### Depth-first
 
-The Depth-First algorithm searches through the state space looking for the protein that has the most stable folding. 
+A Depth First algorithm that builds a stack of proteins with a unique folding for each instance.
 
-### Hill Climber
+### Hill Climber and Hill Climber Pull
 
-### Simulated Annealing
+### Simulated Annealing and Simulated Annealing Pull
 
 ## Authors
 
 * Eva van der Heide
 * Kaiden Sewradj 
 * Wouter Vincken
+
+## Problems 

@@ -15,7 +15,6 @@ def get_folding(lst):
     folding_lst = []
     acid_lst = []
 
-    # TODO - maybe add a comment?
     for acid in post.values():
         folding_lst.append(acid.folding)
         acid_lst.append(acid.id)

@@ -36,9 +36,11 @@ class Simulated_Annealing(HillClimber):
         '''
         Add a solution to the list of solutions.
         '''
+        # TODO: turn into dictionary 
         score = protein.score
         self.solutions.append(score)
         self.update_temp()
 
 class Simulated_Annealing_Pull(Simulated_Annealing, HillClimber_Pull):
+    # TODO: doc string 
     pass

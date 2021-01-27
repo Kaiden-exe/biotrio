@@ -1,17 +1,17 @@
-<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>108</x><y>100</y><w>230</w><h>280</h></coordinates><panel_attributes>Protein
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>108</x><y>100</y><w>280</w><h>280</h></coordinates><panel_attributes>Protein
 --
 id: Int
-aminoacids: ...
+aminoacids: List
 score: Int
 positions: Dict
 depth_index: Int
 depth_values: List
 --
-load_proteins(self, source, protein_id): ...
+load_proteins(self, source, protein_id): None
 load_acids(self, aminos): []
 add_position(self, acid, x, y): None
 set_stability(self): None
-remove_last(self): ...
+remove_last(self): ()
 get_fold_list(self): []
 get_surrounding_coordinates(self, x, y): [(Int, Int)]
 get_surrounding_acids(self, x, y): []
@@ -23,4 +23,4 @@ get_sorted_positions(self): []
 id: Char
 folding: Int
 index: Int
-forbidden_folds: List</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>334</x><y>100</y><w>130</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;110;10</additional_attributes></element></diagram>
+forbidden_folds: List</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>384</x><y>100</y><w>80</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;60;10</additional_attributes></element></diagram>

@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 from matplotlib.ticker import MaxNLocator
 from code.classes.protein import Protein
-from code.algorithms.random import Random
+from code.algorithms.randomize import Random
 
 def visualize(lst):
     '''
@@ -51,25 +51,32 @@ def visualize(lst):
             print("Please give a valid title (string).")
     
     plt.title(name)
-    plt.savefig("grid.png", format="png")
+    plt.savefig("data/output/grid.png", format="png")
 
 
 def hist(algorithm, algor):
     '''
     Plot solutions of the used algorithm in a histogram.
     '''
+    dictonary = algorithm.sol_dict
+    new_dictonary = {str((k)):v1 for k, v in dictonary.items() for v1 in v.items()}
+    # new_dictonary = {str((k,k1)):v1 for k, v in dictonary.items() for k1,v1 in v.items()}
     plt.figure()
-    data = []
-
-    ###################################################
+    plt.bar(new_dictonary.keys(), new_dictonary.values(), width=.5, color='g')
+    plt.savefig("data/output/hist.png", format="png")
+    
+    # TODO --------------------------------------------------- Eigen functie?
+    # Show the amount of each stability score that is found
     for key in sorted(algorithm.sol_dict):
         print(f"{key}: {algorithm.sol_dict[key]}")
+    
     ###################################################
-
+    data = []
     for i in algorithm.solutions:
         data.append(i)
-
-    plt.hist(data)
+    ###################################################
+    plt.figure()
+    plt.hist(algorithm.sol_dict)
 
     # Set both the X- and Y-axis to integer values and label those
     ax = plt.gca()
@@ -94,4 +101,4 @@ def hist(algorithm, algor):
             print("Please give a valid title (string).")
     
     plt.title(name)
-    plt.savefig("hist.png", format="png")
+    plt.savefig("data/output/hist.png", format="png")

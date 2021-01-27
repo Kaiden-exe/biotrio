@@ -6,12 +6,12 @@
 ## Authors: Eva van der Heide, Kaiden Sewradj and Wouter Vincken
 ## License: unilicense 
 ## Version: 1.0.0
-## Status: Unfinished
+## Status: Unfinished TODO
 #--------------------------------------------------------------------------------
 
 import sys
 from code.classes.protein import Protein
-from code.algorithms.random import Random
+from code.algorithms.randomize import Random
 from code.algorithms.greedy import Greedy, GreedyLookahead
 from code.algorithms.hill_climber import HillClimber, HillClimber_Pull
 from code.visualisation.output import writecsv

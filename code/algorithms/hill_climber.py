@@ -1,4 +1,4 @@
-from .random import Random
+from .randomize import Random
 from code.classes.protein import Protein
 from random import choice, getrandbits, randint
 import copy
@@ -166,6 +166,7 @@ class HillClimber(Random):
         '''
         Add a solution to the list of solutions.
         '''
+        # TODO: dict key = score, value +1 each time it is found 
         score = protein.score
         self.solutions.append(score)
 
