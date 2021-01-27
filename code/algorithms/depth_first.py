@@ -80,7 +80,7 @@ class DepthFirst():
             self.sol_dict[new_protein.score] = 1
 
         # Check if solution is better than previous solutions, if so overwrite it
-        if new_stability < self.best_stability:
+        if new_stability < self.best_stability or not self.best_solutions:
             self.best_stability = new_stability
             self.best_solutions = [new_protein.score, new_protein.positions]
 

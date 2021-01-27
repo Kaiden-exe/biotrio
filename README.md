@@ -23,7 +23,7 @@ pip3 install -r requirements.txt
 
 ## Usage
 
-This is the input needed to run the program:
+This program makes use of command-line arguments. This is the input needed to run the program:
 
 ```
 python3 main.py source_file protein_id
@@ -46,7 +46,7 @@ p = hill climber (pull version)
 s = simulated annealing
 d = depth first
 ```
-Choose an algorithm, for example random, r:
+Choose an algorithm, for example **random**, **r**:
 
 Then the program will ask how often you want to run the algorithm:
 
@@ -104,7 +104,8 @@ And finally:
 Program completed!
 ```
 
-##### Varies slightly per algorithm but the questions in the terminal will tell you what you need to input to get the results.
+##### The running of this program varies slightly per algorithm but the questions in the terminal will tell you what you need to input to get the results.
+
 
 ## Repository Structure
 
@@ -121,6 +122,8 @@ The following list describes the data and results directories, and where to find
 * **/data/output**: contains the output files after running the program; the bar.png, grid.png and a .csv file that contains the amino acids, their foldings and the stability score.
 
 ## The Algorithms
+
+The following are short descriptions of how each algorithm works.
 
 ### Random
 
@@ -150,6 +153,7 @@ The Simulated Annealing Pull algoritm works the same as the regular Simulated An
 
 ## Authors
 
+**Team BioTrio:**
 * Eva van der Heide
 * Kaiden Sewradj 
 * Wouter Vincken

@@ -150,7 +150,6 @@ class Greedy(Random):
 
                 # For GreedyLookahead, return final dict positions and proceed to next iteration
                 elif type(temp_index) is dict:
-                    protein.positions = temp_index
                     break
 
                 # Update global parameters and continue with next amino acid
@@ -186,7 +185,7 @@ class GreedyLookahead(Greedy, GreedyDepth):
         depth_first.run_depthfirst()
 
         # Isolate information from best result from depth first algorithm
-        best_solution = depth_first.get_best_solution()
+        best_solution = depth_first.get_best()
 
         if not best_solution:
 

@@ -2,9 +2,7 @@ import matplotlib
 matplotlib.use('Agg')
 
 import csv
-import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib as mpl
 from matplotlib.ticker import MaxNLocator
 from code.classes.protein import Protein
 from code.algorithms.randomize import Random
@@ -43,11 +41,11 @@ def visualize(lst):
     plt.ylabel('Y-coordinates')
     ax.yaxis.set_major_locator(MaxNLocator(integer=True))
     plt.xlabel('X-coordinates')
-    ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+    ax.set_xticks(data["x"])
 
     # Label all amino acids within the plot
     for x, y, label in zip(data["x"], data["y"], data["label"]):
-        plt.annotate(label, xy = (x, y))
+        plt.annotate(label, xy = (x, y), xytext=(x+0.1, y+0.1))
 
     # Give a title to the grid plot
     while True:
@@ -73,13 +71,12 @@ def bar(algorithm, algor):
     # Set both the X- and Y-axis to integer values and label those
     ax = plt.gca()
 
-    # Create lists of all labels and values for the X-axis
-    x_labels = []
+    # Create lists of all labels for values for the X-axis
     all_scores = []
-    for key in algorithm.sol_dict:  
-        x_labels.append(key)
+    for key in algorithm.sol_dict:
         all_scores.append(key)
 
+    plt.xticks(rotation=90)
     ax.set_xticks(all_scores)
     plt.xlabel('Stability score')
 
@@ -102,4 +99,5 @@ def bar(algorithm, algor):
             print("Please give a valid title (string).")
     
     plt.title(name)
+    plt.tight_layout()
     plt.savefig("data/output/bar.png", format="png")

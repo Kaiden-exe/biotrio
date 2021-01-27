@@ -47,6 +47,7 @@ class Random():
                 
             # Fail save for GreedyLookahead algorithm
             elif type(new_coordinates) is dict:
+                protein.aminoacids[-1].folding = 0
 
                 return new_coordinates, 0, 0
             
