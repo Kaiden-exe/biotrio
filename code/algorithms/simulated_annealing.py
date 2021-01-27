@@ -1,11 +1,11 @@
 from .hill_climber import HillClimber, HillClimber_Pull
-import random
-import math
 import copy
+from math import exp
+import random
 
 class Simulated_Annealing(HillClimber):
-    # TODO - add docstring
     '''
+    Simulated annealing algorithm that uses the single mutation hill climber. 
     '''
     def __init__(self, protein, initial_temp, runs):
         self.initial_temp = initial_temp
@@ -15,32 +15,43 @@ class Simulated_Annealing(HillClimber):
 
 
     def accept(self, new):
-        # TODO - add docstring
         '''
+        Returns whether a mutated protain with an equal or worse score gets accepted.
         '''
         diff = abs(self.best.score) - abs(new.score)
-        acceptance_chance = math.exp(-diff / self.current_temp)
+        acceptance_chance = exp(-diff / self.current_temp)
         if random.uniform(0,1) < acceptance_chance:
+
             return True
+            
         return False
 
 
     def update_temp(self):
-        # TODO - add docstring
         '''
+        Updates the current temperature.
         '''
         self.current_temp -= self.alpha
 
     
     def add_solution(self, protein):
         '''
-        Add a solution to the list of solutions.
+        Tallies the solution scores.
         '''
-        # TODO: turn into dictionary 
-        score = protein.score
-        self.solutions.append(score)
+
+        # Count all found stability scores
+        if protein.score in self.sol_dict.keys():
+            self.sol_dict[protein.score] += 1
+        else:
+            self.sol_dict[protein.score] = 1
+        
         self.update_temp()
 
+        
+
+
 class Simulated_Annealing_Pull(Simulated_Annealing, HillClimber_Pull):
-    # TODO: doc string 
+    '''
+    Simulated annealing algorithm that uses the pull move mutation hill climber. 
+    '''
     pass

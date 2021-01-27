@@ -15,10 +15,13 @@ from code.algorithms.randomize import Random
 from code.algorithms.greedy import Greedy, GreedyLookahead
 from code.algorithms.hill_climber import HillClimber, HillClimber_Pull
 from code.visualisation.output import writecsv
-from code.visualisation.visualize import visualize, bar
+from code.visualisation.visualize import visualize, bar, solution_count
 from code.algorithms.simulated_annealing import Simulated_Annealing, Simulated_Annealing_Pull
 from code.algorithms.depth_first import DepthFirst
 import time
+
+# INSTRUCTIES OF ALLEEN IN README?
+
 
 if __name__ == "__main__":
     # Order: data/file, protein id
@@ -45,7 +48,7 @@ if __name__ == "__main__":
                 print("Please give a positive integer.")
     
     if algor == 'r':
-        art = Random()
+        art= Random()
         start_time = time.time()
         art.run_random(protein, runs)
         print("Algoritm took %s seconds to run (without visualisation)" % (time.time() - start_time))
@@ -135,6 +138,7 @@ if __name__ == "__main__":
         best = art.get_best()
     
     writecsv(protein, best)
+    solution_count(art)
     visualize(best)
     bar(art, algor)
 

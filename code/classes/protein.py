@@ -1,19 +1,14 @@
-from code.classes.aminoacid import AminoAcid
+from .aminoacid import AminoAcid
 import csv
-from operator import itemgetter
 
 class Protein():
-    # TODO - complete the docstring
     '''
-    Class that...
+    Class that holds all information about a protein in its current state. Protein can 
     '''
     def __init__(self, source, protein_id):
         self.id = protein_id
         self.aminoacids = self.load_proteins(source, protein_id)
         self.score = 0
-
-        # TODO - take the comment below out? Quinten also had a comment about this
-        # key = (x, y), value = AminoAcid()
         self.positions = {}
         self.depth_index = 0
         self.depth_values = self.get_fold_list()
@@ -35,17 +30,12 @@ class Protein():
 
     def load_acids(self, aminos):
         '''
-        Converts the string of aminoacids into a list of chars,
-        then returns a list of aminoacids accordingly.
+        Returns a list of aminoacids from a string.
         '''
-
-        # TODO - delete comment below?
-        # protein = lijst van chars H/P/C
-        protein = []
-        protein[:0] = aminos
         acidlist = []
         index = 0
-        for acid_id in protein:
+        
+        for acid_id in aminos:
             amino = AminoAcid(acid_id, index)
             acidlist.append(amino)
             index += 1
@@ -64,33 +54,34 @@ class Protein():
         '''
         Analyses folded protein for H/H or H/C bonds and returns stability.
         '''
-        # TODO - add comments
-
         coordinates = self.positions.keys()
         stability = 0
+        
+        # Loop over all placed amino acids
         for x, y in coordinates:
             acid = self.positions[(x, y)]
-            if acid.id == 'H' or acid.id == 'C':
-                surrounding = self.get_surrounding_coordinates(x, y)
-                surrounding_aminos = []
-                for coordinate in surrounding:
-                    try:
-                        amino = self.positions[coordinate]
-                        surrounding_aminos.append(amino)
-                    except KeyError:
-                        pass
-                            
+
+            # Check that only H and C form bonds with each other
+            if acid.id != 'P':
+                surrounding_aminos = self.get_surrounding_acids(x, y)
+                
+                # TODO: Do this smarter
+                # Add stability scores accordingly
                 for surround in surrounding_aminos:
-                    if surround.index > acid.index + 1:
-                        if surround.id == 'C' and acid.id == 'C':
+                    if surround.index > acid.index + 1 and surround.id != 'P':
+                        if 'H' in [surround.id, acid.id]:
+                            stability -= 1
+                        else:
                             stability -= 5
-                        elif acid.id == 'H' and surround.id == 'H':
-                            stability -= 1
-                        elif acid.id == 'C' and surround.id == 'H':
-                            stability -= 1
-                        elif acid.id == 'H' and surround.id == 'C':
-                            stability -= 1
-        # stability /= 2
+                        # if surround.id == 'C' and acid.id == 'C':
+                        #     stability -= 5
+                        # elif acid.id == 'H' and surround.id == 'H':
+                        #     stability -= 1
+                        # elif acid.id == 'C' and surround.id == 'H':
+                        #     stability -= 1
+                        # elif acid.id == 'H' and surround.id == 'C':
+                        #     stability -= 1
+
         self.score = stability
 
 
@@ -129,13 +120,16 @@ class Protein():
     def get_surrounding_coordinates(self, x, y):
         # TODO: Change so you can just insert a tuple 
         # TODO - add docstring
-
+        '''
+        Returns the coordinates surrounding the specified amino acid.
+        '''
         return [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)]
 
 
     def get_surrounding_acids(self, x, y):
         # TODO - add docstring
-
+        '''
+        '''
         surrounding_coordinates = self.get_surrounding_coordinates(x, y)
         acids = []
         for cor in surrounding_coordinates:
@@ -150,7 +144,7 @@ class Protein():
 
     def clear_protein(self):
         '''
-        Sets score to zero, clears the positions dictionary and the forbidden folds list of every amino acid.
+        Sets score to zero, clears the positions dictionary and the forbidden folds list for every amino acid.
         '''
         self.score = 0
         
@@ -166,6 +160,7 @@ class Protein():
         '''
         lst = self.positions.items()
         sorted_by_index = sorted(lst, key=lambda x: x[1].index)
+
         return sorted_by_index
 
 

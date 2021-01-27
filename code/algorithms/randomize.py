@@ -8,11 +8,8 @@ class Random():
     Algorithm that folds the amino acids in the protein at random.
     '''
     def __init__(self):
-        self.solutions = []
-        self.best = [0, {}]
         self.protein = None
-
-        # TODO ------------------------------------------------
+        self.best = [0, {}]
         self.sol_dict = {}
 
     
@@ -45,10 +42,12 @@ class Random():
             
             # Fail save for Greedy algorithm
             if new_coordinates == [None]:
+
                 return 0, 0, 0
                 
             # Fail save for GreedyLookahead algorithm
             elif type(new_coordinates) is dict:
+
                 return new_coordinates, 0, 0
             
             positionXb = new_coordinates[0]
@@ -82,9 +81,6 @@ class Random():
         '''
         Fold the protein randomly x times.
         '''
-        # TODO ------------------------------------------------
-        # Make sure other algorithms can input a protein
-        # TODO ------------------------------------------------
         self.protein = protein
 
         for _ in range(x):
@@ -107,13 +103,11 @@ class Random():
         # Replace best folded protein if stability score is higher
         if protein.score < self.best[0]:
             self.best.clear()
-            self.best = [protein.score, protein.positions]
+            dic = copy.deepcopy(protein.positions)
+            self.best = [protein.score, dic]
         elif self.best == [0, {}]:
-            self.best = [protein.score, protein.positions]
-
-
-        # TODO -----------------------------------------------------------
-        self.solutions.append(protein.score)
+            dic = copy.deepcopy(protein.positions)
+            self.best = [protein.score, dic]
 
         # Count all found stability scores
         if protein.score in self.sol_dict.keys():
@@ -140,10 +134,12 @@ class Random():
 
         # Fail save for greedy algorithm
         if folding == None:
+
             return [None]
 
         # Fail save for GreedyLookahead algorithm
         elif type(folding) is dict:
+
             return folding
         
         # Rotate amino acid over the X-axis

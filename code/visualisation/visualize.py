@@ -9,16 +9,24 @@ from matplotlib.ticker import MaxNLocator
 from code.classes.protein import Protein
 from code.algorithms.randomize import Random
 
+def solution_count(algorithm):
+    '''
+    Show the amount of each stability score that is found.
+    '''
+    print("The amount of solutions that were found with a specific stability score:")
+    for key in sorted(algorithm.sol_dict):
+        print(f"{key}: {algorithm.sol_dict[key]}")
+
+
 def visualize(lst):
     '''
     Visualizes the folded protein.
     '''
-
-    # TODO - comment below: gain or get?
-    # Gain data of the protein to visualize
+    data = {"x":[], "y":[], "label":[]}
+    
+    # Retreive data of the protein to visualize
     coordinates = lst[1]
     sorted_coordinates = sorted(coordinates.items(), key=lambda x: x[1].index)
-    data = {"x":[], "y":[], "label":[]}
 
     # Append all amino acids + coordinates into the data file to plot
     for coord, label in sorted_coordinates:
@@ -58,44 +66,31 @@ def bar(algorithm, algor):
     '''
     Plot solutions of the used algorithm in a histogram.
     '''
-    # TODO --------------------------------------------------- Eigen functie?
-    # Show the amount of each stability score that is found
-    for key in sorted(algorithm.sol_dict):
-        print(f"{key}: {algorithm.sol_dict[key]}")
-    
-    ###################################################
-    # data = []
-    # for i in algorithm.solutions:
-    #     data.append(i)
-    ###################################################
-
-    # TODO -----------------------------------------------------
-    # Plot all stability scores + aantal voorkomen
+    # Plot all stability scores and the amount of times they have been found
     plt.figure()
     plt.bar(list(algorithm.sol_dict.keys()), algorithm.sol_dict.values(), color='b')
 
     # Set both the X- and Y-axis to integer values and label those
     ax = plt.gca()
 
-    # Create a list of all labels (keys)
+    # Create lists of all labels and values for the X-axis
     x_labels = []
     all_scores = []
     for key in algorithm.sol_dict:  
         x_labels.append(key)
         all_scores.append(key)
 
-    # Set correct y-axis label for different algorithms
+    ax.set_xticks(all_scores)
+    plt.xlabel('Stability score')
+
+    # Set correct Y-axis label for different algorithms
     if algor == 'd':
         plt.ylabel('Amount of solutions')
     else:
         plt.ylabel('Amount of iterations')
 
+    # Make the values on the Y-axis integers only
     ax.yaxis.set_major_locator(MaxNLocator(integer=True))
-
-    ax.set_xticks(all_scores)
-    ax.set_xticklabels(x_labels)
-    plt.xlabel('Stability score')
-    # ax.xaxis.set_major_locator(MaxNLocator(integer=True))
 
     # Give a title to the bar plot
     while True:

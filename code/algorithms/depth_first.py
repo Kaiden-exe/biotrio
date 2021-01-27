@@ -6,12 +6,13 @@ import random
 
 class DepthFirst():
     """
-    A Depth First algorithm that builds a stack of proteins with a unique folding for each instance.
+    A Depth First algorithm that builds a stack of states of a protein with a unique folding for each state.
+    It searches the states to find and return the best solution.
     """
     def __init__(self, protein):
         self.protein = copy.deepcopy(protein)
         self.states = []
-        self.solutions = []
+        self.sol_dict = {}
         self.best_solutions = []
         self.best_stability = 0
 
@@ -72,14 +73,16 @@ class DepthFirst():
         new_protein.set_stability()
         new_stability = new_protein.score
 
-        # TODO ---------------------------------------------------------->
-        self.solutions.append(new_stability)
+        # Count all found stability scores
+        if new_protein.score in self.sol_dict.keys():
+            self.sol_dict[new_protein.score] += 1
+        else:
+            self.sol_dict[new_protein.score] = 1
 
         # Check if solution is better than previous solutions, if so overwrite it
         if new_stability < self.best_stability:
             self.best_stability = new_stability
-            self.best_solutions.clear()
-            self.best_solutions.append([new_protein.score, new_protein.positions])
+            self.best_solutions = [new_protein.score, new_protein.positions]
 
         del new_protein
 
@@ -108,11 +111,10 @@ class DepthFirst():
 
     def get_best_solution(self):
         '''
-        Returns a random best solution from all generated best solutions.
+        Returns the best solution from all generated solutions, return None if no solutions are found.
         '''
         if self.best_solutions:
-            best = random.choice(self.best_solutions)
-        # TODO ---------------------------------------------------------->
+            best = self.best_solutions
         else:
             best = None
 
@@ -133,13 +135,6 @@ class DepthFirst():
                 self.check_solution(curr_state)
             else:
                 self.build_children(curr_state)
-        
-        # TODO ---------------------------------------------------------->
-        # # Fill original protein class with a best solution to visualize data
-        # if self.best_solutions:
-        #     final_solution = random.choice(self.best_solutions)
-        #     self.protein.positions = final_solution[1]
-        #     self.protein.score = final_solution[0]
 
 
     def initiate(self):
