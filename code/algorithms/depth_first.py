@@ -118,12 +118,10 @@ class DepthFirst():
         '''
         Returns the best solution from all generated solutions, return None if no solutions are found.
         '''
-        print(f"list: {self.best_solutions}")
         if self.best_solutions:
             best = random.choice(self.best_solutions)
         else:
             best = None
-        print(f"best: {best}")
 
         return best
             
