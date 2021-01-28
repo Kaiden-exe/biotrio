@@ -82,7 +82,12 @@ class DepthFirst():
         # Check if solution is better than previous solutions, if so overwrite it
         if new_stability < self.best_stability or not self.best_solutions:
             self.best_stability = new_stability
-            self.best_solutions = [new_protein.score, new_protein.positions]
+            self.best_solutions.clear()
+            self.best_solutions.append([new_protein.score, new_protein.positions])
+        
+        # If the solution is equal to previous best solutions, append it to the list
+        elif new_stability == self.best_stability:
+            self.best_solutions.append([new_protein.score, new_protein.positions])
 
         del new_protein
 
@@ -113,10 +118,12 @@ class DepthFirst():
         '''
         Returns the best solution from all generated solutions, return None if no solutions are found.
         '''
+        print(f"list: {self.best_solutions}")
         if self.best_solutions:
-            best = self.best_solutions
+            best = random.choice(self.best_solutions)
         else:
             best = None
+        print(f"best: {best}")
 
         return best
             
